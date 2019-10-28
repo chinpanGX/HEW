@@ -15,7 +15,7 @@ void Camera::Init()
 {
 	g_camera->posV = D3DXVECTOR3(CAM_POS_V_X, CAM_POS_V_Y, CAM_POS_V_Z);	//カメラ位置
 	g_camera->posR = D3DXVECTOR3(CAM_POS_R_X, CAM_POS_R_X, CAM_POS_R_X);	//注視点
-	g_camera->vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);						//カメラの上ベクトル
+	g_camera->vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);							//カメラの上ベクトル
 }
 
 //#	カメラの終了処理

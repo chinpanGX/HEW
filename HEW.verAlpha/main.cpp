@@ -186,8 +186,8 @@ static bool WindowInit(HINSTANCE hInstance, int nCmdShow)
 			WS_OVERLAPPEDWINDOW,    // ウィンドウスタイル
 			0,                      // ウィンドウの左角Ｘ座標
 			0,                      // ウィンドウの左角Ｙ座標
-			CW_USEDEFAULT,          // ウィンドウの幅
-			CW_USEDEFAULT,          // ウィンドウの高さ
+			1600,					// ウィンドウの幅
+			900,				    // ウィンドウの高さ
 			NULL,                   // 親ウィンドウ（なし）
 			NULL,                   // メニュー（なし）
 			hInstance,              // このプログラムのインスタンスのハンドル
@@ -377,7 +377,7 @@ bool Init(HINSTANCE hInst)
 	DebugProc_Initialize();
 
 	// カメラの初期化処理
-	Camera_Initialize();
+	Camera::Init();
 
 	// ライトの初期化処理
 	Light_Initialize();
@@ -392,7 +392,7 @@ bool Init(HINSTANCE hInst)
 void Uninit()
 {
 	// カメラの終了処理
-	Camera_Finalize();
+	Camera::Uninit();
 
 	// ライトの終了処理
 	Light_Finalize();
@@ -419,9 +419,6 @@ void Update()
 	//ゲームパッドの状態を更新する
 	Input::GP_Update();
 
-	// カメラの更新処理
-	Camera_Update();
-
 	// ライトの更新処理
 	Light_Update();
 
@@ -443,7 +440,7 @@ void Draw()
 
 
 	// カメラの設定
-	Camera_SetCamera();
+	Camera::Set();
 
 	// 地面の描画処理
 	Field_Draw();
