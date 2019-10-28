@@ -1,41 +1,34 @@
-/*=====================================
+/*==============================================
 
-	[Camera.cpp]
-	Author : 出合翔太
+	[camera.cpp]										//#	DirectXは左手座標系
+	Author : 出合翔太									//#	OpenGLは右手座標系
 
-=======================================*/
-
+===============================================*/
 #include "main.h"
 #include "Camera.h"
 
+//#	グローバル変数
 Camera *g_camera = new Camera;	//インスタンスの生成
 
-Camera::Camera()
+//#	カメラの初期化
+void Camera::Init()
 {
 	g_camera->posV = D3DXVECTOR3(CAM_POS_V_X, CAM_POS_V_Y, CAM_POS_V_Z);	//カメラ位置
 	g_camera->posR = D3DXVECTOR3(CAM_POS_R_X, CAM_POS_R_X, CAM_POS_R_X);	//注視点
 	g_camera->vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);						//カメラの上ベクトル
 }
 
-
-Camera::~Camera()
-{
-	delete g_camera;
-	DEVICE_RELEASE(pDevice);
-}
-
-void Camera::Init()
-{
-}
-
+//#	カメラの終了処理
 void Camera::Uninit()
 {
+	delete g_camera;
 }
 
+//#	カメラの設定
 void Camera::Set()
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = GetD3DDevice();
+	g_camera->pDevice = GetD3DDevice();
 
 	// プロジェクションマトリックスの初期化
 	D3DXMatrixIdentity(&g_camera->mtxProjection);
@@ -47,8 +40,8 @@ void Camera::Set()
 		VIEW_NEAR_Z,			// ビュー平面のNearZ値
 		VIEW_FAR_Z);			// ビュー平面のFarZ値
 
-// プロジェクションマトリックスの設定
-	pDevice->SetTransform(D3DTS_PROJECTION, &g_camera->mtxProjection);
+	// プロジェクションマトリックスの設定
+	g_camera->pDevice->SetTransform(D3DTS_PROJECTION, &g_camera->mtxProjection);
 
 	// ビューマトリックスの初期化
 	D3DXMatrixIdentity(&g_camera->mtxView);	//	単位行列:行列の初期化するときに使う
@@ -59,6 +52,6 @@ void Camera::Set()
 		&g_camera->posR,		// カメラの注視点
 		&g_camera->vecU);	// カメラの上方向ベクトル
 
-// ビューマトリックスの設定
-	pDevice->SetTransform(D3DTS_VIEW, &g_camera->mtxView);
+	// ビューマトリックスの設定
+	g_camera->pDevice->SetTransform(D3DTS_VIEW, &g_camera->mtxView);
 }
