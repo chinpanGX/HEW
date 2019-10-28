@@ -6,14 +6,13 @@
 ======================================================*/
 
 #pragma once
-
-//インクルードファイル
 #include "main.h"
 
-class BeseScene
+//#	BaseSceneクラス : 親クラス
+class BaseScene
 {
 public:
-	virtual ~BeseScene() {};
+	virtual ~BaseScene() {};
 	virtual void Init() = 0;
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;
