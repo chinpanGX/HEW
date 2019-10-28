@@ -61,7 +61,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	return false;								// 正常に終了すれば次にメッセージループへ
 
 	// ゲームの初期化
-	Initialize(hInstance);
+	Init(hInstance);
 
 	//DWORD型…unsigned lond型（符号なし）
 	DWORD dwExecLastTime;
@@ -115,7 +115,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 	// ゲームの終了処理
-	Finalize();
+	Uninit();
 
 	return (int)msg.wParam;
 }
