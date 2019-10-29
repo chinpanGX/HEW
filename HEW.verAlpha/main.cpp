@@ -186,8 +186,8 @@ static bool WindowInit(HINSTANCE hInstance, int nCmdShow)
 			WS_OVERLAPPEDWINDOW,    // ウィンドウスタイル
 			0,                      // ウィンドウの左角Ｘ座標
 			0,                      // ウィンドウの左角Ｙ座標
-			1600,					// ウィンドウの幅
-			900,				    // ウィンドウの高さ
+			SCREEN_WIDTH,			//ウィンドウの幅
+			SCREEN_HEIGHT,			// ウィンドウの高さ
 			NULL,                   // 親ウィンドウ（なし）
 			NULL,                   // メニュー（なし）
 			hInstance,              // このプログラムのインスタンスのハンドル

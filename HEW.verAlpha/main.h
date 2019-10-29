@@ -13,8 +13,8 @@
 #include <d3d9.h>
 
 //#	マクロ定義
-#define SCREEN_WIDTH  (1600)             // スクリーン(クライアント領域)の幅
-#define SCREEN_HEIGHT (900)              // スクリーン(クライアント領域)の高さ
+#define SCREEN_WIDTH  (1920)             // スクリーン(クライアント領域)の幅
+#define SCREEN_HEIGHT (1080)              // スクリーン(クライアント領域)の高さ
 //!	リリース版はフルスクリーン（FALSE）にする	
 #define WINMODE	TRUE					//ウィンドウモードの指定（TRUE：ウィンドウモード/FALSE:フルスクリーン）
 #define	NUM_VERTEX		(4)				// 頂点数
