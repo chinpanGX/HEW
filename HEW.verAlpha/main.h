@@ -17,11 +17,10 @@
 #define SCREEN_HEIGHT (1080)              // スクリーン(クライアント領域)の高さ
 //!	リリース版はフルスクリーン（FALSE）にする	
 #define WINMODE	TRUE					//ウィンドウモードの指定（TRUE：ウィンドウモード/FALSE:フルスクリーン）
-#define	NUM_VERTEX		(4)				// 頂点数
-#define	NUM_POLYGON		(2)				// ポリゴン数
-
 //!	DirectXデバイス解放マクロ
 #define DEVICE_RELEASE(p) do {if(p){(p)->Release(); (p) = NULL;} } while(0)
+//$ #define	NUM_VERTEX		(4)				// 頂点数
+//$ #define	NUM_POLYGON		(2)				// ポリゴン数
 
 
 //# 上記２Ｄポリゴン頂点フォーマットに合わせた構造体を定義
