@@ -13,12 +13,15 @@
 #include <d3d9.h>
 
 //#	マクロ定義
-#define SCREEN_WIDTH  (1920)             // スクリーン(クライアント領域)の幅
-#define SCREEN_HEIGHT (1080)              // スクリーン(クライアント領域)の高さ
+#define SCREEN_WIDTH  (1920)	// スクリーン(クライアント領域)の幅
+#define SCREEN_HEIGHT (1080)    // スクリーン(クライアント領域)の高さ
+
 //!	リリース版はフルスクリーン（FALSE）にする	
-#define WINMODE	TRUE					//ウィンドウモードの指定（TRUE：ウィンドウモード/FALSE:フルスクリーン）
+#define WINMODE	TRUE			//ウィンドウモードの指定（TRUE：ウィンドウモード/FALSE:フルスクリーン）
+
 //!	DirectXデバイス解放マクロ
 #define DEVICE_RELEASE(p) do {if(p){(p)->Release(); (p) = NULL;} } while(0)
+
 //$ #define	NUM_VERTEX		(4)				// 頂点数
 //$ #define	NUM_POLYGON		(2)				// ポリゴン数
 
@@ -47,13 +50,13 @@ typedef struct
 // ３Ｄポリゴン頂点フォーマット( 頂点座標[3D] / 法線 / 頂点カラー / テクスチャ座標 )
 #define	FVF_VERTEX_3D	(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
-/*シーンの状態管理変数*/
+/*　シーンの状態管理変数　*/
 enum SCENE_STATE
 {
 	SCENE_GAME
 };
 
-//プロトタイプ宣言
+//　プロトタイプ宣言
 LPDIRECT3DDEVICE9 GetD3DDevice();	//Direct3DDeviceのゲッター
 HWND GetHWND();						//ウィンドウハンドルのGetter
 double frand();

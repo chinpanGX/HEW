@@ -8,11 +8,7 @@
 //#	インクルードファイル
 #include "main.h"
 #include "input.h"
-#include "texture.h"
 #include "camera.h"
-#include "light.h"
-#include "field.h"		//1枚ポリゴン
-#include "debugproc.h"	//デバッグ表示用
 #include <time.h>
 
 #define _USE_MATH_DEFINES
@@ -370,20 +366,8 @@ bool Init(HINSTANCE hInst)
 		return false;
 	}
 
-	//全テクスチャファイルのロード
-	Texture_Load();
-
-	// デバッグ表示処理 
-	DebugProc_Initialize();
-
 	// カメラの初期化処理
 	Camera::Init();
-
-	// ライトの初期化処理
-	Light_Initialize();
-
-	// 地面の初期化処理
-	Field_Initialize();
 
 	return true;
 }
@@ -393,15 +377,6 @@ void Uninit()
 {
 	// カメラの終了処理
 	Camera::Uninit();
-
-	// ライトの終了処理
-	Light_Finalize();
-
-	// 地面の終了処理
-	Field_Finalize();
-
-	// テクスチャの解放
-	Texture_Release();
 
 	// DirectInputの終了処理
 	Input::Uninit();
@@ -419,12 +394,6 @@ void Update()
 	//ゲームパッドの状態を更新する
 	Input::GP_Update();
 
-	// ライトの更新処理
-	Light_Update();
-
-	// 地面の更新処理
-	Field_Update();
-
 }
 
 //# 描画処理関数
@@ -441,15 +410,6 @@ void Draw()
 
 	// カメラの設定
 	Camera::Set();
-
-	// 地面の描画処理
-	Field_Draw();
-
-	// デバッグ表示の描画処理
-	if (g_bDispDebug)
-	{
-		DebugProc_Draw();
-	}
 
 	// 描画バッチ命令の終了
 	pD3DDevice->EndScene();

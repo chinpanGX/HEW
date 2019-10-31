@@ -5,35 +5,35 @@
 
 ====================================*/
 
-//インクルードファイル
 #include "input.h"
 #include "main.h"
 
-//プロトタイプ宣言
+//	プロトタイプ宣言
 static bool Init(HINSTANCE hInstance);
 static void Uninit();
 
-//グローバル変数
-LPDIRECTINPUT8			g_pInput = NULL;
+//	グローバル変数
+LPDIRECTINPUT8			g_pInput = NULL;	//	DirectInputオブジェクト
 
-//キーボード
-LPDIRECTINPUTDEVICE8	Input::g_pDevKeyboard = NULL;
-BYTE					Input::g_aKeyState[NUM_KEY_MAX];
-BYTE					Input::g_aKeyStateTrigger[NUM_KEY_MAX];
-BYTE					Input::g_aKeyStateRelease[NUM_KEY_MAX];
-
-//ゲームパッド
-LPDIRECTINPUTDEVICE8	Input::g_pGamePad[GAMEPADMAX] = { NULL, NULL, NULL, NULL };// パッドデバイス
-DWORD					Input::g_padState[GAMEPADMAX];	// パッド情報（複数対応）
-DWORD					Input::g_padTrigger[GAMEPADMAX];
-int						Input::g_padCount = 0;			// 検出したパッドの数
+//	キーボード
+LPDIRECTINPUTDEVICE8	Input::g_pDevKeyboard = NULL;			//	キーボードデバイス
+BYTE					Input::g_aKeyState[NUM_KEY_MAX];		//	キーボード情報（押している間）
+BYTE					Input::g_aKeyStateTrigger[NUM_KEY_MAX];	//	キーボード情報（押した瞬間）
+BYTE					Input::g_aKeyStateRelease[NUM_KEY_MAX];	//	キーボード情報（離した瞬間）
+	
+//	ゲームパッド
+LPDIRECTINPUTDEVICE8	Input::g_pGamePad[GAMEPADMAX] = { NULL, NULL, NULL, NULL };	// パッドデバイス
+DWORD					Input::g_padState[GAMEPADMAX];								// パッド情報（押している間）
+DWORD					Input::g_padTrigger[GAMEPADMAX];							// パッド情報（押した瞬間）
+int						Input::g_padCount = 0;										// 検出したパッドの数
 			
-//初期化
+//	DirectInputオブジェクト初期化
 bool Init(HINSTANCE hInstance)
 {
+	//	DirectInput8の作成
 	if (g_pInput == NULL) 
 	{
-
+		//	作成の失敗
 		if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&g_pInput, NULL)))
 		{
 
@@ -41,7 +41,7 @@ bool Init(HINSTANCE hInstance)
 		}
 	}
 
-	return true;
+	return true;	//正常終了
 }
 
 //キーボードの初期化処理
@@ -334,12 +334,3 @@ BOOL Input::GP_IsTrigger(int padNo, DWORD button)
 }
 
 
-
-Input::Input()
-{
-}
-
-
-Input::~Input()
-{
-}

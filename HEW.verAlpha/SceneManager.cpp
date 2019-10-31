@@ -9,7 +9,7 @@
 #include "SceneGame.h"
 #include "SceneManager.h"
 
-//グローバル変数
+//	グローバル変数
 SceneBase			*SceneManager::scene[SCENE_NUMBER];
 SCENE_STATE			SceneManager::scenestate;
 LPDIRECT3DDEVICE9	SceneManager::p3DDevice;

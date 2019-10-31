@@ -9,6 +9,7 @@
 #include "main.h"
 
 //#	SceneBaseクラス : 親クラス
+/*	シーンの管理をするクラス　*/
 class SceneBase
 {
 public:

@@ -56,23 +56,23 @@
 #define BUTTON_RIGHT			0x02000000l //	Xbox＆PS4:方向キー右(.rgdwPOV[0] = 9000)
 #define GAMEPADMAX				4			//	同時に接続するジョイパッドの最大数をセット
 
+//#	Inputクラス
+/* 入力情報の管理をするクラス　*/
 class Input
 {
 private:
-	//キーボード
+	//# キーボード
 	static LPDIRECTINPUTDEVICE8	g_pDevKeyboard;
 	static BYTE					g_aKeyState[NUM_KEY_MAX];
 	static BYTE					g_aKeyStateTrigger[NUM_KEY_MAX];
 	static BYTE					g_aKeyStateRelease[NUM_KEY_MAX];
 
-	//ゲームパッド
+	//# ゲームパッド
 	static LPDIRECTINPUTDEVICE8	g_pGamePad[GAMEPADMAX];		// パッドデバイス
 	static DWORD				g_padState[GAMEPADMAX];		// パッド情報（複数対応）
 	static DWORD				g_padTrigger[GAMEPADMAX];
 	static int					g_padCount;					// 検出したパッドの数
 public:
-	Input();
-	~Input();
 	//#	キーボード
 	static bool KB_Init(HINSTANCE hInstance, HWND hWnd);	//キーボードの初期化処理
 	static void Uninit();									//キーボードの終了処理
