@@ -56,7 +56,7 @@
 #define GAMEPADMAX				4			//	同時に接続するジョイパッドの最大数をセット
 
 //#	Inputクラス
-/* 入力情報の管理をするクラス　*/
+/* プレイヤーコントローラクラス　*/
 class Input
 {
 private:
