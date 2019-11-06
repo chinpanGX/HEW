@@ -33,11 +33,13 @@ void SceneManager::Uninit()
 //	更新処理
 void SceneManager::Update()
 {
+
 }
 
 //	描画処理
 void SceneManager::Draw()
 {
+
 }
 
 //	シーン遷移処理

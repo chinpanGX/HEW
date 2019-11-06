@@ -10,6 +10,8 @@
 #include "input.h"
 #include "camera.h"
 #include <time.h>
+#include "SceneManager.h"
+#include "Character.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -31,7 +33,7 @@
 static	HWND g_hWnd;								// ウィンドウハンドル
 bool	g_bDispDebug = true;						// デバッグ表示ON/OFF
 static	LPDIRECT3D9			g_pD3D = NULL;          // Direct3Dインターフェース
-static	 LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;	// Direct3Dデバイス
+static	LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;	// Direct3Dデバイス
 
 
 //#	プロトタイプ宣言
@@ -368,6 +370,7 @@ bool Init(HINSTANCE hInst)
 
 	// カメラの初期化処理
 	Camera::Init();
+	Character::Init();
 
 	return true;
 }
@@ -375,6 +378,9 @@ bool Init(HINSTANCE hInst)
 //#　終了処理関数
 void Uninit()
 {
+
+	Character::Uninit();
+
 	// カメラの終了処理
 	Camera::Uninit();
 
@@ -394,6 +400,10 @@ void Update()
 	//ゲームパッドの状態を更新する
 	Input::GP_Update();
 
+	Character::Update;
+
+	//SceneManager::Update();
+
 }
 
 //# 描画処理関数
@@ -407,9 +417,10 @@ void Draw()
 	// 描画バッチ命令の開始
 	pD3DDevice->BeginScene();
 
-
 	// カメラの設定
 	Camera::Set();
+	
+	Character::Draw();
 
 	// 描画バッチ命令の終了
 	pD3DDevice->EndScene();

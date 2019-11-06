@@ -13,7 +13,6 @@
 class SceneGame:public SceneBase
 {
 public:
-	~SceneGame();	//	デストラクタ
 	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理

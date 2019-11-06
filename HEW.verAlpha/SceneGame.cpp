@@ -8,11 +8,9 @@
 #include "SceneGame.h"
 #include "SceneManager.h"
 #include "input.h"
-
-//	デストラクタ
-SceneGame::~SceneGame()
-{
-}
+#include "Character.h"
+#include "Model.h"
+#include "main.h"
 
 //	ゲームの初期化処理
 void SceneGame::Init()
@@ -23,16 +21,17 @@ void SceneGame::Init()
 //	ゲームの終了処理
 void SceneGame::Uninit()
 {
-
+	Character::Uninit();
 }
 
 //	ゲームの更新処理
 void SceneGame::Update()
 {
-
+	Character::Update();
 }
 
 //	ゲームの描画処理
 void SceneGame::Draw()
 {
+
 }
