@@ -7,9 +7,8 @@
 
 #pragma once
 
-//インクルードファイル
 #include <Windows.h>
-#define DIRECTINPUT_VERSION (0x0800)
+#define DIRECTINPUT_VERSION (0x0800)	//	DirectInputのバージョン
 #include <dinput.h>
 
 //マクロ定義	
@@ -57,35 +56,36 @@
 #define GAMEPADMAX				4			//	同時に接続するジョイパッドの最大数をセット
 
 //#	Inputクラス
-/* 入力情報の管理をするクラス　*/
+/* プレイヤーコントローラクラス　*/
 class Input
 {
 private:
 	//# キーボード
-	static LPDIRECTINPUTDEVICE8	g_pDevKeyboard;
-	static BYTE					g_aKeyState[NUM_KEY_MAX];
-	static BYTE					g_aKeyStateTrigger[NUM_KEY_MAX];
-	static BYTE					g_aKeyStateRelease[NUM_KEY_MAX];
+	static LPDIRECTINPUTDEVICE8	g_pDevKeyboard;										//	キーボードデバイス
+	static BYTE					g_aKeyState[NUM_KEY_MAX];							//	キーボード情報(押しているとき)
+	static BYTE					g_aKeyStateTrigger[NUM_KEY_MAX];					//	キーボード情報(押した瞬間)
+	static BYTE					g_aKeyStateRelease[NUM_KEY_MAX];					//	キーボード情報(離した瞬間)
 
 	//# ゲームパッド
-	static LPDIRECTINPUTDEVICE8	g_pGamePad[GAMEPADMAX];		// パッドデバイス
-	static DWORD				g_padState[GAMEPADMAX];		// パッド情報（複数対応）
-	static DWORD				g_padTrigger[GAMEPADMAX];
-	static int					g_padCount;					// 検出したパッドの数
+	static LPDIRECTINPUTDEVICE8	g_pGamePad[GAMEPADMAX];								//　パッドデバイス
+	static DWORD				g_padState[GAMEPADMAX];								//	パッド情報(押しているとき)
+	static DWORD				g_padTrigger[GAMEPADMAX];							//	パッド情報(押した瞬間)
+	static int					g_padCount;											//　検出したパッドの数
+
 public:
 	//#	キーボード
-	static bool KB_Init(HINSTANCE hInstance, HWND hWnd);	//キーボードの初期化処理
-	static void Uninit();									//キーボードの終了処理
-	static void KB_Update();								//キーボードの更新処理
-	static bool KB_IsPress(int nKey);						//キーボードを押している間
-	static bool KB_IsTrigger(int nKey);						//キーボードを押した瞬間
-	static bool KB_IsRelease(int nKey);						//キーボードを離した瞬間
+	static bool KB_Init(HINSTANCE hInstance, HWND hWnd);							//	キーボードの初期化処理
+	static void Uninit();															//	キーボードの終了処理
+	static void KB_Update();														//	キーボードの更新処理
+	static bool KB_IsPress(int nKey);												//	キーボードを押している間
+	static bool KB_IsTrigger(int nKey);												//	キーボードを押した瞬間
+	static bool KB_IsRelease(int nKey);												//	キーボードを離した瞬間
 	 
 	//#	ゲームパッド
-	static BOOL CALLBACK SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID);
-	static bool GP_Init(HINSTANCE hInstance, HWND hWnd);	//ゲームパッドの初期化
-	//static void GP_Uninit();								//ゲームパッドの終了処理
-	static void GP_Update();								//ゲームパッドの更新処理
-	static BOOL GP_IsPress(int padNo, DWORD button);		//ゲームパッドのボタンを押している間
-	static BOOL GP_IsTrigger(int padNo, DWORD button);		//ゲームパッドのボタンを押した瞬間
+	static BOOL CALLBACK SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID);	//	コールバック関数
+	static bool GP_Init(HINSTANCE hInstance, HWND hWnd);							//	ゲームパッドの初期化
+	//static void GP_Uninit();														//	ゲームパッドの終了処理
+	static void GP_Update();														//	ゲームパッドの更新処理
+	static BOOL GP_IsPress(int padNo, DWORD button);								//	ゲームパッドのボタンを押している間
+	static BOOL GP_IsTrigger(int padNo, DWORD button);								//	ゲームパッドのボタンを押した瞬間
 };
