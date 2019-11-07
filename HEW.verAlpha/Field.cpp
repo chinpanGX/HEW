@@ -17,15 +17,9 @@
 //	グローバル変数
 Model *Field::Object[OBJECT_NUM];
 extern std::map<std::string, XFile *>g_pXFileList;
-LPDIRECT3DVERTEXBUFFER9 Field::g_pVtxBuffField = NULL;	//	頂点バッファへのポインタ
-D3DXMATRIX				Field::g_mtxWorldField;			//	ワールドマトリックス
-D3DXVECTOR3				Field::g_posField;				//	地面の位置
-D3DXVECTOR3				Field::g_rotField;				//	地面の向き(回転)
-D3DXVECTOR3				Field::g_sclField;				//	地面の大きさ	
-Field *g_field = new Field;
 
 //	マップの初期化
-HRESULT Field::Init()
+void  Field::Init()
 {
 	//!	XFlieのロード処理
 	// 読み込みファイル名リスト
@@ -40,18 +34,6 @@ HRESULT Field::Init()
 		g_pXFileList[file_name_list[i]] = new XFile();
 		g_pXFileList[file_name_list[i]]->Load(file_name_list[i]);
 	}
-
-	g_field->pDevice = GetD3DDevice();
-
-	// 頂点情報の作成
-	MakeVertexField(g_field->pDevice);
-
-	// 位置・回転・スケールの初期設定
-	g_posField = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	g_rotField = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	g_sclField = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
-	return S_OK;
 }
 
 void Field::Uninit()
@@ -62,6 +44,7 @@ void Field::Uninit()
 //	マップの描画
 void Field::Draw()
 {
+#if 0
 	g_field->pDevice = GetD3DDevice();
 
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
@@ -75,7 +58,7 @@ void Field::Draw()
 	D3DXMatrixMultiply(&g_mtxWorldField, &g_mtxWorldField, &mtxTranslate);
 	// ワールドマトリクスの設定
 	g_field->pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldField);
-	
+#endif
 	//	3Dモデルの描画
 	Object[0] = new Model(
 		D3DXVECTOR3(0.0f, 0.0f, -10.0f),
@@ -84,7 +67,7 @@ void Field::Draw()
 		g_pXFileList["asset/model/ri.x"]);
 
 	Object[0]->Draw();
-
+#if 0
 	//	頂点バッファをデバイスのデータストリームにバインド
 	g_field->pDevice->SetStreamSource(0, g_pVtxBuffField, 0, sizeof(VERTEX_3D));
 
@@ -93,8 +76,10 @@ void Field::Draw()
 
 	//	自分で作った頂点バッファを描画（メモリの確保、解放をしなければならない→遅くなる）
 	g_field->pDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
+#endif
 }
 
+//	頂点作成関数
 #if 0 
 HRESULT Field::MakeVertexField(LPDIRECT3DDEVICE9 pDevice)
 {

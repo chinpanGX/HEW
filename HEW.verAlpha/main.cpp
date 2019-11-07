@@ -369,7 +369,7 @@ bool Init(HINSTANCE hInst)
 		return false;
 	}
 
-	// カメラの初期化処理
+	//!	描画テスト　->　後で消す
 	Camera::Init();
 	Light::Init();
 	Field::Init();
@@ -385,10 +385,6 @@ void Uninit()
 {
 	//	シーンマネージャーの終了処理
 	//SceneManager::Uninit();
-
-	// カメラの終了処理
-	Camera::Uninit();
-	Light::Uninit();
 
 	// DirectInputの終了処理
 	Input::Uninit();
