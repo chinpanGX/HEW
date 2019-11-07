@@ -20,7 +20,7 @@ private:
 	LPD3DXMESH					Mesh;					//	メッシュ
 	D3DMATERIAL9				*pMeshMaterialList;		//	メッシュマテリアル
 	LPDIRECT3DTEXTURE9			*pTextureList;			//	テクスチャリスト
-	std::map<int, std::string> TextureNameList;				// テクスチャ名リスト
+	std::map<int, std::string> TextureNameList;			// テクスチャ名リスト
 	static LPDIRECT3DDEVICE9	g_pD3Device;			//	デバイス
 public:
 	XFile():MeshNum(0),Mesh(NULL),pMeshMaterialList(NULL),pTextureList(NULL){}	//	コンストラクタ : 変数の初期値

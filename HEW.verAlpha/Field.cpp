@@ -12,10 +12,10 @@
 #include "XFile.h"
 
 //	マクロ定義
-#define FILELIST 1	//	読み込むファイルの数
+#define FILE_LIST 1	//	読み込むファイルの数
 
 //	グローバル変数
-Model *Field::Object[OBJECT_NUM];
+Model *Field::Actor[ACTOR_NUM];
 extern std::map<std::string, XFile *>g_pXFileList;
 LPDIRECT3DVERTEXBUFFER9 Field::g_pVtxBuffField = NULL;	//	頂点バッファへのポインタ
 D3DXMATRIX				Field::g_mtxWorldField;			//	ワールドマトリックス
@@ -35,7 +35,7 @@ HRESULT Field::Init()
 	};
 
 	// XFile読み込み
-	for (int i = 0; i < FILELIST; i++)
+	for (int i = 0; i < FILE_LIST; i++)
 	{
 		g_pXFileList[file_name_list[i]] = new XFile();
 		g_pXFileList[file_name_list[i]]->Load(file_name_list[i]);
@@ -54,13 +54,27 @@ HRESULT Field::Init()
 	return S_OK;
 }
 
+//	マップの終了処理
 void Field::Uninit()
 {
-	delete Object[0];
+	delete Actor[0];
 }
 
-//	マップの描画
-void Field::Draw()
+//	3Dモデルの描画処理
+void Field::ActorDraw()
+{
+	//	3Dモデルの描画
+	Actor[0] = new Model(
+		D3DXVECTOR3(0.0f, 0.0f, -10.0f),
+		D3DXVECTOR3(100.0f, 1.0f, 10.0f),
+		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+		g_pXFileList["asset/model/ri.x"]);
+
+	Actor[0]->Draw();
+}
+
+//	頂点指定の描画処理
+void Field::PlaneDraw()
 {
 	g_field->pDevice = GetD3DDevice();
 
@@ -75,15 +89,6 @@ void Field::Draw()
 	D3DXMatrixMultiply(&g_mtxWorldField, &g_mtxWorldField, &mtxTranslate);
 	// ワールドマトリクスの設定
 	g_field->pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldField);
-	
-	//	3Dモデルの描画
-	Object[0] = new Model(
-		D3DXVECTOR3(0.0f, 0.0f, -10.0f),
-		D3DXVECTOR3(100.0f, 1.0f, 10.0f),
-		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
-		g_pXFileList["asset/model/ri.x"]);
-
-	Object[0]->Draw();
 
 	//	頂点バッファをデバイスのデータストリームにバインド
 	g_field->pDevice->SetStreamSource(0, g_pVtxBuffField, 0, sizeof(VERTEX_3D));
@@ -91,11 +96,14 @@ void Field::Draw()
 	//	頂点フォーマットの設定
 	g_field->pDevice->SetFVF(FVF_VERTEX_3D);
 
+	//テクスチャの設定
+	//g_field->pDevice->SetTexture(0, Texture_GetTexture(TEXTURE_INDEX_FIELD03));
+
 	//	自分で作った頂点バッファを描画（メモリの確保、解放をしなければならない→遅くなる）
 	g_field->pDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 }
 
-#if 0 
+//	頂点の作成処理
 HRESULT Field::MakeVertexField(LPDIRECT3DDEVICE9 pDevice)
 {
 	//オブジェクトの頂点バッファを生成
@@ -113,12 +121,12 @@ HRESULT Field::MakeVertexField(LPDIRECT3DDEVICE9 pDevice)
 
 		//# 天井ポリゴン
 			//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(-1000, -10, 1000);
-		pVtx[1].pos = D3DXVECTOR3(1000, -10, 1000);
-		pVtx[2].pos = D3DXVECTOR3(-1000, -10, -1000);
-		pVtx[3].pos = D3DXVECTOR3(1000, -10, 1000);
-		pVtx[4].pos = D3DXVECTOR3(1000, -10, -1000);
-		pVtx[5].pos = D3DXVECTOR3(-1000, -10, -1000);
+		pVtx[0].pos = D3DXVECTOR3(-100, -100, 100);
+		pVtx[1].pos = D3DXVECTOR3(100, -100, 100);
+		pVtx[2].pos = D3DXVECTOR3(-100, -100, -100);
+		pVtx[3].pos = D3DXVECTOR3(100, -100, 100);
+		pVtx[4].pos = D3DXVECTOR3(100, -100, -100);
+		pVtx[5].pos = D3DXVECTOR3(-100, -100, -100);
 
 		//法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -143,5 +151,4 @@ HRESULT Field::MakeVertexField(LPDIRECT3DDEVICE9 pDevice)
 
 	return S_OK;
 }
-#endif
 
