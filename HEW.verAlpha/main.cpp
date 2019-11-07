@@ -370,7 +370,6 @@ bool Init(HINSTANCE hInst)
 
 	// カメラの初期化処理
 	Camera::Init();
-	Character::Init();
 
 	return true;
 }
@@ -378,9 +377,6 @@ bool Init(HINSTANCE hInst)
 //#　終了処理関数
 void Uninit()
 {
-
-	Character::Uninit();
-
 	// カメラの終了処理
 	Camera::Uninit();
 
@@ -400,8 +396,7 @@ void Update()
 	//ゲームパッドの状態を更新する
 	Input::GP_Update();
 
-	Character::Update;
-
+	
 	//SceneManager::Update();
 
 }
@@ -420,7 +415,6 @@ void Draw()
 	// カメラの設定
 	Camera::Set();
 	
-	Character::Draw();
 
 	// 描画バッチ命令の終了
 	pD3DDevice->EndScene();

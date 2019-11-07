@@ -14,16 +14,17 @@ LPD3DXMESH			Model::Mesh =NULL ;								//	メッシュ
 D3DMATERIAL9		*Model::pMeshMaterialList = NULL;				//	メッシュマテリアル
 LPDIRECT3DTEXTURE9	*Model::pTextureList = NULL;					//	テクスチャリスト
 LPDIRECT3DDEVICE9	Model::g_pD3Device;								//	デバイスの取得
+std::map<std::string,  *>g_pXFileList;	// 読み込んだXFileのリスト
 
 
-bool Model::Load()
+bool Model::Load(std::string fliename)
 {
 	//# モデルデータのロード
 	// XFileデータを格納する仮バッファ
 	LPD3DXBUFFER p_material_buffer = NULL;
 
 	//	XFileの読み込み
-	if (FAILED(D3DXLoadMeshFromX("asset/model/ri.x", D3DXMESH_SYSTEMMEM, g_pD3Device, NULL, &p_material_buffer, NULL, &MeshNum, &Mesh)))
+	if (FAILED(D3DXLoadMeshFromX(fliename.c_str, D3DXMESH_SYSTEMMEM, g_pD3Device, NULL, &p_material_buffer, NULL, &MeshNum, &Mesh)))
 	{
 		return false;
 	}
