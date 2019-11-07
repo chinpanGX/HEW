@@ -9,9 +9,10 @@
 #include "main.h"
 #include "input.h"
 #include "camera.h"
+#include "light.h"
 #include <time.h>
 #include "SceneManager.h"
-#include "Character.h"
+#include "Field.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -370,6 +371,11 @@ bool Init(HINSTANCE hInst)
 
 	// カメラの初期化処理
 	Camera::Init();
+	Light::Init();
+	Field::Init();
+
+	//	シーンマネージャーの初期化処理
+	//SceneManager::Init();
 
 	return true;
 }
@@ -377,8 +383,12 @@ bool Init(HINSTANCE hInst)
 //#　終了処理関数
 void Uninit()
 {
+	//	シーンマネージャーの終了処理
+	//SceneManager::Uninit();
+
 	// カメラの終了処理
 	Camera::Uninit();
+	Light::Uninit();
 
 	// DirectInputの終了処理
 	Input::Uninit();
@@ -395,8 +405,8 @@ void Update()
 
 	//ゲームパッドの状態を更新する
 	Input::GP_Update();
-
 	
+	//	シーンマネージャーの更新
 	//SceneManager::Update();
 
 }
@@ -412,9 +422,12 @@ void Draw()
 	// 描画バッチ命令の開始
 	pD3DDevice->BeginScene();
 
-	// カメラの設定
+	//!	3D背景の描画テスト　->　後で消す
+	Field::Draw();
 	Camera::Set();
-	
+
+	//	シーンマネージャーの描画処理
+	//SceneManager::Draw();
 
 	// 描画バッチ命令の終了
 	pD3DDevice->EndScene();

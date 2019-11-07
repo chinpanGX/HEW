@@ -11,14 +11,7 @@
 #include <d3dx9.h>
 #include <map>
 
-
-// 読み込みファイル名リスト
-std::string file_name_list[] =
-{
-	"ri.x",
-};
-
-//#	XFileクラス
+//#	XFileクラス：親クラス
 /* XFileのロード、アンロードを管理するクラス */
 class XFile
 {
@@ -27,13 +20,13 @@ private:
 	LPD3DXMESH					Mesh;					//	メッシュ
 	D3DMATERIAL9				*pMeshMaterialList;		//	メッシュマテリアル
 	LPDIRECT3DTEXTURE9			*pTextureList;			//	テクスチャリスト
-	std::map<int, std::string> m_TextureNameList;				// テクスチャ名リスト
+	std::map<int, std::string> TextureNameList;				// テクスチャ名リスト
 	static LPDIRECT3DDEVICE9	g_pD3Device;			//	デバイス
 public:
-	XFile():MeshNum(0),Mesh(NULL),pMeshMaterialList(NULL),pTextureList(NULL){}
-	bool Load(std::string fliename);
-	void Unload();
-	void Draw();
+	XFile():MeshNum(0),Mesh(NULL),pMeshMaterialList(NULL),pTextureList(NULL){}	//	コンストラクタ : 変数の初期値
+	~XFile();							//	デストラクタ,モデルデータのアンロード
+	bool Load(std::string fliename);	//	モデルデータのロード(引数：ファイル名)
+	void Draw();						//	描画処理
 };
 
 

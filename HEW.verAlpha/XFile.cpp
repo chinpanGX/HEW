@@ -5,18 +5,38 @@
 
 ===============================================*/
 
+#include "main.h"
 #include <map>
 #include "XFile.h"
 
 //	グローバル変数
 LPDIRECT3DDEVICE9	XFile::g_pD3Device;								//	デバイスの取得
-std::map<std::string, XFile*>g_pXFileList;	// 読み込んだXFileのリスト
+std::map<std::string, XFile*>g_pXFileList;							// 読み込んだXFileのリスト
 extern std::map<std::string, LPDIRECT3DTEXTURE9> g_TextureList;
 
 
+//	デストラクタ
+XFile::~XFile()
+{
+	//# モデルデータのアンロード
+	// マテリアルリストの解放
+	if (pMeshMaterialList != NULL)
+	{
+		delete[](pMeshMaterialList);
+		pMeshMaterialList = NULL;
+	}
+
+	// テクスチャリストの解放
+	delete[](pTextureList);
+
+	// テクスチャファイル名リストの初期化
+	TextureNameList.clear();
+}
+
+//	XFileのロード
 bool XFile::Load(std::string fliename)
 {
-
+	g_pD3Device = GetD3DDevice();
 	//# モデルデータのロード
 	// XFileデータを格納する仮バッファ
 	LPD3DXBUFFER p_material_buffer = NULL;
@@ -58,22 +78,7 @@ bool XFile::Load(std::string fliename)
 	return true;
 }
 
-void XFile::Unload()
-{
-	//# モデルデータのアンロード
-	// マテリアルリストの解放
-	if (pMeshMaterialList != NULL)
-	{
-		delete[](pMeshMaterialList);
-		pMeshMaterialList = NULL;
-	}
-
-	// テクスチャリストの解放
-	delete[](pTextureList);
-
-	// テクスチャファイル名リストの初期化
-}
-
+//	XFlieの描画
 void XFile::Draw()
 {
 	for (DWORD i = 0; i < MeshNum; i++)

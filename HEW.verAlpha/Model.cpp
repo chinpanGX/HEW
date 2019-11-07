@@ -13,12 +13,6 @@
 //	グローバル変数
 LPDIRECT3DDEVICE9 Model::g_pD3DDevice;
 
-//	アンロード処理
-void Model::Unload()
-{
-	DEVICE_RELEASE(g_pD3DDevice);	//	デバイスの解放
-}
-
 //	モデルの描画処理
 void Model::Draw()
 {

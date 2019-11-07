@@ -10,7 +10,7 @@
 #include <d3dx9.h>
 #include "XFile.h"
 
-//#	Modelクラス : 親クラス->XFileクラス
+//#	Modelクラス : XFileクラスの派生クラス
 /* モデルを描画するクラス */
 class Model : public XFile
 {
@@ -22,9 +22,8 @@ private:
 	static LPDIRECT3DDEVICE9 g_pD3DDevice;	//	デバイス
 
 public:
-	Model(D3DXVECTOR3 position, D3DXVECTOR3 scale, D3DXVECTOR3 angle, XFile *pmodel) :position(position), scale(scale), angle(angle), pmodel(pmodel) {}
-	void Unload();
-	void Draw();
+	Model(D3DXVECTOR3 position, D3DXVECTOR3 scale, D3DXVECTOR3 angle, XFile *pmodel) :position(position), scale(scale), angle(angle), pmodel(pmodel) {}	//	コンストラクタ：変数の初期値
+	void Draw();	//	描画処理
 };
 
 

@@ -10,6 +10,7 @@
 #include "input.h"
 #include "Character.h"
 #include "XFile.h"
+#include "Model.h"
 #include "main.h"
 
 //	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—
