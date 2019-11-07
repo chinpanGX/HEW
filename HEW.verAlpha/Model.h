@@ -6,6 +6,8 @@
 ============================================================*/
 
 #pragma once
+#include <d3d9.h>
+#include <d3dx9.h>
 #include "XFile.h"
 
 //#	Modelクラス : 親クラス->XFileクラス
@@ -20,7 +22,7 @@ private:
 	static LPDIRECT3DDEVICE9 g_pD3DDevice;	//	デバイス
 
 public:
-	Model(D3DXVECTOR3	position, D3DXVECTOR3 scale, D3DXVECTOR3 angle, XFile *pmodel) :position(position), scale(scale), angle(angle), pmodel(pmodel) {}
+	Model(D3DXVECTOR3 position, D3DXVECTOR3 scale, D3DXVECTOR3 angle, XFile *pmodel) :position(position), scale(scale), angle(angle), pmodel(pmodel) {}
 	void Unload();
 	void Draw();
 };

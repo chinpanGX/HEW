@@ -5,9 +5,10 @@
 
 ===========================================================*/
 
+#include <map>
 #include "Field.h"
 #include "Model.h"
-#include "Model.h"
+#include "XFile.h"
 
 //	グローバル変数
 extern std::map<std::string, XFile *>g_pXFileList;	// 読み込んだXFileのリスト

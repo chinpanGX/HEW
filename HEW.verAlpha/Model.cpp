@@ -8,13 +8,10 @@
 
 #include <map>
 #include "main.h"
-#include "XFile.h"
 #include "Model.h"
 
-
-std::map<std::string, LPDIRECT3DTEXTURE9> g_TextureList;
+//	グローバル変数
 LPDIRECT3DDEVICE9 Model::g_pD3DDevice;
-std::map<std::string, XFile *>g_pXFileList;	// 読み込んだXFileのリスト
 
 //	アンロード処理
 void Model::Unload()

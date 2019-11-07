@@ -5,14 +5,10 @@
 
 ===============================================*/
 
-#include "main.h"
+#include <map>
 #include "XFile.h"
 
 //	グローバル変数
-DWORD				XFile::MeshNum = 0;								//	メッシュ数
-LPD3DXMESH			XFile::Mesh = NULL;								//	メッシュ
-D3DMATERIAL9		*XFile::pMeshMaterialList = NULL;				//	メッシュマテリアル
-LPDIRECT3DTEXTURE9	*XFile::pTextureList = NULL;					//	テクスチャリスト
 LPDIRECT3DDEVICE9	XFile::g_pD3Device;								//	デバイスの取得
 std::map<std::string, XFile*>g_pXFileList;	// 読み込んだXFileのリスト
 extern std::map<std::string, LPDIRECT3DTEXTURE9> g_TextureList;
@@ -20,6 +16,7 @@ extern std::map<std::string, LPDIRECT3DTEXTURE9> g_TextureList;
 
 bool XFile::Load(std::string fliename)
 {
+
 	//# モデルデータのロード
 	// XFileデータを格納する仮バッファ
 	LPD3DXBUFFER p_material_buffer = NULL;
@@ -73,9 +70,6 @@ void XFile::Unload()
 
 	// テクスチャリストの解放
 	delete[](pTextureList);
-
-	//	デバイスの解放
-	DEVICE_RELEASE(g_pD3Device);
 
 	// テクスチャファイル名リストの初期化
 }

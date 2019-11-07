@@ -23,13 +23,14 @@ std::string file_name_list[] =
 class XFile
 {
 private:
-	static DWORD						MeshNum;				//	メッシュ数
-	static LPD3DXMESH					Mesh;					//	メッシュ
-	static D3DMATERIAL9					*pMeshMaterialList;		//	メッシュマテリアル
-	static LPDIRECT3DTEXTURE9			*pTextureList;			//	テクスチャリスト
+	DWORD						MeshNum;				//	メッシュ数
+	LPD3DXMESH					Mesh;					//	メッシュ
+	D3DMATERIAL9				*pMeshMaterialList;		//	メッシュマテリアル
+	LPDIRECT3DTEXTURE9			*pTextureList;			//	テクスチャリスト
 	std::map<int, std::string> m_TextureNameList;				// テクスチャ名リスト
-	static LPDIRECT3DDEVICE9			g_pD3Device;			//	デバイス
+	static LPDIRECT3DDEVICE9	g_pD3Device;			//	デバイス
 public:
+	XFile():MeshNum(0),Mesh(NULL),pMeshMaterialList(NULL),pTextureList(NULL){}
 	bool Load(std::string fliename);
 	void Unload();
 	void Draw();

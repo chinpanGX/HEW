@@ -14,7 +14,7 @@
 class Character
 {
 private:
-	static LPDIRECT3DDEVICE9 g_pD3DDevice;	//	デバイス	
+	
 public:
 	static void Init();
 	static void Uninit();
