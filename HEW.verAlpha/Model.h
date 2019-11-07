@@ -1,37 +1,28 @@
-/*==============================================
+/*===========================================================
 
 	[Model.h]
 	Author : 出合翔太
 
-===============================================*/
+============================================================*/
 
 #pragma once
-#include <string>
-#include <d3d9.h>
-#include <d3dx9.h>
-#include <map>
+#include "XFile.h"
 
-
-// 読み込みファイル名リスト
-std::string file_name_list[] =
-{
-	"ri.x",
-};
-
-//#	Modelクラス
-/* XFileのロード、アンロードを管理するクラス */
-class Model
+//#	Modelクラス : 親クラス->XFileクラス
+/* モデルを描画するクラス */
+class Model : public XFile
 {
 private:
-	static DWORD						MeshNum;				//	メッシュ数
-	static LPD3DXMESH					Mesh;					//	メッシュ
-	static D3DMATERIAL9					*pMeshMaterialList;		//	メッシュマテリアル
-	static LPDIRECT3DTEXTURE9			*pTextureList;			//	テクスチャリスト
-	std::map<int, std::string> m_TextureNameList;				// テクスチャ名リスト
-	static LPDIRECT3DDEVICE9			g_pD3Device;			//	デバイス
+	D3DXVECTOR3	position;					//	位置
+	D3DXVECTOR3	scale;						//	大きさ
+	D3DXVECTOR3	angle;						//	回転
+	XFile *pmodel;							//	XFile型ポインタ変数
+	static LPDIRECT3DDEVICE9 g_pD3DDevice;	//	デバイス
+
 public:
-	bool Load(std::string fliename);
+	Model(D3DXVECTOR3	position, D3DXVECTOR3 scale, D3DXVECTOR3 angle, XFile *pmodel) :position(position), scale(scale), angle(angle), pmodel(pmodel) {}
 	void Unload();
 	void Draw();
 };
+
 

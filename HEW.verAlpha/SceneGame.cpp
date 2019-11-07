@@ -9,7 +9,7 @@
 #include "SceneManager.h"
 #include "input.h"
 #include "Character.h"
-#include "Model.h"
+#include "XFile.h"
 #include "main.h"
 
 //	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—

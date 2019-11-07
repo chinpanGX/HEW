@@ -1,93 +1,41 @@
-/*==============================================
+/*==========================================================
 
 	[Model.cpp]
 	Author : 出合翔太
 
-===============================================*/
+===========================================================*/
 
+
+#include <map>
 #include "main.h"
+#include "XFile.h"
 #include "Model.h"
 
-//	グローバル変数
-DWORD				Model::MeshNum = 0;								//	メッシュ数
-LPD3DXMESH			Model::Mesh =NULL ;								//	メッシュ
-D3DMATERIAL9		*Model::pMeshMaterialList = NULL;				//	メッシュマテリアル
-LPDIRECT3DTEXTURE9	*Model::pTextureList = NULL;					//	テクスチャリスト
-LPDIRECT3DDEVICE9	Model::g_pD3Device;								//	デバイスの取得
-std::map<std::string,  *>g_pXFileList;	// 読み込んだXFileのリスト
 
+std::map<std::string, LPDIRECT3DTEXTURE9> g_TextureList;
+LPDIRECT3DDEVICE9 Model::g_pD3DDevice;
+std::map<std::string, XFile *>g_pXFileList;	// 読み込んだXFileのリスト
 
-bool Model::Load(std::string fliename)
-{
-	//# モデルデータのロード
-	// XFileデータを格納する仮バッファ
-	LPD3DXBUFFER p_material_buffer = NULL;
-
-	//	XFileの読み込み
-	if (FAILED(D3DXLoadMeshFromX(fliename.c_str, D3DXMESH_SYSTEMMEM, g_pD3Device, NULL, &p_material_buffer, NULL, &MeshNum, &Mesh)))
-	{
-		return false;
-	}
-
-	// マテリアル情報のコピー
-	// 読み込まれたXFileのマテリアル分のD3DMATERIAL9を用意する
-	pMeshMaterialList = new D3DMATERIAL9[MeshNum];
-
-	// メッシュに使用されているテクスチャ用の配列を用意する
-	pTextureList = new LPDIRECT3DTEXTURE9[MeshNum];
-
-	// バッファの先頭ポインタをD3DXMATERIALにキャストして取得
-	D3DXMATERIAL *pmat_list = (D3DXMATERIAL*)p_material_buffer->GetBufferPointer();
-
-	// 各メッシュのマテリアル情報を取得する
-	for (DWORD i = 0; i < MeshNum; i++)
-	{
-		// マテリアル取得
-		pMeshMaterialList[i] = pmat_list[i].MatD3D;
-		pTextureList[i] = NULL;
-
-		// マテリアルで設定されているテクスチャ読み込み
-		if (pmat_list[i].pTextureFilename != NULL)
-		{
-			std::string filename = pmat_list[i].pTextureFilename;
-			LPDIRECT3DTEXTURE9 texture = NULL;
-		}
-	}
-
-	// マテリアルのコピーが終わったのでバッファを解放する
-	p_material_buffer->Release();
-
-	return true;
-}
-
+//	アンロード処理
 void Model::Unload()
 {
-	//# モデルデータのアンロード
-	// マテリアルリストの解放
-	if (pMeshMaterialList != NULL)
-	{
-		delete[](pMeshMaterialList);
-		pMeshMaterialList = NULL;
-	}
-
-	// テクスチャリストの解放
-	delete[](pTextureList);
-
-	//	デバイスの解放
-	DEVICE_RELEASE(g_pD3Device);
-
-	// テクスチャファイル名リストの初期化
+	DEVICE_RELEASE(g_pD3DDevice);	//	デバイスの解放
 }
 
+//	モデルの描画処理
 void Model::Draw()
 {
-	for (DWORD i = 0; i < MeshNum; i++)
+	g_pD3DDevice = GetD3DDevice();
+	// ワールド座標行列作成
+	D3DXMATRIX world_matrix, trans_matrix, rot_matrix, scale_matrix;
+	D3DXMatrixIdentity(&world_matrix);
+	D3DXMatrixTranslation(&trans_matrix, position.x, position.y, position.z);
+	D3DXMatrixScaling(&scale_matrix, scale.x, scale.y, scale.y);
+	world_matrix *= scale_matrix * trans_matrix;
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &world_matrix);
+
+	if (pmodel != NULL)
 	{
-		// マテリアルの設定
-		g_pD3Device->SetMaterial(&pMeshMaterialList[i]);
-		// テクスチャの設定
-		g_pD3Device->SetTexture(0, pTextureList[i]);
-		// メッシュを描画
-		Mesh->DrawSubset(i);
+		pmodel->Draw();
 	}
 }

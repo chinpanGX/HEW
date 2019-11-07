@@ -6,8 +6,8 @@
 =============================================*/
 
 #include "main.h"
+#include "XFile.h"
 #include "Model.h"
-#include "Drawer.h"
 #include "Character.h"
 
 //	ƒtƒ[ƒoƒ‹•Ï”
