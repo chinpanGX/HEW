@@ -419,7 +419,8 @@ void Draw()
 	pD3DDevice->BeginScene();
 
 	//!	3D背景の描画テスト　->　後で消す
-	Field::Draw();
+	Field::ActorDraw();
+	Field::PlaneDraw();
 	Camera::Set();
 
 	//	シーンマネージャーの描画処理
