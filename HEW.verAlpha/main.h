@@ -53,6 +53,7 @@ typedef struct
 /*　シーンの状態管理変数　*/
 enum SCENE_STATE
 {
+	SCENE_DEBUG,
 	SCENE_GAME
 };
 

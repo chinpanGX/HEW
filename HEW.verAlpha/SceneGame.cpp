@@ -22,13 +22,13 @@ void SceneGame::Init()
 //	ゲームの終了処理
 void SceneGame::Uninit()
 {
-	Character::Uninit();
+	
 }
 
 //	ゲームの更新処理
 void SceneGame::Update()
 {
-	Character::Update();
+	
 }
 
 //	ゲームの描画処理

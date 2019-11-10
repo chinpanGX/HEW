@@ -13,6 +13,7 @@
 #include <time.h>
 #include "SceneManager.h"
 #include "Field.h"
+#include "DebugCamera.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -369,13 +370,8 @@ bool Init(HINSTANCE hInst)
 		return false;
 	}
 
-	//!	描画テスト　->　後で消す
-	Camera::Init();
-	Light::Init();
-	Field::Init();
-
 	//	シーンマネージャーの初期化処理
-	//SceneManager::Init();
+	SceneManager::Init();
 
 	return true;
 }
@@ -384,7 +380,7 @@ bool Init(HINSTANCE hInst)
 void Uninit()
 {
 	//	シーンマネージャーの終了処理
-	//SceneManager::Uninit();
+	SceneManager::Uninit();
 
 	// DirectInputの終了処理
 	Input::Uninit();
@@ -403,7 +399,7 @@ void Update()
 	Input::GP_Update();
 	
 	//	シーンマネージャーの更新
-	//SceneManager::Update();
+	SceneManager::Update();
 
 }
 
@@ -418,13 +414,8 @@ void Draw()
 	// 描画バッチ命令の開始
 	pD3DDevice->BeginScene();
 
-	//!	3D背景の描画テスト　->　後で消す
-	Field::ActorDraw();
-	Field::PlaneDraw();
-	Camera::Set();
-
 	//	シーンマネージャーの描画処理
-	//SceneManager::Draw();
+	SceneManager::Draw();
 
 	// 描画バッチ命令の終了
 	pD3DDevice->EndScene();

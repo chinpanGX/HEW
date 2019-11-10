@@ -140,6 +140,8 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="DebugCamera.h" />
+    <ClInclude Include="debugproc.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="Model.h" />
@@ -147,6 +149,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="SceneDebug.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Sound.h" />
@@ -158,11 +161,14 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="DebugCamera.cpp" />
+    <ClCompile Include="debugproc.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="SceneDebug.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Sound.cpp" />
