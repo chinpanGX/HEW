@@ -60,46 +60,19 @@ void Light::Init()
 	// ライトを有効に
 	light->pDevice->LightEnable(1, TRUE);	//ライトの数
 
-#if 0
-	// D3DLIGHT9構造体を0でクリアする
-	ZeroMemory(&g_aLight[2], sizeof(D3DLIGHT9));
-
-	// ライト2のタイプの設定
-	g_aLight[2].Type = D3DLIGHT_DIRECTIONAL;
-
-	// ライト2の拡散光の設定
-	g_aLight[2].Diffuse = D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.0f);
-
-	// ライト2の鏡面反射光の設定
-	g_aLight[2].Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f);
-
-    // ライト2の方向の設定
-	light->vecDir = D3DXVECTOR3(0.80f, 0.10f, 0.40f);
-	D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[2].Direction, &light->vecDir);
-
-	// ライト2をレンダリングパイプラインに設定
-	light->pDevice->SetLight(2, &g_aLight[2]);
-
-	// ライト2を有効に
-	light->pDevice->LightEnable(2, TRUE);
-
-#endif
 	// ライティングモード有効…シェーディング処理
 	light->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
-//=============================================================================
 // ライトの終了処理
-//=============================================================================
 void Light::Uninit()
 {
 	delete light;
 }
 
-//=============================================================================
 // ライトの更新処理
-//=============================================================================
-void Light_Update(void)
+void Light::Update()
 {
 }
+
 

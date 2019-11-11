@@ -333,4 +333,45 @@ BOOL Input::GP_IsTrigger(int padNo, DWORD button)
 	return (button & g_padTrigger[padNo]);
 }
 
-
+//bool Input::Mouse_Init(HINSTANCE hInstance, HWND hWnd)
+//{
+//	if (!Init(hInstance))
+//	{
+//
+//		MessageBox(hWnd, "DirectInputオブジェクトが作れねぇ！", "警告！", MB_ICONWARNING);
+//		return false;
+//	}
+//
+//	if (FAILED(g_pInput->CreateDevice(GUID_SysKeyboard, &g_pDevKeyboard, NULL)))
+//	{
+//		MessageBox(hWnd, "マウスがねぇ！", "警告！", MB_ICONWARNING);
+//		return false;
+//	}
+//
+//	if (FAILED(g_pDevKeyboard->SetDataFormat(&c_dfDIKeyboard)))
+//	{
+//		MessageBox(hWnd, "マウスのデータフォーマットを設定できませんでした。", "警告！", MB_ICONWARNING);
+//		return false;
+//	}
+//	//													 DISCL_BACKGROUND | DISCL_EXCLUSIVE	
+//	if (FAILED(g_pDevKeyboard->SetCooperativeLevel(hWnd, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE))))
+//	{
+//		MessageBox(hWnd, "マウスの協調モードを設定できませんでした。", "警告！", MB_ICONWARNING);
+//		return false;
+//	}
+//
+//	g_pDevKeyboard->Acquire();
+//
+//	return true;
+//}
+//
+//void Input::Mouse_Update()
+//{
+//}
+//
+//bool Input::Mouse_IsTrigger(int nMouse)
+//{
+//	return false;
+//}
+//
+//

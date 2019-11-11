@@ -30,6 +30,7 @@ void DebugCamera::Uninit()
 	delete g_camera;
 }
 
+//# ƒJƒƒ‰‚ÌXVˆ—
 void DebugCamera::Update()
 {
 	if(Input::KB_IsPress(DIK_W))

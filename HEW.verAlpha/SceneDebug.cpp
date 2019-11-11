@@ -16,6 +16,7 @@
 #include "Field.h"
 #include "debugproc.h"
 
+//# デバッグシーンの初期化 
 void SceneDebug::Init()
 {
 	DebugCamera::Init();
@@ -24,6 +25,7 @@ void SceneDebug::Init()
 	DebugProc_Initialize();
 }
 
+//# デバッグシーンの終了処理
 void SceneDebug::Uninit()
 {
 	Field::Uninit();
@@ -32,12 +34,13 @@ void SceneDebug::Uninit()
 	DebugProc_Finalize();
 }
 
+//# デバッグシーンの更新処理
 void SceneDebug::Update()
 {
-	DebugProc_Update();
 	DebugCamera::Update();
 }
 
+//# デバッグシーンの描画処理
 void SceneDebug::Draw()
 {
 	DebugProc_Draw();
