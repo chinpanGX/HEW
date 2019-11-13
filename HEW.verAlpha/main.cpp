@@ -9,7 +9,11 @@
 #include "main.h"
 #include "input.h"
 #include "camera.h"
+#include "light.h"
 #include <time.h>
+#include "SceneManager.h"
+#include "Field.h"
+#include "DebugCamera.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -31,7 +35,7 @@
 static	HWND g_hWnd;								// ウィンドウハンドル
 bool	g_bDispDebug = true;						// デバッグ表示ON/OFF
 static	LPDIRECT3D9			g_pD3D = NULL;          // Direct3Dインターフェース
-static	 LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;	// Direct3Dデバイス
+static	LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;	// Direct3Dデバイス
 
 
 //#	プロトタイプ宣言
@@ -366,8 +370,8 @@ bool Init(HINSTANCE hInst)
 		return false;
 	}
 
-	// カメラの初期化処理
-	Camera::Init();
+	//	シーンマネージャーの初期化処理
+	SceneManager::Init();
 
 	return true;
 }
@@ -375,8 +379,8 @@ bool Init(HINSTANCE hInst)
 //#　終了処理関数
 void Uninit()
 {
-	// カメラの終了処理
-	Camera::Uninit();
+	//	シーンマネージャーの終了処理
+	SceneManager::Uninit();
 
 	// DirectInputの終了処理
 	Input::Uninit();
@@ -393,6 +397,9 @@ void Update()
 
 	//ゲームパッドの状態を更新する
 	Input::GP_Update();
+	
+	//	シーンマネージャーの更新
+	SceneManager::Update();
 
 }
 
@@ -407,9 +414,8 @@ void Draw()
 	// 描画バッチ命令の開始
 	pD3DDevice->BeginScene();
 
-
-	// カメラの設定
-	Camera::Set();
+	//	シーンマネージャーの描画処理
+	SceneManager::Draw();
 
 	// 描画バッチ命令の終了
 	pD3DDevice->EndScene();

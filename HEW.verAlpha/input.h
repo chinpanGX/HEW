@@ -72,6 +72,11 @@ private:
 	static DWORD				g_padTrigger[GAMEPADMAX];							//	パッド情報(押した瞬間)
 	static int					g_padCount;											//　検出したパッドの数
 
+	//# マウス
+	/*static LPDIRECTINPUTDEVICE8 g_pMouse;
+	static DIMOUSESTATE2		g_pMouseState;
+	static BYTE                 g_pMouseTrigger;*/
+
 public:
 	//#	キーボード
 	static bool KB_Init(HINSTANCE hInstance, HWND hWnd);							//	キーボードの初期化処理
@@ -88,4 +93,10 @@ public:
 	static void GP_Update();														//	ゲームパッドの更新処理
 	static BOOL GP_IsPress(int padNo, DWORD button);								//	ゲームパッドのボタンを押している間
 	static BOOL GP_IsTrigger(int padNo, DWORD button);								//	ゲームパッドのボタンを押した瞬間
+
+	//# マウス
+	/*static bool Mouse_Init(HINSTANCE hInstance, HWND hWnd);
+	static void Mouse_Update();
+	static bool Mouse_IsTrigger(int nMouse);*/
+
 };

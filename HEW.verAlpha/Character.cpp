@@ -1,19 +1,29 @@
 /*============================================
 
 	[Character.cpp]
-	Author :
+	Author :Å@
 
 =============================================*/
 
 #include "Character.h"
 
+void Character::Init()
+{
+	
 
+}
 
-Character::Character()
+void Character::Uninit()
+{
+	
+}
+
+void Character::Update()
 {
 }
 
-
-Character::~Character()
+void Character::Draw()
 {
+
 }
+

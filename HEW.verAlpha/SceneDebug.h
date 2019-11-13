@@ -1,16 +1,16 @@
-/*==================================
+/*==============================================
 
-	[SceneGame.h]
+	[SceneDebug.h]
 	Author : 出合翔太
 
-===================================*/
+==============================================*/
 
 #pragma once
 #include "main.h"
 #include "SceneBase.h"
 
-//#	SceneGameクラス:親クラス,SceneBaseを継承した子クラス
-class SceneGame:public SceneBase
+//# SceneDebug : 親クラスSceneBase
+class SceneDebug: public SceneBase
 {
 public:
 	//SceneBaseのメンバー関数のオーバーライド
