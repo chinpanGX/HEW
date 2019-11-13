@@ -7,9 +7,9 @@
 #define	NUM_LIGHT		(3)		// ライトの数(9コまで)
 
 // グローバル変数
-D3DLIGHT9 g_aLight[NUM_LIGHT];		// ライト情報
-LPDIRECT3DDEVICE9 Light::pDevice;
-D3DXVECTOR3 Light::vecDir;
+D3DLIGHT9 g_aLight[NUM_LIGHT];		//	ライト情報
+LPDIRECT3DDEVICE9 Light::pDevice;	//	デバイスの取得
+D3DXVECTOR3 Light::vecDir;			//	ライトの方向
 
 // ライトの初期化処理
 void Light::Init()
@@ -68,7 +68,7 @@ void Light::Init()
 // ライトの終了処理
 void Light::Uninit()
 {
-	
+	DEVICE_RELEASE(pDevice);
 }
 
 // ライトの更新処理
