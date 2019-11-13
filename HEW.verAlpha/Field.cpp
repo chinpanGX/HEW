@@ -18,7 +18,7 @@ D3DXMATRIX				Field::g_mtxWorldField;			//	ワールドマトリックス
 D3DXVECTOR3				Field::g_posField;				//	地面の位置
 D3DXVECTOR3				Field::g_rotField;				//	地面の向き(回転)
 D3DXVECTOR3				Field::g_sclField;				//	地面の大きさ	
-LPDIRECT3DDEVICE9		Field::pDevice;				// デバイス取得用変数
+LPDIRECT3DDEVICE9		Field::pDevice;					// デバイス取得用変数
 
 //	フィールドの初期化
 HRESULT Field::Init()
@@ -100,6 +100,7 @@ HRESULT Field::MakeVertexField(LPDIRECT3DDEVICE9 pDevice)
 		pVtx[3].pos = D3DXVECTOR3(100, -100, 100);
 		pVtx[4].pos = D3DXVECTOR3(100, -100, -100);
 		pVtx[5].pos = D3DXVECTOR3(-100, -100, -100);
+		
 		//法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -107,6 +108,7 @@ HRESULT Field::MakeVertexField(LPDIRECT3DDEVICE9 pDevice)
 		pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		pVtx[4].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		pVtx[5].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		
 		//頂点カラーの設定
 		pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -114,7 +116,6 @@ HRESULT Field::MakeVertexField(LPDIRECT3DDEVICE9 pDevice)
 		pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		pVtx[4].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		pVtx[5].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
 
 		//テクスチャ座標の設定
 		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
