@@ -7,28 +7,25 @@
 
 #include "SceneDebug.h"
 #include "SceneManager.h"
-#include "input.h"
-#include "XFile.h"
-#include "Model.h"
 #include "main.h"
 #include "DebugCamera.h"
 #include "light.h"
-#include "Field.h"
 #include "debugproc.h"
+#include "Map.h"
 
 //# デバッグシーンの初期化 
 void SceneDebug::Init()
 {
 	DebugCamera::Init();
 	Light::Init();
-	Field::Init();
+	Map::Init();
 	DebugProc_Initialize();
 }
 
 //# デバッグシーンの終了処理
 void SceneDebug::Uninit()
 {
-	Field::Uninit();
+	Map::Uninit();
 	Light::Uninit();
 	DebugCamera::Uninit();
 	DebugProc_Finalize();
@@ -44,7 +41,6 @@ void SceneDebug::Update()
 void SceneDebug::Draw()
 {
 	DebugProc_Draw();
-	Field::ActorDraw();
-	Field::PlaneDraw();
+	Map::Draw();
 	DebugCamera::Set();
 }

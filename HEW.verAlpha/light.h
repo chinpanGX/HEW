@@ -6,8 +6,8 @@
 class Light
 {
 private:
-	LPDIRECT3DDEVICE9 pDevice;
-	D3DXVECTOR3 vecDir;
+	static LPDIRECT3DDEVICE9 pDevice;
+	static D3DXVECTOR3 vecDir;
 public:
 	static void Init();
 	static void Uninit();

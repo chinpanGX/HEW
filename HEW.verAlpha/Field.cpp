@@ -5,79 +5,50 @@
 
 ===========================================================*/
 
-#include <map>
 #include "main.h"
 #include "Field.h"
-#include "Model.h"
-#include "XFile.h"
 
 //	マクロ定義
-#define FILELIST 1	//	読み込むファイルの数
 #define POLYGON_NUM 2
 #define VERTEX_NUM 6
 
 //	グローバル変数
-Model *Field::Actor[ACTOR_NUM];
-extern std::map<std::string, XFile *>g_pXFileList;
 LPDIRECT3DVERTEXBUFFER9 Field::g_pVtxBuffField = NULL;	//	頂点バッファへのポインタ
 D3DXMATRIX				Field::g_mtxWorldField;			//	ワールドマトリックス
 D3DXVECTOR3				Field::g_posField;				//	地面の位置
 D3DXVECTOR3				Field::g_rotField;				//	地面の向き(回転)
 D3DXVECTOR3				Field::g_sclField;				//	地面の大きさ	
-Field *g_field = new Field;
+LPDIRECT3DDEVICE9		Field::pDevice;				// デバイス取得用変数
 
-//	マップの初期化
+//	フィールドの初期化
 HRESULT Field::Init()
 {
-	g_field->pDevice = GetD3DDevice();
-
+	pDevice = GetD3DDevice();
 	// 頂点情報の作成
-	MakeVertexField(g_field->pDevice);
+	MakeVertexField(pDevice);
 
 	// 位置・回転・スケールの初期設定
 	g_posField = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_rotField = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_sclField = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	//!	XFlieのロード処理
-	// 読み込みファイル名リスト
-	std::string file_name_list[] =
-	{
-		"asset/model/ri.x",
-	};
-
-	// XFile読み込み
-	for (int i = 0; i < FILELIST; i++)
-	{
-		g_pXFileList[file_name_list[i]] = new XFile();
-		g_pXFileList[file_name_list[i]]->Load(file_name_list[i]);
-	}
-
 	return S_OK;
 }
 
+//	フィールドの終了処理
 void Field::Uninit()
 {
-	delete Actor[0];
+	DEVICE_RELEASE(pDevice);
+	DEVICE_RELEASE(g_pVtxBuffField);
 }
 
-void Field::ActorDraw()
+//	フィールドの描画
+void Field::Draw()
 {
-	//	3Dモデルの描画
-	Actor[0] = new Model(
-		D3DXVECTOR3(0.0f, 0.0f, -10.0f),
-		D3DXVECTOR3(1.0f, 1.0f, 1.0f),
-		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
-		g_pXFileList["asset/model/ri.x"]);
-
-	Actor[0]->Draw();
-}
-
-void Field::PlaneDraw()
-{
-	g_field->pDevice = GetD3DDevice();
+	pDevice = GetD3DDevice();
 
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
+	
 	//	ワールド変換（ワールドマトリクスの初期化）
 	D3DXMatrixIdentity(&g_mtxWorldField);
 	D3DXMatrixScaling(&mtxScl, g_sclField.x, g_sclField.y, g_sclField.z);
@@ -86,20 +57,21 @@ void Field::PlaneDraw()
 	D3DXMatrixMultiply(&g_mtxWorldField, &g_mtxWorldField, &mtxRot);
 	D3DXMatrixTranslation(&mtxTranslate, g_posField.y, g_posField.x, g_posField.z);
 	D3DXMatrixMultiply(&g_mtxWorldField, &g_mtxWorldField, &mtxTranslate);
+	
 	// ワールドマトリクスの設定
-	g_field->pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldField);
+	pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldField);
 
 	//	頂点バッファをデバイスのデータストリームにバインド
-	g_field->pDevice->SetStreamSource(0, g_pVtxBuffField, 0, sizeof(VERTEX_3D));
+	pDevice->SetStreamSource(0, g_pVtxBuffField, 0, sizeof(VERTEX_3D));
 
 	//	頂点フォーマットの設定
-	g_field->pDevice->SetFVF(FVF_VERTEX_3D);
+	pDevice->SetFVF(FVF_VERTEX_3D);
 
 	//テクスチャの設定
-	//g_field->pDevice->SetTexture(0, Texture_GetTexture(TEXTURE_INDEX_FIELD03));
+	//pDevice->SetTexture(0, Texture_GetTexture(TEXTURE_INDEX_FIELD03));
 
 	//	自分で作った頂点バッファを描画（メモリの確保、解放をしなければならない→遅くなる）
-	g_field->pDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, POLYGON_NUM);
+	pDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, POLYGON_NUM);
 
 }
 

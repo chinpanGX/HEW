@@ -7,13 +7,13 @@
 #define	NUM_LIGHT		(3)		// ライトの数(9コまで)
 
 // グローバル変数
-Light *light = new Light;
 D3DLIGHT9 g_aLight[NUM_LIGHT];		// ライト情報
+LPDIRECT3DDEVICE9 Light::pDevice;
 
 // ライトの初期化処理
 void Light::Init()
 {
-	light->pDevice = GetD3DDevice();		//デバイスの取得
+	pDevice = GetD3DDevice();		//デバイスの取得
 	
 	// D3DLIGHT9構造体を0でクリアする
 	ZeroMemory(&g_aLight[0], sizeof(D3DLIGHT9));
@@ -28,14 +28,14 @@ void Light::Init()
 	g_aLight[0].Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// ライトの方向の設定
-	light->vecDir = D3DXVECTOR3(0.20f, -0.80f, 0.40f);
-	D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[0].Direction, &light->vecDir);
+	vecDir = D3DXVECTOR3(0.20f, -0.80f, 0.40f);
+	D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[0].Direction, &vecDir);
 
 	// ライトをレンダリングパイプラインに設定
-	light->pDevice->SetLight(0, &g_aLight[0]);
+	pDevice->SetLight(0, &g_aLight[0]);
 
 	// ライトを有効に
-	light->pDevice->LightEnable(0, TRUE);
+	pDevice->LightEnable(0, TRUE);
 
 
 	// D3DLIGHT9構造体を0でクリアする
@@ -51,7 +51,7 @@ void Light::Init()
 	g_aLight[1].Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f);
 
     // ライトの方向の設定
-	light->vecDir = D3DXVECTOR3(-0.20f, 1.00f, -0.50f);
+	vecDir = D3DXVECTOR3(-0.20f, 1.00f, -0.50f);
 	D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[1].Direction, &light->vecDir);
 
 	// ライトをレンダリングパイプラインに設定
@@ -67,7 +67,7 @@ void Light::Init()
 // ライトの終了処理
 void Light::Uninit()
 {
-	delete light;
+	
 }
 
 // ライトの更新処理
