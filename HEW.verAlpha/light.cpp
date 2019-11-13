@@ -9,6 +9,7 @@
 // グローバル変数
 D3DLIGHT9 g_aLight[NUM_LIGHT];		// ライト情報
 LPDIRECT3DDEVICE9 Light::pDevice;
+D3DXVECTOR3 Light::vecDir;
 
 // ライトの初期化処理
 void Light::Init()
@@ -52,16 +53,16 @@ void Light::Init()
 
     // ライトの方向の設定
 	vecDir = D3DXVECTOR3(-0.20f, 1.00f, -0.50f);
-	D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[1].Direction, &light->vecDir);
+	D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[1].Direction, &vecDir);
 
 	// ライトをレンダリングパイプラインに設定
-	light->pDevice->SetLight(1, &g_aLight[1]);
+	pDevice->SetLight(1, &g_aLight[1]);
 
 	// ライトを有効に
-	light->pDevice->LightEnable(1, TRUE);	//ライトの数
+	pDevice->LightEnable(1, TRUE);	//ライトの数
 
 	// ライティングモード有効…シェーディング処理
-	light->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
 // ライトの終了処理
