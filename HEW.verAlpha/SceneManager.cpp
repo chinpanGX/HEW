@@ -19,7 +19,7 @@ LPDIRECT3DDEVICE9	SceneManager::p3DDevice;
 void SceneManager::Init()
 {
 	p3DDevice = GetD3DDevice();	//	デバイスの取得
-	scene[0] = new SceneDebug;	//	シーンのインスタンス生成
+	scene[0] = new SceneDebug;	//	デバッグシーンのインスタンス生成
 	scenestate = SCENE_DEBUG;	//	初期シーンの設定
 	scene[scenestate]->Init();	//	初期シーンの初期化
 }
@@ -28,7 +28,7 @@ void SceneManager::Init()
 void SceneManager::Uninit()
 {
 	scene[0]->Uninit();
-	delete scene[0];
+	delete scene[0];		//	メモリ解放
 }
 
 //	更新処理
@@ -52,6 +52,7 @@ void SceneManager::ChangeSceneState()
 {
 	switch (scenestate)
 	{
+	//!	デバッグ用シーン
 	case SCENE_DEBUG:
 		scene[scenestate]->Uninit();
 	case SCENE_GAME:

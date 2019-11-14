@@ -50,7 +50,7 @@ void Camera::Set()
 	D3DXMatrixLookAtLH(&g_camera->mtxView,
 		&g_camera->posV,		// カメラの視点
 		&g_camera->posR,		// カメラの注視点
-		&g_camera->vecU);	// カメラの上方向ベクトル
+		&g_camera->vecU);		// カメラの上方向ベクトル
 
 	// ビューマトリックスの設定
 	g_camera->pDevice->SetTransform(D3DTS_VIEW, &g_camera->mtxView);
