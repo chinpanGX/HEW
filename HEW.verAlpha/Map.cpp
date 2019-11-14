@@ -24,6 +24,7 @@ void Map::Init()
 	std::string file_name_list[] =
 	{
 		"asset/model/ri.x",
+		"asset/modeldai.x",
 	};
 
 	// XFile“Ç‚Ýž‚Ý
@@ -47,9 +48,11 @@ void Map::Uninit()
 void Map::Draw()
 {
 	//	3Dƒ‚ƒfƒ‹‚Ì•`‰æ
-	Actor[0] = new Model(D3DXVECTOR3(0.0f, 0.0f, -10.0f),D3DXVECTOR3(1.0f, 1.0f, 1.0f),D3DXVECTOR3(0.0f, 0.0f, 0.0f),g_pXFileList["asset/model/ri.x"]);
+	Actor[0] = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f),D3DXVECTOR3(1.0f, 1.0f, 1.0f),D3DXVECTOR3(0.0f, 0.0f, 0.0f),g_pXFileList["asset/model/dai.x"]);
 	Actor[0]->Draw();
 
+	Actor[1] = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/ri.x"]);
+	Actor[1]->Draw();
 
 	pField[0]->Draw();
 }
