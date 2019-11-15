@@ -153,8 +153,12 @@
     <ClInclude Include="SceneDebug.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneResult.h" />
+    <ClInclude Include="SceneTitle.h" />
+    <ClInclude Include="SceneTutorial.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="sprite.h" />
+    <ClInclude Include="SceneModeSelect.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="XFile.h" />
   </ItemGroup>
@@ -173,8 +177,12 @@
     <ClCompile Include="SceneDebug.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneResult.cpp" />
+    <ClCompile Include="SceneTitle.cpp" />
+    <ClCompile Include="SceneTutorial.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="sprite.cpp" />
+    <ClCompile Include="SceneModeSelect.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="XFile.cpp" />
   </ItemGroup>
