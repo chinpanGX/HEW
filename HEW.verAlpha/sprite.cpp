@@ -15,9 +15,8 @@
 #include "sprite.h"
 
 //VERTEX2Dクラス
-class VERTEX2D
+ struct VERTEX2D
 {
-public:
 	//メンバ変数
     D3DXVECTOR4 position;	//ポリゴンの座標
 	D3DCOLOR	color;		//ポリゴンの色

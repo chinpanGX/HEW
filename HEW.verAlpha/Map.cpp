@@ -15,7 +15,6 @@
 //	グローバル変数
 extern std::map<std::string, XFile *>g_pXFileList;
 Model *Map::Actor[ACTOR_NUM];		//	Model型ポインタ配列
-Field *Map::pField[1];				//	Field型ポインタ
 
 void Map::Init()
 {
@@ -34,14 +33,10 @@ void Map::Init()
 		g_pXFileList[file_name_list[i]]->Load(file_name_list[i]);
 	}
 	
-	pField[0] = new Field;
-
-	pField[0]->Init();
 }
 
 void Map::Uninit()
 {
-	delete pField[0];
 	delete Actor[0];
 }
 
@@ -54,5 +49,4 @@ void Map::Draw()
 	Actor[1] = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/ri.x"]);
 	Actor[1]->Draw();
 
-	pField[0]->Draw();
 }
