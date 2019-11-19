@@ -9,11 +9,11 @@
 #include "main.h"
 
 //#	SceneBaseクラス : 親クラス
-/*	シーンの管理をするクラス　*/
+
 class SceneBase
 {
 public:
-	//仮想関数指定
+	//純粋仮想関数指定
 	virtual ~SceneBase() {};	//	デストラクタ
 	virtual void Init() = 0;	//	初期化処理
 	virtual void Uninit() = 0;	//	終了処理
