@@ -9,14 +9,14 @@
 #include "Model.h"
 
 //	マクロ定義
-#define ACTOR_NUM 1	// 3Dモデルの数
+#define ACTOR_NUM 3	// 3Dモデルの数
 
 //# Fieldクラス
 /* ゲームの背景の描画をするクラス */
 class Field
 {
 private:
-	static Model *Actor[ACTOR_NUM];					//	Model型ポインタ配列
+	static Model *Actor[ACTOR_NUM];							//	Model型ポインタ配列
 	static LPDIRECT3DVERTEXBUFFER9	g_pVtxBuffField;		// 頂点バッファへのポインタ
 	static D3DXMATRIX				g_mtxWorldField;		// ワールドマトリックス
 	LPDIRECT3DDEVICE9				pDevice;				// デバイス取得用変数

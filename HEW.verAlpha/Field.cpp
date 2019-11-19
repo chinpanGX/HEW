@@ -12,7 +12,7 @@
 #include "XFile.h"
 
 //	マクロ定義
-#define FILELIST 1	//	読み込むファイルの数
+#define FILELIST 2	//	読み込むファイルの数
 #define POLYGON_NUM 2
 #define VERTEX_NUM 6
 
@@ -44,6 +44,7 @@ HRESULT Field::Init()
 	std::string file_name_list[] =
 	{
 		"asset/model/ri.x",
+		"asset/model/dai.x",
 	};
 
 	// XFile読み込み
@@ -59,18 +60,27 @@ HRESULT Field::Init()
 void Field::Uninit()
 {
 	delete Actor[0];
+	/*delete Actor[1];*/
 }
 
 void Field::ActorDraw()
 {
 	//	3Dモデルの描画
-	Actor[0] = new Model(
+	/*Actor[0] = new Model(
 		D3DXVECTOR3(0.0f, 0.0f, -10.0f),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f),
 		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 		g_pXFileList["asset/model/ri.x"]);
 
-	Actor[0]->Draw();
+	Actor[0]->Draw();*/
+
+	Actor[1] = new Model(
+		D3DXVECTOR3(0.0f, 0.0f, -10.0f),
+		D3DXVECTOR3(30.0f, 30.0f, 30.0f),
+		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+		g_pXFileList["asset/model/dai.x"]);
+
+	Actor[1]->Draw();
 }
 
 void Field::PlaneDraw()
