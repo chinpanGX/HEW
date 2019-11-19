@@ -84,7 +84,7 @@ void SceneManager::ChangeSceneState()
 		scene[scenestate]->Init();
 	case SCENE_MODESELECT:
 		scene[scenestate]->Uninit();
-		scene[scenestate]->Init()@;
+		scene[scenestate]->Init();
 	case SCENE_TUTORIAL:
 		scene[scenestate]->Uninit();
 	case SCENE_GAME:

@@ -1,5 +1,11 @@
-#pragma once
+/*==================================
 
+	[light.h]
+	Author : o‡ãÄ‘¾
+
+==================================*/
+
+#pragma once
 #include "main.h"
 
 //LightƒNƒ‰ƒX
