@@ -53,8 +53,12 @@ typedef struct
 /*　シーンの状態管理変数　*/
 enum SCENE_STATE
 {
-	SCENE_DEBUG,
-	SCENE_GAME
+	SCENE_TITLE,		//	タイトルっシーン
+	SCENE_MODESELECT,	//	モードセレクトシーン
+	SCENE_TUTORIAL,		//	チュートリアルシーン
+	SCENE_GAME,			//	ゲームシーン
+	SCENE_RESULT,		//	リザルトシーン
+	SCENE_DEBUG			//!	デバッグ用シーン…マスター版→消去　
 };
 
 //　プロトタイプ宣言

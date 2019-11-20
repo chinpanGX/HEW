@@ -12,7 +12,6 @@
 #include "light.h"
 #include <time.h>
 #include "SceneManager.h"
-#include "Field.h"
 #include "DebugCamera.h"
 
 #define _USE_MATH_DEFINES
