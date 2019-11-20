@@ -10,7 +10,7 @@
 #include "Map.h"
 
 //	マクロ定義
-#define FILELIST 1	//	読み込むファイルの数
+#define FILELIST 2	//	読み込むファイルの数
 
 //	グローバル変数
 extern std::map<std::string, XFile *>g_pXFileList;
@@ -23,7 +23,7 @@ void Map::Init()
 	std::string file_name_list[] =
 	{
 		"asset/model/ri.x",
-		"asset/modeldai.x",
+		"asset/model/dai.x",
 	};
 
 	// XFile読み込み
