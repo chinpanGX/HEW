@@ -14,7 +14,7 @@
 class TitleCamera :public Camera
 {
 private:
-	static D3DXVECTOR3 m_Velocity;
+	static D3DXVECTOR3 m_Velocity;	//	カメラの移動速度
 public:
 	void Init();	//	カメラの初期化
 	void Uninit();	//	カメラの終了処理

@@ -37,7 +37,7 @@ void Map::Init()
 
 void Map::Uninit()
 {
-	delete Actor[0];
+	delete Actor[0];	//!	呼び出すとXFileのデストラクタで例外スロー発生
 }
 
 void Map::Draw()

@@ -31,7 +31,7 @@ XFile::~XFile()
 
 	// テクスチャファイル名リストの初期化
 	TextureNameList.clear();
-}
+}//! 例外スロー発生
 
 //	XFileのロード
 bool XFile::Load(std::string fliename)
