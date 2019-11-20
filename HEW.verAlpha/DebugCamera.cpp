@@ -26,7 +26,6 @@
 #define ROTATE_CAMERA	(D3DX_PI * 0.01f)
 #define CAMERADISTANCE	(1.0f)
 
-//	ƒOƒ[ƒoƒ‹•Ï”
 D3DXVECTOR3			DebugCamera::move;
 D3DXVECTOR3			DebugCamera::rot;
 float				DebugCamera::fDistance;

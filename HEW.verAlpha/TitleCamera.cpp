@@ -14,20 +14,13 @@ D3DXVECTOR3			Camera::vecU;
 D3DXMATRIX			Camera::mtxProjection;
 D3DXMATRIX			Camera::mtxView;
 LPDIRECT3DDEVICE9	Camera::pDevice;
-
-TitleCamera::TitleCamera()
-{
-
-}
-
-TitleCamera::~TitleCamera()
-{
-
-}
+D3DXVECTOR3			TitleCamera::m_Velocity;
 
 void TitleCamera::Init()
 {
+	m_Velocity = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	Camera::Init();
+	posV.y = -200.0f;
 }
 
 void TitleCamera::Uninit()
@@ -37,17 +30,16 @@ void TitleCamera::Uninit()
 
 void TitleCamera::Update()
 {
-	D3DXVECTOR3 Velocity(1.0,1.0,1.0);
-	posV.x += Velocity.x;
+	posV.x += m_Velocity.x;
 	if (posV.x > 100.0f)
 	{
 		posV.x = 100.0f;
-		Velocity *= -1;
+		m_Velocity *= -1;
 	}
 	else if(posV.x <-100.0f)
 	{
 		posV.x = -100.0f;
-		Velocity *= -1;
+		m_Velocity *= -1;
 	}
 }
 

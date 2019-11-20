@@ -6,18 +6,19 @@
 =================================================*/
 
 #pragma once
+#include "main.h"
 #include "Camera.h"
 
 //# TitleCameraクラス : 基底クラスCameraの派生 
-/*  */
+/* タイトルでマップを描画するためのカメラ */
 class TitleCamera :public Camera
 {
+private:
+	static D3DXVECTOR3 m_Velocity;
 public:
-	TitleCamera();
-	~TitleCamera();
-	void Init();
-	void Uninit();
-	void Update();
-	void Set();
+	void Init();	//	カメラの初期化
+	void Uninit();	//	カメラの終了処理
+	void Update();	//	カメラの更新処理
+	void Set();		//	カメラの設定
 };
 

@@ -23,9 +23,9 @@ LPDIRECT3DDEVICE9	SceneManager::p3DDevice;
 //	初期化処理
 void SceneManager::Init()
 {
-	p3DDevice = GetD3DDevice();			//	デバイスの取得
+	p3DDevice = GetD3DDevice();		//	デバイスの取得
 
-	//	メモリの確保
+	//	各シーンのメモリの確保
 	scene[0] = new SceneTitle;			
 	scene[1] = new SceneModeSelect;		
 	scene[2] = new SceneTutorial;		
@@ -33,8 +33,8 @@ void SceneManager::Init()
 	scene[4] = new SceneResult;
 	scene[5] = new SceneDebug;
 
-	scenestate = SCENE_DEBUG;			//	初期シーンの設定
-	scene[scenestate]->Init();			//	初期シーンの初期化
+	scenestate = SCENE_TITLE;			//	初期シーンの設定	main.hのenumで宣言しているオブジェクト名を設定
+	scene[scenestate]->Init();			//	初期シーンの初期化	設定したオブジェクト名のInit関数を呼び出す。
 }
 
 //	終了処理
@@ -60,17 +60,18 @@ void SceneManager::Uninit()
 //	更新処理
 void SceneManager::Update()
 {
+	//	Input関数を呼び出す
 	if (Input::GP_IsTrigger(0,BUTTON_2)) 
 	{
-		SceneManager::ChangeSceneState();
+		SceneManager::ChangeSceneState();	//	シーン遷移処理 -> 画面の切り替え
 	}
-	scene[scenestate]->Update();
+	scene[scenestate]->Update();	//	切り替えたシーンのUpdate関数を呼び出す
 }
 
 //	描画処理
 void SceneManager::Draw()
 {
-	scene[scenestate]->Draw();
+	scene[scenestate]->Draw();	//	各シーンのDraw関数を呼び出す。
 }
 
 //	シーン遷移処理
@@ -78,7 +79,7 @@ void SceneManager::ChangeSceneState()
 {
 	switch (scenestate)
 	{
-	/*case SCENE_TITLE:
+	case SCENE_TITLE:
 		scene[scenestate]->Uninit();
 		scenestate = SCENE_MODESELECT;
 		scene[scenestate]->Init();
@@ -90,7 +91,7 @@ void SceneManager::ChangeSceneState()
 	case SCENE_GAME:
 		scene[scenestate]->Uninit();
 	case SCENE_RESULT:
-		scene[scenestate]->Uninit();*/
+		scene[scenestate]->Uninit();
 	case SCENE_DEBUG:
 		scene[scenestate]->Uninit();
 	}
