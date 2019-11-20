@@ -19,7 +19,7 @@ Model *Map::Actor[ACTOR_NUM];		//	Model型ポインタ配列
 void Map::Init()
 {
 	//!	XFlieのロード処理
-		// 読み込みファイル名リスト
+	// 読み込みファイル名リスト
 	std::string file_name_list[] =
 	{
 		//"asset/model/ri.x",
