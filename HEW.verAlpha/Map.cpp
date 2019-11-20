@@ -43,7 +43,7 @@ void Map::Uninit()
 void Map::Draw()
 {
 	//	3Dƒ‚ƒfƒ‹‚Ì•`‰æ
-	Actor[0] = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f),D3DXVECTOR3(1.0f, 1.0f, 1.0f),D3DXVECTOR3(0.0f, 0.0f, 0.0f),g_pXFileList["asset/model/dai.x"]);
+	Actor[0] = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f),D3DXVECTOR3(15.0f, 15.0f, 15.0f),D3DXVECTOR3(0.0f, 0.0f, 0.0f),g_pXFileList["asset/model/dai.x"]);
 	Actor[0]->Draw();
 
 	Actor[1] = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/ri.x"]);
