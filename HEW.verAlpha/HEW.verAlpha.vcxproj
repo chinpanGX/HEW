@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{6235FC51-EDF3-4850-BAF2-54DED38B1711}</ProjectGuid>
     <RootNamespace>HEWverAlpha</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -145,7 +145,6 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="mondai.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="input.h" />
@@ -173,7 +172,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="mondai.cpp" />
     <ClCompile Include="SceneDebug.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
