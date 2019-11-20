@@ -81,6 +81,9 @@
     <ClInclude Include="SceneModeSelect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="mondai.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -144,6 +147,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="XFile.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="mondai.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

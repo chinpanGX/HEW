@@ -12,6 +12,7 @@
 #include "light.h"
 #include "debugproc.h"
 #include "Map.h"
+#include "mondai.h"
 
 //# デバッグシーンの初期化 
 void SceneDebug::Init()
@@ -20,6 +21,7 @@ void SceneDebug::Init()
 	Light::Init();
 	Map::Init();
 	DebugProc_Initialize();
+	//Mondai::Init();
 }
 
 //# デバッグシーンの終了処理
@@ -29,12 +31,14 @@ void SceneDebug::Uninit()
 	Light::Uninit();
 	DebugCamera::Uninit();
 	DebugProc_Finalize();
+	//Mondai::Uninit();
 }
 
 //# デバッグシーンの更新処理
 void SceneDebug::Update()
 {
 	DebugCamera::Update();
+	//Mondai::Update();
 }
 
 //# デバッグシーンの描画処理
@@ -43,4 +47,5 @@ void SceneDebug::Draw()
 	DebugProc_Draw();
 	Map::Draw();
 	DebugCamera::Set();
+	//Mondai::Draw();
 }
