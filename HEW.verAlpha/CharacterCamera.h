@@ -6,15 +6,17 @@
 =====================================================*/
 
 #pragma once
-#include "CameraBase.h"
+#include "main.h"
+#include "Camera.h"
 
-//#	CharacterCameraクラス
+//#	CharacterCameraクラス : 基底クラスCameraの派生
 /* キャラクターにつけるカメラ */
-class CharacterCamera :public CameraBase
+class CharacterCamera :public Camera
 {
 public:
 	void Init();
 	void Uninit();
+	void Update();
 	void Set();
 };
 

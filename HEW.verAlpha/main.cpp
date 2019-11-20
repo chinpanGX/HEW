@@ -8,11 +8,9 @@
 //#	インクルードファイル
 #include "main.h"
 #include "input.h"
-#include "camera.h"
-#include "light.h"
 #include <time.h>
 #include "SceneManager.h"
-#include "DebugCamera.h"
+
 
 #define _USE_MATH_DEFINES
 #include <math.h>
