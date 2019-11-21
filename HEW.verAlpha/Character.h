@@ -7,6 +7,7 @@ Author : hohman yuushi
 
 #pragma once
 #include "main.h"
+#include "CharacterCamera.h"
 
 
 //*****************************************************************************
@@ -19,6 +20,8 @@ float getRadian(float X1, float Y1, float X2, float Y2);
 	/* キャラクターの情報を管理するクラス　*/
 	class Character
 {
+private:
+	CharacterCamera *m_pCamera;
 public:
 	Character();
 	~Character();
