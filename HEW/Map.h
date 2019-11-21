@@ -18,8 +18,8 @@ class Map
 private:
 	Model *m_Actor[ACTOR_NUM];		//	Model型ポインタ配列
 public:
-	void Init();
-	void Uninit();
-	void Draw();
+	void Init();	//	初期化
+	void Uninit();	//	終了処理
+	void Draw();	//	描画
 };
 

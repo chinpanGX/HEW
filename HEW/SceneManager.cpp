@@ -78,7 +78,7 @@ void SceneManager::ChangeSceneState()
 {
 	switch (scenestate)
 	{
-	/*case SCENE_TITLE:
+	case SCENE_TITLE:
 		scene[scenestate]->Uninit();
 		scenestate = SCENE_MODESELECT;
 		scene[scenestate]->Init();
@@ -90,7 +90,7 @@ void SceneManager::ChangeSceneState()
 	case SCENE_GAME:
 		scene[scenestate]->Uninit();
 	case SCENE_RESULT:
-		scene[scenestate]->Uninit();*/
+		scene[scenestate]->Uninit();
 	case SCENE_DEBUG:
 		scene[scenestate]->Uninit();
 	}

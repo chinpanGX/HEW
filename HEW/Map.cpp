@@ -23,7 +23,7 @@ void Map::Init()
 	std::string file_name_list[] =
 	{
 		"asset/model/ri.x",
-		"asset/modeldai.x",
+		"asset/model/dai.x",
 	};
 
 	// XFile読み込み
@@ -34,7 +34,7 @@ void Map::Init()
 	}
 
 	//	インスタンス生成、メモリの動的確保 (引数：位置、大きさ、回転、読み込むファイル名)
-	m_Actor[0] = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 50.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/dai.x"]);
+	m_Actor[0] = new Model (D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/dai.x"]);
 }
 
 //	終了処理
@@ -42,7 +42,6 @@ void Map::Uninit()
 {
 	//	ヒープ領域のメモリを解放
 	delete m_Actor[0];
-	delete m_Actor[1];
 }
 
 //	描画処理
