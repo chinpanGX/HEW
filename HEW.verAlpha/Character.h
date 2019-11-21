@@ -1,25 +1,36 @@
 /*============================================
 
-	[Character.h]
-	Author : 
+[Character.h]
+Author : hohman yuushi
 
 =============================================*/
 
 #pragma once
-#include <d3d9.h>
-#include <d3dx9.h>
+#include "main.h"
+#include "CharacterCamera.h"
 
-//#	Characterクラス
-/* キャラクターの情報を管理するクラス　*/
-class Character
+
+//*****************************************************************************
+// プロトタイプ宣言
+//*****************************************************************************
+float getRadian(float X1, float Y1, float X2, float Y2);
+
+	//#	キャラクタークラス :　親クラス
+
+	/* キャラクターの情報を管理するクラス　*/
+	class Character
 {
 private:
-	
+	CharacterCamera *m_pCamera;
 public:
-	static void Init();
-	static void Uninit();
-	static void Update();
-	static void Draw();
-	
+	Character();
+	~Character();
+
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw();
 };
+
+
 

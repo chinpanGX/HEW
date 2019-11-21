@@ -6,7 +6,6 @@
 =========================================================*/
 
 #pragma once
-#include "Field.h"
 #include "Model.h"
 
 //	マクロ定義
@@ -18,7 +17,6 @@ class Map
 {
 private:
 	static Model *Actor[ACTOR_NUM];		//	Model型ポインタ配列
-	static Field *pField[1];				//	Field型ポインタ
 public:
 	static void Init();
 	static void Uninit();

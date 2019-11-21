@@ -20,7 +20,7 @@ void Model::Draw()
 	// ワールド座標行列作成
 	D3DXMATRIX world_matrix, trans_matrix, rot_matrix, scale_matrix;
 	D3DXMatrixIdentity(&world_matrix);
-	D3DXMatrixTranslation(&trans_matrix, position.x, position.y, position.z);
+	D3DXMatrixTranslation(&trans_matrix, position.x, position.y, position.z);	
 	D3DXMatrixScaling(&scale_matrix, scale.x, scale.y, scale.y);
 	world_matrix *= scale_matrix * trans_matrix;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &world_matrix);

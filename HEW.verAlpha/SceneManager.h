@@ -10,7 +10,7 @@
 #include "SceneBase.h"
 
 //マクロ定義
-#define SCENE_NUMBER 1	//	シーンの数	
+#define SCENE_NUMBER 6	//	シーンの数	
 
 //#	SceneManagerクラス
 class SceneManager

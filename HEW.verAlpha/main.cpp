@@ -8,12 +8,9 @@
 //#	インクルードファイル
 #include "main.h"
 #include "input.h"
-#include "camera.h"
-#include "light.h"
 #include <time.h>
 #include "SceneManager.h"
-#include "Field.h"
-#include "DebugCamera.h"
+
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -99,6 +96,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			}
 
 			//!	1フレームごとに実行（垂直同期を待たない）60FPSに固定　-> モニターによって実行速度の変化を防ぐ
+			//	60FPSで更新処理、描画処理を行う
 			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
 			{
 				dwExecLastTime = dwCurrentTime;
@@ -127,7 +125,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	//キーを押したとき
 	case WM_KEYDOWN:
-		if (wParam == VK_ESCAPE)//ESCキー 
+		if (wParam == VK_ESCAPE)//ESCキーでゲームを終了
 		{
 			SendMessage(hWnd, WM_CLOSE, 0, 0); // WM_CLOSEメッセージの送信
 		}

@@ -1,28 +1,44 @@
-/*======================================================
+/*===================================================
 
 	[SceneTitle.cpp]
 	Author : 出合翔太
 
-=======================================================*/
+====================================================*/
 
 #include "SceneTitle.h"
+#include <map>
+#include "main.h"
+#include "Map.h"
 
-// 初期化処理
+SceneTitle::SceneTitle()
+{
+	m_pTitleCamera = new TitleCamera;	
+}
+
+SceneTitle::~SceneTitle()
+{
+	delete m_pTitleCamera;
+}
+
 void SceneTitle::Init()
 {
+	m_pTitleCamera->Init();
+	Map::Init();
 }
 
-// 終了処理
 void SceneTitle::Uninit()
 {
+	m_pTitleCamera->Uninit();
+	Map::Uninit();
 }
 
-// 更新処理
 void SceneTitle::Update()
 {
+	m_pTitleCamera->Update();
 }
 
-// 描画処理
 void SceneTitle::Draw()
 {
+	m_pTitleCamera->Set();
+	Map::Draw();
 }

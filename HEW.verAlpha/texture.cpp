@@ -5,7 +5,7 @@
 
 ==================================*/
 
-//!	このソースコードは使わない！
+//!	このソースコードは使わない！ ->クラス化する
 
 //インクルードファイル
 #include <d3dx9.h>
@@ -16,9 +16,8 @@
 #define TEXTURE_FILENAME_MAX (64)	//ファイルの文字数
 
 //TEXTUREクラス
-class TEXTURE
+struct TEXTURE
 {
-public:
 	char filename[TEXTURE_FILENAME_MAX];	//ファイル名
 	int width;								//テクスチャの横幅
 	int height;								//テクスチャの縦幅
