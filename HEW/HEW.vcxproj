@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{6235FC51-EDF3-4850-BAF2-54DED38B1711}</ProjectGuid>
-    <RootNamespace>HEWverAlpha</RootNamespace>
+    <ProjectGuid>{E1159555-F0D3-437C-9C0F-88731565B773}</ProjectGuid>
+    <RootNamespace>HEW</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -138,33 +138,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraBase.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="CharacterCamera.h" />
-    <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="debugproc.h" />
-    <ClInclude Include="light.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="SceneDebug.h" />
-    <ClInclude Include="SceneGame.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SceneResult.h" />
-    <ClInclude Include="SceneTitle.h" />
-    <ClInclude Include="SceneTutorial.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="sprite.h" />
-    <ClInclude Include="SceneModeSelect.h" />
-    <ClInclude Include="texture.h" />
-    <ClInclude Include="TitleCamera.h" />
-    <ClInclude Include="XFile.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -176,18 +149,47 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="mondai.cpp" />
     <ClCompile Include="SceneDebug.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneModeSelect.cpp" />
     <ClCompile Include="SceneResult.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="SceneTutorial.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="sprite.cpp" />
-    <ClCompile Include="SceneModeSelect.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="TitleCamera.cpp" />
     <ClCompile Include="XFile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraBase.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterCamera.h" />
+    <ClInclude Include="DebugCamera.h" />
+    <ClInclude Include="debugproc.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="light.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="mondai.h" />
+    <ClInclude Include="SceneBase.h" />
+    <ClInclude Include="SceneDebug.h" />
+    <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneModeSelect.h" />
+    <ClInclude Include="SceneResult.h" />
+    <ClInclude Include="SceneTitle.h" />
+    <ClInclude Include="SceneTutorial.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="sprite.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="TitleCamera.h" />
+    <ClInclude Include="XFile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

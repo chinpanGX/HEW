@@ -12,33 +12,33 @@
 
 SceneTitle::SceneTitle()
 {
-	m_pTitleCamera = new TitleCamera;	
+
 }
 
 SceneTitle::~SceneTitle()
 {
-	delete m_pTitleCamera;
+
 }
 
 void SceneTitle::Init()
 {
-	m_pTitleCamera->Init();
+	m_TitleCamera.Init();
 	Map::Init();
 }
 
 void SceneTitle::Uninit()
 {
-	m_pTitleCamera->Uninit();
+	m_TitleCamera.Uninit();
 	Map::Uninit();
 }
 
 void SceneTitle::Update()
 {
-	m_pTitleCamera->Update();
+	m_TitleCamera.Update();
 }
 
 void SceneTitle::Draw()
 {
-	m_pTitleCamera->Set();
+	m_TitleCamera.Set();
 	Map::Draw();
 }
