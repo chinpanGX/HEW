@@ -3,6 +3,7 @@
 
 
 #include"main.h"
+
 #include"mondai.h"
 #include"texture.h"
 #include"input.h"

@@ -64,11 +64,11 @@ global
 static PlayerData g_Player;		//プレイヤーデータ
 static HWND hWnd;				//メッセージ表示に使用
 
-static int	g_LaneStatus;		//レーンステータス
-static int	g_count;			//問題数カウンタ
-static int	g_Q,g_A;			//正解番号格納、回答格納
+static int	g_LaneStatus;			//レーンステータス
+static int	g_count;				//問題数カウンタ
+static int	g_Q,g_A;				//正解番号格納、回答格納
 
-static float		tmp;		//SPEED一時保存
+static float		tmp;					//SPEED一時保存
 static float		radian;
 
 
