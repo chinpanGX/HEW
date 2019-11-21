@@ -12,7 +12,7 @@
 
 SceneTitle::SceneTitle()
 {
-	m_pTitleCamera = new TitleCamera;
+	m_pTitleCamera = new TitleCamera;	
 }
 
 SceneTitle::~SceneTitle()
