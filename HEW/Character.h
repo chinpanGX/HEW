@@ -21,7 +21,7 @@ float getRadian(float X1, float Y1, float X2, float Y2);
 	class Character
 {
 private:
-	CharacterCamera m_Camera;
+	CharacterCamera m_Camera;	//	キャラクターにつけるカメラのインスタンス
 public:
 	Character();
 	~Character();

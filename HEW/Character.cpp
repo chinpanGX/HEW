@@ -52,7 +52,7 @@ struct
 typedef struct
 {
 	D3DXVECTOR3 PPos;		//PlayerPoint(postion)
-	float		P_x, P_y;		//Playerにかかる移動量
+	float		P_x, P_y;	//Playerにかかる移動量
 	float		Speed;		//Playerの速度
 	int			Status;		//Playerの状態
 }PlayerData;
@@ -97,6 +97,8 @@ void Character::Init()
 
 	//メッセージで利用してるから
 	hWnd = GetHWND();
+
+
 }
 
 
