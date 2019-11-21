@@ -7,6 +7,7 @@
 
 #pragma once
 #include "main.h"
+#include "CameraBase.h"
 
 //　マクロ定義
 #define	CAM_POS_V_X		(0.0f)											// カメラの視点初期位置(X座標)
@@ -22,22 +23,23 @@
 
 //#	Cameraクラス
 /* カメラの設定を管理するクラス */
-class Camera
+class Camera : public CameraBase
 {
 protected:
 	//メンバ変数
-	static D3DXVECTOR3			posV;			// 視点（カメラの位置）
-	static D3DXVECTOR3			posR;			// 注視点（カメラはどこを見ているのか）
-	static D3DXVECTOR3			vecU;			// 上方向ベクトル（カメラの上方向はｙがプラス）座標は（０，１，０）
-	static D3DXMATRIX			mtxProjection;	// プロジェクションマトリックス
-	static D3DXMATRIX			mtxView;		// ビューマトリックス
-	static LPDIRECT3DDEVICE9	pDevice;		//　デバイスの取得用変数
+	D3DXVECTOR3			posV;			// 視点（カメラの位置）
+	D3DXVECTOR3			posR;			// 注視点（カメラはどこを見ているのか）
+	D3DXVECTOR3			vecU;			// 上方向ベクトル（カメラの上方向はｙがプラス）座標は（０，１，０）
+	D3DXMATRIX			mtxProjection;	// プロジェクションマトリックス
+	D3DXMATRIX			mtxView;		// ビューマトリックス
+	LPDIRECT3DDEVICE9	pDevice;		//　デバイスの取得用変数
 
 public:
 	//　メンバ関数
-	static void Init();			//カメラの初期化
-	static void Uninit();		//カメラの終了処理
-	static void Set();			//カメラの設定
+	virtual void Init();		//カメラの初期化
+	virtual void Uninit();		//カメラの終了処理
+	virtual void Update();
+	virtual void Set();			//カメラの設定
 };
 
 

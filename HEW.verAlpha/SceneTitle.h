@@ -7,11 +7,16 @@
 
 #pragma once
 #include "SceneBase.h"
+#include "TitleCamera.h"
+#include "Map.h"
 
 //	SCENETILEクラス
 /* タイトルシーンを管理するクラス */
 class SceneTitle : public SceneBase 
 {
+private:
+	TitleCamera m_Camera;
+	Map			m_Map;
 public:
 	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	

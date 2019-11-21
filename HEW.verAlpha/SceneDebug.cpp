@@ -16,31 +16,31 @@
 //# デバッグシーンの初期化 
 void SceneDebug::Init()
 {
-	DebugCamera::Init();
+	m_Camera.Init();
 	Light::Init();
-	Map::Init();
+	m_Map.Init();
 	DebugProc_Initialize();
 }
 
 //# デバッグシーンの終了処理
 void SceneDebug::Uninit()
 {
-	Map::Uninit();
+	m_Map.Uninit();
 	Light::Uninit();
-	DebugCamera::Uninit();
+	m_Camera.Uninit();
 	DebugProc_Finalize();
 }
 
 //# デバッグシーンの更新処理
 void SceneDebug::Update()
 {
-	DebugCamera::Update();
+	m_Camera.Update();
 }
 
 //# デバッグシーンの描画処理
 void SceneDebug::Draw()
 {
 	DebugProc_Draw();
-	Map::Draw();
-	DebugCamera::Set();
+	m_Map.Draw();
+	m_Camera.Set();
 }

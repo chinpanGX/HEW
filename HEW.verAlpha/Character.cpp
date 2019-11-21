@@ -77,13 +77,13 @@ static float		radian;
 -----------------------------------------*/
 Character::Character()
 {
-	m_pCamera = new CharacterCamera;
+	
 }
 
 
 Character::~Character()
 {
-	delete m_pCamera;
+	
 }
 
 

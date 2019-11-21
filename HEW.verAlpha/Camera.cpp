@@ -8,12 +8,6 @@
 #include "Camera.h"
 
 //#	グローバル変数
-D3DXVECTOR3			Camera::posV;			// 視点（カメラの位置）
-D3DXVECTOR3			Camera::posR;			// 注視点（カメラはどこを見ているのか）
-D3DXVECTOR3			Camera::vecU;			// 上方向ベクトル（カメラの上方向はｙがプラス）座標は（０，１，０）
-D3DXMATRIX			Camera::mtxProjection;	// プロジェクションマトリックス
-D3DXMATRIX			Camera::mtxView;		// ビューマトリックス
-LPDIRECT3DDEVICE9	Camera::pDevice;		//　デバイスの取得用変数
 
 //#	カメラの初期化
 void Camera::Init()
@@ -27,6 +21,10 @@ void Camera::Init()
 void Camera::Uninit()
 {
 	
+}
+
+void Camera::Update()
+{
 }
 
 //#	カメラの設定
