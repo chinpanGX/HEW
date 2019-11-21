@@ -9,15 +9,15 @@
 #include "main.h"
 #include "SceneBase.h"
 #include "DebugCamera.h"
+#include "Map.h"
 
 //# SceneDebug : 親クラスSceneBase
 class SceneDebug: public SceneBase
 {
-private:
-	DebugCamera *m_pDebugCamera;
+	DebugCamera m_Camera;
+	Map			m_Map;
 public:
-	SceneDebug();
-	~SceneDebug();
+	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理
 	void Update();	//	ゲームの更新処理

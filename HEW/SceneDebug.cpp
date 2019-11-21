@@ -12,51 +12,35 @@
 #include "light.h"
 #include "debugproc.h"
 #include "Map.h"
-#include "mondai.h"
-
-SceneDebug::SceneDebug()
-{
-	m_pDebugCamera = new DebugCamera;
-}
-
-SceneDebug::~SceneDebug()
-{
-	delete m_pDebugCamera;
-}
 
 //# デバッグシーンの初期化 
 void SceneDebug::Init()
 {
-	m_pDebugCamera->Init();
+	m_Camera.Init();
 	Light::Init();
-	Map::Init();
+	m_Map.Init();
 	DebugProc_Initialize();
-	//Mondai::Init();
 }
 
 //# デバッグシーンの終了処理
 void SceneDebug::Uninit()
 {
-	m_pDebugCamera->Uninit();
-	Map::Uninit();
+	m_Map.Uninit();
 	Light::Uninit();
+	m_Camera.Uninit();
 	DebugProc_Finalize();
-	//Mondai::Uninit();
 }
 
 //# デバッグシーンの更新処理
 void SceneDebug::Update()
 {
-	m_pDebugCamera->Update();
-	//Mondai::Update();
+	m_Camera.Update();
 }
 
 //# デバッグシーンの描画処理
 void SceneDebug::Draw()
 {
-	m_pDebugCamera->Set();
 	DebugProc_Draw();
-	Map::Draw();
-
-	//Mondai::Draw();
+	m_Map.Draw();
+	m_Camera.Set();
 }

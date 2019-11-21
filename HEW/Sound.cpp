@@ -9,11 +9,11 @@
 #include "Sound.h"
 
 //# グローバル変数
-IXAudio2 *Sound::g_pXAudio2 = NULL;									// XAudio2オブジェクトへのインターフェイス
-IXAudio2MasteringVoice *Sound::g_pMasteringVoice = NULL;			// マスターボイス
+IXAudio2 *Sound::g_pXAudio2 = NULL;								// XAudio2オブジェクトへのインターフェイス
+IXAudio2MasteringVoice *Sound::g_pMasteringVoice = NULL;		// マスターボイス
 IXAudio2SourceVoice *Sound::g_apSourceVoice[SOUND_LABEL_MAX] = {};	// ソースボイス
-BYTE *Sound::g_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
-DWORD Sound::g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
+BYTE *Sound::g_apDataAudio[SOUND_LABEL_MAX] = {};						// オーディオデータ
+DWORD Sound::g_aSizeAudio[SOUND_LABEL_MAX] = {};						// オーディオデータサイズ
 
 //# プロトタイプ宣言
 HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkDataPosition);

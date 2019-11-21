@@ -21,7 +21,7 @@ float getRadian(float X1, float Y1, float X2, float Y2);
 	class Character
 {
 private:
-	CharacterCamera *m_pCamera;
+	CharacterCamera m_Camera;
 public:
 	Character();
 	~Character();

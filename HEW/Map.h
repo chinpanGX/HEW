@@ -18,8 +18,8 @@ class Map
 private:
 	static Model *Actor[ACTOR_NUM];		//	Model型ポインタ配列
 public:
-	static void Init();
-	static void Uninit();
-	static void Draw();
+	void Init();
+	void Uninit();
+	void Draw();
 };
 

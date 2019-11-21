@@ -147,6 +147,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="mondai.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="input.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="mondai.cpp" />
     <ClCompile Include="SceneDebug.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
