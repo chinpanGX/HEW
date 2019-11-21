@@ -19,6 +19,14 @@
 #define	VIEW_NEAR_Z		(10.0f)											// ビュー平面のNearZ値	値より近いと描画しない
 #define	VIEW_FAR_Z		(10000.0f)										// ビュー平面のFarZ値	値より遠いと描画しない
 
+
+D3DXVECTOR3			Camera::posV;
+D3DXVECTOR3			Camera::posR;
+D3DXVECTOR3			Camera::vecU;
+D3DXMATRIX			Camera::mtxProjection;
+D3DXMATRIX			Camera::mtxView;
+LPDIRECT3DDEVICE9	Camera::pDevice;
+
 void Camera::Init()
 {
 	posV = D3DXVECTOR3(CAM_POS_V_X, CAM_POS_V_Y, CAM_POS_V_Z);	//	カメラ位置

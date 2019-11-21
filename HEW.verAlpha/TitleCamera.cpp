@@ -9,12 +9,6 @@
 #include "TitleCamera.h"
 
 //	スタティック変数
-D3DXVECTOR3			Camera::posV;
-D3DXVECTOR3			Camera::posR;
-D3DXVECTOR3			Camera::vecU;
-D3DXMATRIX			Camera::mtxProjection;
-D3DXMATRIX			Camera::mtxView;
-LPDIRECT3DDEVICE9	Camera::pDevice;
 D3DXVECTOR3			TitleCamera::m_Velocity;
 
 //	初期化
