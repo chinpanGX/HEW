@@ -16,7 +16,7 @@
 class Map
 {
 private:
-	static Model *Actor[ACTOR_NUM];		//	Model型ポインタ配列
+	Model *m_Actor[ACTOR_NUM];		//	Model型ポインタ配列
 public:
 	void Init();
 	void Uninit();

@@ -7,14 +7,24 @@
 #include "main.h"
 #include "Camera.h"
 
-//#	グローバル変数
+//　マクロ定義
+#define	CAM_POS_V_X		(0.0f)											// カメラの視点初期位置(X座標)
+#define	CAM_POS_V_Y		(100.0f)										// カメラの視点初期位置(Y座標)
+#define	CAM_POS_V_Z		(200.0f)										// カメラの視点初期位置(Z座標)
+#define	CAM_POS_R_X		(0.0f)											// カメラの注視点初期位置(X座標)
+#define	CAM_POS_R_Y		(0.0f)											// カメラの注視点初期位置(Y座標)
+#define	CAM_POS_R_Z		(0.0f)											// カメラの注視点初期位置(Z座標)
+#define	VIEW_ANGLE		(D3DXToRadian(45.0f))							// ビュー平面の視野角
+#define	VIEW_ASPECT		((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比
+#define	VIEW_NEAR_Z		(10.0f)											// ビュー平面のNearZ値	値より近いと描画しない
+#define	VIEW_FAR_Z		(10000.0f)										// ビュー平面のFarZ値	値より遠いと描画しない
 
 //#	カメラの初期化
 void Camera::Init()
 {
 	posV = D3DXVECTOR3(CAM_POS_V_X, CAM_POS_V_Y, CAM_POS_V_Z);	//カメラ位置
 	posR = D3DXVECTOR3(CAM_POS_R_X, CAM_POS_R_X, CAM_POS_R_X);	//注視点
-	vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);							//カメラの上ベクトル
+	vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);						//カメラの上ベクトル
 }
 
 //#	カメラの終了処理
