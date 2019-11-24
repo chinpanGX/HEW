@@ -6,6 +6,8 @@
 ====================================================*/
 
 #include "SceneTitle.h"
+#include "SceneManager.h"
+#include "Controller.h"
 
 void SceneTitle::Init()
 {
@@ -22,6 +24,11 @@ void SceneTitle::Uninit()
 void SceneTitle::Update()
 {
 	m_Camera.Update();
+
+	if (KeyBoard::IsTrigger(DIK_W))
+	{
+		SceneManager::ChangeSceneState();
+	}
 }
 
 void SceneTitle::Draw()

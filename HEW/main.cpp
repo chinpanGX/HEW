@@ -7,12 +7,13 @@
 
 //#	インクルードファイル
 #include "main.h"
-#include "input.h"
+#include "Controller.h"
 #include "camera.h"
 #include "light.h"
 #include <time.h>
 #include "SceneManager.h"
 #include "DebugCamera.h"
+#include "texture.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -24,20 +25,17 @@
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "winmm.lib")
 
-
-//#	定数定義
+//	マクロ定義
 #define CLASS_NAME     "GameWindow"       // ウインドウクラスの名前
 #define WINDOW_CAPTION "ゲームウィンドウ" // ウィンドウの名前
 
-
-//#   グローバル変数宣言
+// グローバル変数宣言
 static	HWND g_hWnd;								// ウィンドウハンドル
 bool	g_bDispDebug = true;						// デバッグ表示ON/OFF
 static	LPDIRECT3D9			g_pD3D = NULL;          // Direct3Dインターフェース
 static	LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;	// Direct3Dデバイス
 
-
-//#	プロトタイプ宣言
+//	プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);	// ウィンドウプロシージャ(コールバック関数)
 static bool WindowInit(HINSTANCE hInstance, int nCmdShow);						// ウィンドウ関数
 bool D3D_Init(HWND hWnd);														// デバイスの初期化
@@ -48,7 +46,7 @@ static void Update();															// ゲームの更新処理
 static void Draw();																// ゲームの描画関数
 
 
-//#　メイン関数：エントリーポイント
+//　メイン関数：エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// 使用しない一時変数を明示
@@ -119,7 +117,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	return (int)msg.wParam;
 }
 
-//# ウィンドウプロシージャ(コールバック関数)
+// ウィンドウプロシージャ(コールバック関数)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) 
@@ -151,7 +149,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 	
 
-//#	ウィンドウ関数
+//	ウィンドウ関数
 static bool WindowInit(HINSTANCE hInstance, int nCmdShow)
 {
 	// ウィンドウクラス構造体
@@ -241,7 +239,7 @@ static bool WindowInit(HINSTANCE hInstance, int nCmdShow)
 	return true;              // InitApp関数の正常終了
 }
 
-//# デバイスの初期化関数
+//	デバイスの初期化関数
 bool D3D_Init(HWND hWnd)
 {
 	// Direct3Dインターフェースの取得
@@ -338,14 +336,14 @@ bool D3D_Init(HWND hWnd)
 	return true;
 }
 
-//# デバイスの終了処理
+// デバイスの終了処理
 void D3D_Uninit()
 {
 	DEVICE_RELEASE(g_pD3DDevice);	//	Direct3Dデバイスの解放
 	DEVICE_RELEASE(g_pD3D);			//	Direct3Dインタフェースの解放
 }
 
-//#　初期化処理関数
+//　初期化処理関数
 bool Init(HINSTANCE hInst)
 {
 	//シードの初期化
@@ -357,17 +355,18 @@ bool Init(HINSTANCE hInst)
 		return false;	// ゲームの初期化に失敗した
 	}
 	
-	// キーボードの初期化
-	if (!Input::KB_Init(hInst, g_hWnd))
+	//	コントローラの初期化
+	if (!KeyBoard::Init(hInst, g_hWnd))
+	{
+		return false;
+	}
+	if (!GamePad::Init(hInst, g_hWnd))
 	{
 		return false;
 	}
 	
-	//	ゲームポッドの初期化
-	if (!Input::GP_Init(hInst, g_hWnd))
-	{
-		return false;
-	}
+	//	テクスチャのロード
+	Texture_Load();
 
 	//	シーンマネージャーの初期化処理
 	SceneManager::Init();
@@ -375,34 +374,36 @@ bool Init(HINSTANCE hInst)
 	return true;
 }
 
-//#　終了処理関数
+//　終了処理関数
 void Uninit()
 {
 	//	シーンマネージャーの終了処理
 	SceneManager::Uninit();
+	
+	//	テクスチャのリリース
+	Texture_Release();
 
-	// DirectInputの終了処理
-	Input::Uninit();
+	//	コントローラの終了処理
+	KeyBoard::Uninit();
+	GamePad::Uninit();
 
 	// ゲームの終了処理(Direct3Dの終了処理)
 	D3D_Uninit();
 }
 
-//# 更新処理関数
+// 更新処理関数
 void Update()
 {
-	//キーボードの状態を更新する
-	Input::KB_Update();
+	//コントローラの状態を更新する
+	KeyBoard::Update();
+	GamePad::Update();
 
-	//ゲームパッドの状態を更新する
-	Input::GP_Update();
-	
 	//	シーンマネージャーの更新
 	SceneManager::Update();
 
 }
 
-//# 描画処理関数
+// 描画処理関数
 void Draw()
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = GetD3DDevice();
@@ -423,14 +424,14 @@ void Draw()
 	pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }
 
-//#	Direct3DDeviceのゲッター
+//	Direct3DDeviceのゲッター
 LPDIRECT3DDEVICE9 GetD3DDevice() 
 {
 	return g_pD3DDevice;
 }
 
 
-//#	ウィンドウハンドルのゲッター
+//	ウィンドウハンドルのゲッター
 HWND GetHWND()
 {
 	return g_hWnd;

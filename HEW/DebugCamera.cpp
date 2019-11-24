@@ -8,7 +8,7 @@
 #include "DebugCamera.h"
 
 #include "main.h"
-#include "input.h"
+#include "Controller.h"
 #include "debugproc.h"
 
 
@@ -27,6 +27,7 @@
 #define ROTATE_CAMERA	(D3DX_PI * 0.01f)
 #define CAMERADISTANCE	(1.0f)
 
+//	スタティック変数
 D3DXVECTOR3 DebugCamera::m_Velocity;
 D3DXVECTOR3	DebugCamera::m_rot;
 float		DebugCamera::m_fDistance;
@@ -47,30 +48,30 @@ void DebugCamera::Uninit()
 //# カメラの更新処理
 void DebugCamera::Update()
 {
-	if (Input::KB_IsPress(DIK_S))
+	if (KeyBoard::IsPress(DIK_S))
 	{
 		posV.z += m_Velocity.z;
 		posR.z += m_Velocity.z;
 	}
 
-	if (Input::KB_IsPress(DIK_W))
+	if (KeyBoard::IsPress(DIK_W))
 	{
 		posR.z -= m_Velocity.z;
 		posV.z -= m_Velocity.z;
 	}
 
-	if (Input::KB_IsPress(DIK_A))
+	if (KeyBoard::IsPress(DIK_A))
 	{
 		posV.x += m_Velocity.x;
 		posR.x += m_Velocity.x;
 	}
 
-	if (Input::KB_IsPress(DIK_D))
+	if (KeyBoard::IsPress(DIK_D))
 	{
 		posV.x -= m_Velocity.x;
 		posR.x -= m_Velocity.x;
 	}
-	if (Input::KB_IsPress(DIK_Z))
+	if (KeyBoard::IsPress(DIK_Z))
 	{
 		m_rot.y += ROTATE_CAMERA;
 		if (m_rot.y > D3DX_PI)
@@ -81,7 +82,7 @@ void DebugCamera::Update()
 		posR.z = posV.z - cosf(m_rot.y) * m_fDistance;
 	}
 
-	if (Input::KB_IsPress(DIK_C))
+	if (KeyBoard::IsPress(DIK_C))
 	{
 		m_rot.y -= ROTATE_CAMERA;
 		if (m_rot.y < D3DX_PI)
@@ -92,17 +93,17 @@ void DebugCamera::Update()
 		posR.z = posV.z - cosf(m_rot.y) * m_fDistance;
 	}
 
-	if (Input::KB_IsPress(DIK_Y))
+	if (KeyBoard::IsPress(DIK_Y))
 	{
 		posV.y += MOVE_CAMERA;
 	}
 
-	if (Input::KB_IsPress(DIK_N))
+	if (KeyBoard::IsPress(DIK_N))
 	{
 		posV.y -= MOVE_CAMERA;
 	}
 
-	if (Input::KB_IsPress(DIK_E))
+	if (KeyBoard::IsPress(DIK_E))
 	{
 		m_rot.y += ROTATE_CAMERA;
 		if (m_rot.y > D3DX_PI)
@@ -113,7 +114,7 @@ void DebugCamera::Update()
 		posR.z = posV.z - cosf(m_rot.y) * m_fDistance;
 	}
 
-	if (Input::KB_IsPress(DIK_Q))
+	if (KeyBoard::IsPress(DIK_Q))
 	{
 		m_rot.y -= ROTATE_CAMERA;
 		if (m_rot.y < D3DX_PI)
@@ -124,18 +125,18 @@ void DebugCamera::Update()
 		posR.z = posV.z + cosf(m_rot.y) * m_fDistance;
 	}
 
-	if (Input::KB_IsPress(DIK_T))
+	if (KeyBoard::IsPress(DIK_T))
 	{
 		posR.y += MOVE_CAMERA;
 	}
 
-	if (Input::KB_IsPress(DIK_B))
+	if (KeyBoard::IsPress(DIK_B))
 	{
 		posR.y -= MOVE_CAMERA;
 	}
 
 
-	if (Input::KB_IsPress(DIK_U))
+	if (KeyBoard::IsPress(DIK_U))
 	{
 		m_fDistance -= CAMERADISTANCE;
 		if (m_fDistance < 100.0f)
@@ -146,7 +147,7 @@ void DebugCamera::Update()
 		posV.z = posR.z + cosf(m_rot.y) * m_fDistance;
 	}
 
-	if (Input::KB_IsPress(DIK_M))
+	if (KeyBoard::IsPress(DIK_M))
 	{
 		m_fDistance += CAMERADISTANCE;
 		if (m_fDistance > 1000.0f)
@@ -157,7 +158,7 @@ void DebugCamera::Update()
 		posV.z = posR.z + cosf(m_rot.y) * m_fDistance;
 	}
 
-	if (Input::KB_IsPress(DIK_SPACE))
+	if (KeyBoard::IsPress(DIK_SPACE))
 	{
 		posV = D3DXVECTOR3(CAM_POS_V_X, CAM_POS_V_Y, CAM_POS_V_Z);	//	カメラ位置
 		posR = D3DXVECTOR3(CAM_POS_R_X, CAM_POS_R_X, CAM_POS_R_X);	//	注視点

@@ -3,16 +3,15 @@
 
 
 #include"main.h"
-
 #include"mondai.h"
 #include"texture.h"
-#include"input.h"
+#include "Controller.h"
 
 //	マクロ定義
 #define POLYGON_NUM 2
 #define VERTEX_NUM 6
 
-//	グローバル変数
+//	スタティック変数
 LPDIRECT3DVERTEXBUFFER9 Mondai::g_pVtxBuffMondai = NULL;	//	頂点バッファへのポインタ
 LPDIRECT3DINDEXBUFFER9  Mondai::g_pIdxBuffMondai = NULL;
 D3DXMATRIX				Mondai::g_mtxWorldMondai;			//	ワールドマトリックス
@@ -198,7 +197,7 @@ void Mondai::Update()
 
 {
 
-	if (Input::KB_IsPress(DIK_1) || Input::KB_IsPress(DIK_2) || Input::KB_IsPress(DIK_3) || Input::KB_IsPress(DIK_4))
+	if (KeyBoard::IsPress(DIK_1) || KeyBoard::IsPress(DIK_2) || KeyBoard::IsPress(DIK_3) || KeyBoard::IsPress(DIK_4))
 
 		flagMondai = true;
 

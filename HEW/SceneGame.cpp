@@ -7,7 +7,7 @@
 
 #include "SceneGame.h"
 #include "SceneManager.h"
-#include "input.h"
+#include "Controller.h"
 #include "Character.h"
 #include "XFile.h"
 #include "Model.h"
@@ -28,7 +28,10 @@ void SceneGame::Uninit()
 //	ƒQ[ƒ€‚ÌXVˆ—
 void SceneGame::Update()
 {
-	
+	if (KeyBoard::IsTrigger(DIK_W))
+	{
+		SceneManager::ChangeSceneState();
+	}
 }
 
 //	ƒQ[ƒ€‚Ì•`‰æˆ—

@@ -5,8 +5,6 @@
 
 ==================================*/
 
-//!	このソースコードは使わない！ ->クラス化する
-
 //インクルードファイル
 #include <d3dx9.h>
 #include "main.h"
@@ -15,7 +13,7 @@
 //マクロ定義
 #define TEXTURE_FILENAME_MAX (64)	//ファイルの文字数
 
-//TEXTUREクラス
+//	TEXTURE構造体
 struct TEXTURE
 {
 	char filename[TEXTURE_FILENAME_MAX];	//ファイル名
@@ -26,16 +24,8 @@ struct TEXTURE
 //テクスチャファイルの一覧
 static const TEXTURE g_TextureFiles[] = 
 {
-    { "asset/texture/yukidaruma.tga"	, 256 , 256 },
-	{ "asset/texture/bullet00.png"		, 32  , 32  },
-	{ "asset/texture/bullet01.png"		, 32  , 32  },
-	{ "asset/texture/exp.png"			, 128 , 128 },
-	{ "asset/texture/number.tga"		, 320 , 32  },
-	{ "asset/texture/title.png"			, 1024, 576 },
-	{ "asset/texture/result.png"		, 1024, 576 },
-	{ "asset/texture/kokosozai.png"		, 512 , 512 },
-	{ "asset/texture/sousa.png"			, 1024, 576 },
-	{ "asset/texture/rule.png"			, 1024, 576 },
+	{ "asset/texture/result.png",		1920, 1080 },	//	リザルト背景テクスチャ
+	{ "asset/texture/modeselect.png",	1920, 1080 },	//	モード選択背景テクスチャ
 };
 
 static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//テクスチャファイルを数える
@@ -68,12 +58,9 @@ int Texture_Load()
 //テクスチャファイルの解放
 void Texture_Release()
 {
-	for( int i = 0; i < TEXTURE_FILE_COUNT; i++ ) {
-		
-		if( g_pTextures[i] ) {
-			g_pTextures[i]->Release();
-			g_pTextures[i] = NULL;
-		}
+	for( int i = 0; i < TEXTURE_FILE_COUNT; i++ )
+	{
+		DEVICE_RELEASE(g_pTextures[i]);
 	}
 }
 
@@ -95,7 +82,7 @@ int Texture_GetWidth(TextureIndex index)
         return NULL;
     }
 
-	return g_TextureFiles[index].width;	//テクスチャの横幅の値をリターン
+	return g_TextureFiles[index].width;	//	テクスチャの横幅の値
 }
 
 //テクスチャの縦幅
@@ -106,5 +93,5 @@ int Texture_GetHeight(TextureIndex index)
         return NULL;
     }
 
-	return g_TextureFiles[index].height;	//テクスチャの縦幅の値をリターン
+	return g_TextureFiles[index].height;	//	テクスチャの縦幅の値
 }

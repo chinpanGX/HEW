@@ -7,9 +7,12 @@
 
 #pragma once
 #include "SceneBase.h"
+#include "sprite.h"
 
 class SceneModeSelect : public SceneBase
 {
+private:
+	Sprite m_Sprite;
 public:
 	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	

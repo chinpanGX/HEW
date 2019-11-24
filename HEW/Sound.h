@@ -31,12 +31,10 @@ private:
 	static BYTE *g_apDataAudio[SOUND_LABEL_MAX];					// オーディオデータ
 	static DWORD g_aSizeAudio[SOUND_LABEL_MAX];						// オーディオデータサイズ
 public:	
-	Sound();						//	コンストラクタ->空
-	~Sound();						//	デストトラクタ->空
-	bool Init(HWND hWnd);			//	初期化
-	void Uninit();					//	終了処理
-	void Play(SOUND_LABEL label);	//	セグメント再生(引数：ラベル名)
-	void Stop(SOUND_LABEL label);	//	セグメント停止(引数：ラベル名)
-	void Stop();					//	セグメント停止：すべて
+	static bool Init(HWND hWnd);			//	初期化
+	static void Uninit();					//	終了処理
+	static void Play(SOUND_LABEL label);	//	セグメント再生(引数：ラベル名)
+	static void Stop(SOUND_LABEL label);	//	セグメント停止(引数：ラベル名)
+	static void Stop();						//	セグメント停止：すべて
 };
 

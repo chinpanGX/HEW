@@ -7,7 +7,7 @@ Author :hohman yuushi
 
 #include "Character.h"
 #include "Map.h"
-#include "input.h"
+#include "Controller.h"
 #include "main.h"
 #include <d3dx9.h>
 #include <math.h>
@@ -118,7 +118,7 @@ void Character::Update()
 
 		//ここにモーションかな
 
-		if (Input::KB_IsTrigger(DIK_E))
+		if (KeyBoard::IsTrigger(DIK_E))
 		{
 			//ステータス変更
 			g_Player.Status = PLAYER_START;
@@ -148,17 +148,17 @@ void Character::Update()
 		tmp = g_Player.Speed;
 		g_Player.Speed = 0.0f;
 
-	if (Input::KB_IsTrigger(DIK_A))
+	if (KeyBoard::IsTrigger(DIK_A))
 	{// 左移動
 
 	}
-	else if (Input::KB_IsTrigger(DIK_D))
+	else if (KeyBoard::IsTrigger(DIK_D))
 	{// 右移動
 
 	}
 
 	//とりあえずSpaceで次へ
-	if (Input::KB_IsTrigger(DIK_SPACE))
+	if (KeyBoard::IsTrigger(DIK_SPACE))
 	{
 		//何回回答したか
 		g_count++;

@@ -6,23 +6,32 @@
 =======================================================*/
 
 #include "SceneModeSelect.h"
+#include "SceneManager.h"
+#include "Controller.h"
 
 //	‰Šú‰»
 void SceneModeSelect::Init()
 {
+
 }
 
 //	I—¹ˆ—
 void SceneModeSelect::Uninit()
 {
+	
 }
 
 //	XVˆ—
 void SceneModeSelect::Update()
 {
+	if (KeyBoard::IsTrigger(DIK_W))
+	{
+		SceneManager::ChangeSceneState();
+	}
 }
 
 //	•`‰æˆ—
 void SceneModeSelect::Draw()
 {
+	m_Sprite.Draw(TEXTURE_INDEX_MODESELECT, 0.0f, 0.0f);
 }

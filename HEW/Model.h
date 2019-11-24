@@ -12,7 +12,9 @@
 
 //#	Modelクラス : XFileクラスの派生クラス
 /* モデルを描画するクラス */
-class Model : public XFile
+class XFile;
+
+class Model
 {
 private:
 	D3DXVECTOR3	position;					//	位置

@@ -14,6 +14,8 @@
 
 // グローバル変数
 D3DLIGHT9 g_aLight[NUM_LIGHT];		//	ライト情報
+
+//	スタティック変数
 LPDIRECT3DDEVICE9 Light::pDevice;	//	デバイスの取得
 D3DXVECTOR3 Light::vecDir;			//	ライトの方向
 

@@ -8,34 +8,25 @@
 #include "main.h"
 #include "Sound.h"
 
-//# グローバル変数
-IXAudio2 *Sound::g_pXAudio2 = NULL;								// XAudio2オブジェクトへのインターフェイス
-IXAudio2MasteringVoice *Sound::g_pMasteringVoice = NULL;		// マスターボイス
+// スタティック変数
+IXAudio2 *Sound::g_pXAudio2 = NULL;									// XAudio2オブジェクトへのインターフェイス
+IXAudio2MasteringVoice *Sound::g_pMasteringVoice = NULL;			// マスターボイス
 IXAudio2SourceVoice *Sound::g_apSourceVoice[SOUND_LABEL_MAX] = {};	// ソースボイス
-BYTE *Sound::g_apDataAudio[SOUND_LABEL_MAX] = {};						// オーディオデータ
-DWORD Sound::g_aSizeAudio[SOUND_LABEL_MAX] = {};						// オーディオデータサイズ
+BYTE *Sound::g_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
+DWORD Sound::g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 
-//# プロトタイプ宣言
+// プロトタイプ宣言
 HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkDataPosition);
 HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
 
-//# 各音素材のパラメータ
+// 各音素材のパラメータ
 Sound g_aParam[SOUND_LABEL_MAX] =
 {
 	//	音楽ファイル名,ループするかどうか	{ (char *)"ファイル名",-1or0 }	-1はループ、0は一度再生
 
 };
 
-//	コンストラクタ
-Sound::Sound()
-{
-}
 
-//	デストラクタ
-Sound::~Sound()
-{
-
-}
 
 //# 初期化処理
 bool Sound::Init(HWND hWnd)
@@ -254,6 +245,15 @@ void Sound::Stop(SOUND_LABEL label)
 //# セグメント停止：すべて停止
 void Sound::Stop()
 {
+	// 一時停止
+	for (int nCntSound = 0; nCntSound < SOUND_LABEL_MAX; nCntSound++)
+	{
+		if (g_apSourceVoice[nCntSound])
+		{
+			// 一時停止
+			g_apSourceVoice[nCntSound]->Stop(0);
+		}
+	}
 }
 
 //#	チャンクのチェック

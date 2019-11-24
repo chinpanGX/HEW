@@ -10,9 +10,11 @@
 #include "XFile.h"
 
 //	グローバル変数
-LPDIRECT3DDEVICE9	XFile::g_pD3Device;								//	デバイスの取得
-std::map<std::string, XFile*>g_pXFileList;							// 読み込んだXFileのリスト
 extern std::map<std::string, LPDIRECT3DTEXTURE9> g_TextureList;
+
+//	スタティック変数
+LPDIRECT3DDEVICE9	XFile::g_pD3Device;								//	デバイスの取得
+std::map<std::string, XFile*>g_pXFileList;							//	読み込んだXFileのリスト
 
 //	デストラクタ
 XFile::~XFile()
@@ -90,3 +92,4 @@ void XFile::Draw()
 		Mesh->DrawSubset(i);
 	}
 }
+

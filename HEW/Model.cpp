@@ -10,7 +10,7 @@
 #include "main.h"
 #include "Model.h"
 
-//	グローバル変数
+//	スタティック変数
 LPDIRECT3DDEVICE9 Model::g_pD3DDevice;
 
 //	モデルの描画処理

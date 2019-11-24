@@ -1,6 +1,6 @@
 /*==============================================
 
-	[SceneManager.cpp]
+	[SceneManager.cpp]	
 	Author : 出合翔太
 
 ===============================================*/
@@ -14,11 +14,10 @@
 #include "SceneResult.h"
 #include "SceneDebug.h"
 
-
-//	グローバル変数
-SceneBase			*SceneManager::scene[SCENE_NUMBER];
-SCENE_STATE			SceneManager::scenestate;
-LPDIRECT3DDEVICE9	SceneManager::p3DDevice;
+//	スタティック変数
+SceneBase			*SceneManager::m_scene[SCENE_NUMBER];	//	シーンのインスタンスを格納[シーンの配列]
+SCENE_STATE			SceneManager::m_sceneState;				//	シーンのステートマシン（シーンの状態を格納）
+LPDIRECT3DDEVICE9	SceneManager::p3DDevice;				//	デバイス
 
 //	初期化処理
 void SceneManager::Init()
@@ -26,73 +25,82 @@ void SceneManager::Init()
 	p3DDevice = GetD3DDevice();			//	デバイスの取得
 
 	//	メモリの確保
-	scene[0] = new SceneTitle;			
-	scene[1] = new SceneModeSelect;		
-	scene[2] = new SceneTutorial;		
-	scene[3] = new SceneGame;			
-	scene[4] = new SceneResult;
-	scene[5] = new SceneDebug;
+	m_scene[0] = new SceneTitle;		
+	m_scene[1] = new SceneModeSelect;	
+	m_scene[2] = new SceneTutorial;		
+	m_scene[3] = new SceneGame;			
+	m_scene[4] = new SceneResult;
+	m_scene[5] = new SceneDebug;
 
-	scenestate = SCENE_DEBUG;			//	初期シーンの設定
-	scene[scenestate]->Init();			//	初期シーンの初期化
+	m_sceneState = SCENE_TITLE;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
+	m_scene[m_sceneState]->Init();		//	初期シーンの初期化
 }
 
 //	終了処理
 void SceneManager::Uninit()
 {
 	//	各シーンのUninit関数を呼び出す
-	scene[5]->Uninit();
-	scene[4]->Uninit();
-	scene[3]->Uninit();
-	scene[2]->Uninit();
-	scene[1]->Uninit();
-	scene[0]->Uninit();
+	m_scene[5]->Uninit();
+	m_scene[4]->Uninit();
+	m_scene[3]->Uninit();
+	m_scene[2]->Uninit();
+	m_scene[1]->Uninit();
+	m_scene[0]->Uninit();
 
 	//	各シーンのメモリの解放
-	delete scene[5];
-	delete scene[4];
-	delete scene[3];
-	delete scene[2];
-	delete scene[1];
-	delete scene[0];
+	delete m_scene[5];
+	delete m_scene[4];
+	delete m_scene[3];
+	delete m_scene[2];
+	delete m_scene[1];
+	delete m_scene[0];
 }
 
 //	更新処理
 void SceneManager::Update()
 {
-	if (Input::GP_IsTrigger(0,BUTTON_2)) 
-	{
-		SceneManager::ChangeSceneState();
-	}
-	scene[scenestate]->Update();
+	m_scene[m_sceneState]->Update();	//	各シーンのUpdate関数の呼び出し
 }
 
 //	描画処理
 void SceneManager::Draw()
 {
-	scene[scenestate]->Draw();
+	m_scene[m_sceneState]->Draw();		//	各シーンのDraw関数の呼び出し
 }
 
 //	シーン遷移処理
 void SceneManager::ChangeSceneState()
 {
-	switch (scenestate)
+	switch (m_sceneState)
 	{
 	case SCENE_TITLE:
-		scene[scenestate]->Uninit();
-		scenestate = SCENE_MODESELECT;
-		scene[scenestate]->Init();
+		m_scene[m_sceneState]->Uninit();
+		m_sceneState = SCENE_MODESELECT;	//	モード選択に遷移
+		m_scene[m_sceneState]->Init();
+		break;
 	case SCENE_MODESELECT:
-		scene[scenestate]->Uninit();
-		scene[scenestate]->Init();
+		m_scene[m_sceneState]->Uninit();
+		m_sceneState = SCENE_TUTORIAL;		//	チュートリアルへ遷移
+		m_scene[m_sceneState]->Init();
+		break;
 	case SCENE_TUTORIAL:
-		scene[scenestate]->Uninit();
+		m_scene[m_sceneState]->Uninit();
+		m_sceneState = SCENE_GAME;			//	ゲームへ遷移
+		m_scene[m_sceneState]->Init();
+		break;
 	case SCENE_GAME:
-		scene[scenestate]->Uninit();
+		m_scene[m_sceneState]->Uninit();
+		m_sceneState = SCENE_RESULT;		//	リザルトへ遷移
+		m_scene[m_sceneState]->Init();
+		break;
 	case SCENE_RESULT:
-		scene[scenestate]->Uninit();
-	case SCENE_DEBUG:
-		scene[scenestate]->Uninit();
+		m_scene[m_sceneState]->Uninit();
+		m_sceneState = SCENE_TITLE;			//	タイトルへ遷移
+		m_scene[m_sceneState]->Init();
+		break;
+	//!	デバッグシーンはあとで消す
+	case SCENE_DEBUG:	
+		m_scene[m_sceneState]->Uninit();
 	}
 }
  
