@@ -12,7 +12,7 @@ Author :hohman yuushi
 #include "main.h"
 #include <d3dx9.h>
 #include <math.h>
-
+#include "Controller.h"
 
 
 #define	VALUE_MOVE		(5.0f)							// 移動量
@@ -239,7 +239,7 @@ void Character::Update()
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-HRESULT MakeVertexField(LPDIRECT3DDEVICE9 pDevice);
+HRESULT MakeVertexBox(LPDIRECT3DDEVICE9 pDevice);
 
 //*****************************************************************************
 // グローバル変数
@@ -268,7 +268,7 @@ HRESULT Box_Initialize(void)
 	LPDIRECT3DDEVICE9 pDevice = GetD3DDevice();
 
 	// 頂点情報の作成
-	MakeVertexField(pDevice);
+	MakeVertexBox(pDevice);
 
 	//// 位置・回転・スケールの初期設定
 	//g_posField = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -358,14 +358,14 @@ void Box_Update(void)
 
 
 
-		if (Keyboard_IsPress(DIK_A))
+		if (KeyBoard::IsPress(DIK_A))
 		{
-			if (Keyboard_IsPress(DIK_W))
+			if (KeyBoard::IsPress(DIK_W))
 			{// 左奥移動
 				g_Box[0].g_posField.x += sinf(-D3DX_PI * 0.75f) * VALUE_MOVE;
 				g_Box[0].g_posField.z -= cosf(-D3DX_PI * 0.75f) * VALUE_MOVE;
 			}
-			else if (Keyboard_IsPress(DIK_S))
+			else if (KeyBoard::IsPress(DIK_S))
 			{// 左手前移動
 				g_Box[0].g_posField.x += sinf(-D3DX_PI * 0.25f) * VALUE_MOVE;
 				g_Box[0].g_posField.z -= cosf(-D3DX_PI * 0.25f) * VALUE_MOVE;
@@ -376,14 +376,14 @@ void Box_Update(void)
 				g_Box[0].g_posField.z -= cosf(-D3DX_PI * 0.50f) * VALUE_MOVE;
 			}
 		}
-		else if (Keyboard_IsPress(DIK_D))
+		else if (KeyBoard::IsPress(DIK_D))
 		{
-			if (Keyboard_IsPress(DIK_W))
+			if (KeyBoard::IsPress(DIK_W))
 			{// 右奥移動
 				g_Box[0].g_posField.x += sinf(D3DX_PI * 0.75f) * VALUE_MOVE;
 				g_Box[0].g_posField.z -= cosf(D3DX_PI * 0.75f) * VALUE_MOVE;
 			}
-			else if (Keyboard_IsPress(DIK_S))
+			else if (KeyBoard::IsPress(DIK_S))
 			{// 右手前移動
 				g_Box[0].g_posField.x += sinf(D3DX_PI * 0.25f) * VALUE_MOVE;
 				g_Box[0].g_posField.z -= cosf(D3DX_PI * 0.25f) * VALUE_MOVE;
@@ -394,19 +394,19 @@ void Box_Update(void)
 				g_Box[0].g_posField.z -= cosf(D3DX_PI * 0.50f) * VALUE_MOVE;
 			}
 		}
-		else if (Keyboard_IsPress(DIK_W))
+		else if (KeyBoard::IsPress(DIK_W))
 		{// 奥移動
 			g_Box[0].g_posField.x += sinf(D3DX_PI * 1.0f) * VALUE_MOVE;
 			g_Box[0].g_posField.z -= cosf(D3DX_PI * 1.0f) * VALUE_MOVE;
 		}
-		else if (Keyboard_IsPress(DIK_S))
+		else if (KeyBoard::IsPress(DIK_S))
 		{// 手前移動
 			g_Box[0].g_posField.x += sinf(D3DX_PI * 0.0f) * VALUE_MOVE;
 			g_Box[0].g_posField.z -= cosf(D3DX_PI * 0.0f) * VALUE_MOVE;
 		}
 	
 	#if 1
-		if (Keyboard_IsPress(DIK_Q))
+		if (KeyBoard::IsPress(DIK_Q))
 		{// Y軸左回転
 			g_Box[0].g_rotField.y -= VALUE_ROTATE;
 			if(g_Box[0].g_rotField.y > D3DX_PI)
@@ -418,7 +418,7 @@ void Box_Update(void)
 				g_Box[0].g_rotField.y += D3DX_PI * 2.0f;
 			}
 		}
-		if (Keyboard_IsPress(DIK_E))
+		if (KeyBoard::IsPress(DIK_E))
 		{// Y軸右回転
 			g_Box[0].g_rotField.y += VALUE_ROTATE;
 			if(g_Box[0].g_rotField.y > D3DX_PI)
@@ -433,7 +433,7 @@ void Box_Update(void)
 	#endif
 	
 	#if 1
-		if (Keyboard_IsPress(DIK_UP))
+		if (KeyBoard::IsPress(DIK_UP))
 		{// X軸右回転
 			g_Box[0].g_rotField.x += VALUE_ROTATE;
 			if(g_Box[0].g_rotField.x > D3DX_PI)
@@ -445,7 +445,7 @@ void Box_Update(void)
 				g_Box[0].g_rotField.x += D3DX_PI * 2.0f;
 			}
 		}
-		if (Keyboard_IsPress(DIK_DOWN))
+		if (KeyBoard::IsPress(DIK_DOWN))
 		{// X軸左回転
 			g_Box[0].g_rotField.x -= VALUE_ROTATE;
 			if(g_Box[0].g_rotField.x > D3DX_PI)
@@ -460,7 +460,7 @@ void Box_Update(void)
 	#endif
 	
 	#if 1
-		if (Keyboard_IsPress(DIK_LEFT))
+		if (KeyBoard::IsPress(DIK_LEFT))
 		{// Z軸右回転
 			g_Box[0].g_rotField.z += VALUE_ROTATE;
 			if(g_Box[0].g_rotField.z > D3DX_PI)
@@ -472,7 +472,7 @@ void Box_Update(void)
 				g_Box[0].g_rotField.z += D3DX_PI * 2.0f;
 			}
 		}
-		if (Keyboard_IsPress(DIK_RIGHT))
+		if (KeyBoard::IsPress(DIK_RIGHT))
 		{// Z軸左回転
 			g_Box[0].g_rotField.z -= VALUE_ROTATE;
 			if(g_Box[0].g_rotField.z > D3DX_PI)
@@ -486,7 +486,7 @@ void Box_Update(void)
 		}
 	#endif
 	
-		if (Keyboard_IsPress(DIK_RETURN))
+		if (KeyBoard::IsPress(DIK_RETURN))
 		{// リセット
 			g_Box[0].g_posField.x = 0.0f;
 			g_Box[0].g_posField.y = 0.0f;
