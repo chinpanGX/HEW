@@ -15,10 +15,9 @@ Author : hohman yuushi
 //*****************************************************************************
 float getRadian(float X1, float Y1, float X2, float Y2);
 
-	//#	キャラクタークラス :　親クラス
-
-	/* キャラクターの情報を管理するクラス　*/
-	class Character
+//#	キャラクタークラス
+/* キャラクターの情報を管理するクラス　*/
+class Character
 {
 private:
 	CharacterCamera m_Camera;	//	キャラクターにつけるカメラのインスタンス

@@ -18,7 +18,7 @@ D3DXMATRIX				Mondai::g_mtxWorldMondai;			//	ワールドマトリックス
 D3DXVECTOR3				Mondai::g_posMondai;				//	地面の位置
 D3DXVECTOR3				Mondai::g_rotMondai;				//	地面の向き(回転)
 D3DXVECTOR3				Mondai::g_sclMondai;				//	地面の大きさ	
-LPDIRECT3DDEVICE9		Mondai::pDevice;					// デバイス取得用変数
+LPDIRECT3DDEVICE9		Mondai::pDevice;					//	デバイス取得用変数
 
 
 static bool flagMondai;
@@ -37,9 +37,6 @@ HRESULT Mondai::Init()
 	g_posMondai = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_rotMondai = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_sclMondai = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
-
-	
 
 	flagMondai = false;
 

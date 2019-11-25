@@ -18,8 +18,7 @@
 D3DCOLOR g_Color = D3DCOLOR_RGBA(255, 255, 255, 255);	//カラーの変更が可能
 
 //	スタティック変数
-LPDIRECT3DVERTEXBUFFER9 Sprite::m_VertexBuffer;	//	頂点バッファ
-LPDIRECT3DINDEXBUFFER9	Sprite::m_pIndexBuffer;	//	インデックスバッファ
+LPDIRECT3DVERTEXBUFFER9 Sprite::m_VertexBuffer;	//	頂点バッファ(頂点情報)を格納したメモリ
 LPDIRECT3DDEVICE9		Sprite::pDevice;		//	デバイス
 
 //	色を設定するセッター

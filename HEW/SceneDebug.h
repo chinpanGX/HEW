@@ -10,10 +10,12 @@
 #include "SceneBase.h"
 #include "DebugCamera.h"
 #include "Map.h"
+#include "Character.h"
 
 //# SceneDebug : eƒNƒ‰ƒXSceneBase
 class SceneDebug: public SceneBase
 {
+	Character	m_Character;
 	DebugCamera m_Camera;
 	Map			m_Map;
 public:

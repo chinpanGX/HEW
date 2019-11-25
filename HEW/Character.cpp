@@ -89,6 +89,7 @@ Character::~Character()
 
 void Character::Init()
 {
+	m_Camera.Init();
 	//Ç∆ÇËÇ†Ç¶Ç∏Ç±Ç±Ç≈èâä˙âª
 	g_Player.PPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	//g_Player.PVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -104,7 +105,7 @@ void Character::Init()
 
 void Character::Uninit()
 {
-	
+	m_Camera.Uninit();
 }
 
 
@@ -216,7 +217,7 @@ void Character::Update()
 
 void Character::Draw()
 {
-
+	m_Camera.Set;
 }
 
 
