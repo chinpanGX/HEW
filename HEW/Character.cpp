@@ -217,7 +217,7 @@ void Character::Update()
 
 void Character::Draw()
 {
-	m_Camera.Set;
+	//m_Camera.Set;
 }
 
 

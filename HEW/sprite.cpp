@@ -128,3 +128,7 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
 }
 
+void Sprite::Draw(TextureIndex textureindex, float x, float y, int tx, int ty, int tw, int th)
+{
+
+}

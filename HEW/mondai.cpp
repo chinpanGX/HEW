@@ -64,7 +64,7 @@ void Mondai::Draw()
 		//	ワールド変換（ワールドマトリクスの初期化）
 		D3DXMatrixIdentity(&g_mtxWorldMondai);
 		D3DXMatrixScaling(&mtxScl, g_sclMondai.x, g_sclMondai.y, g_sclMondai.z);
-		D3DXMatrixMultiply(&g_mtxWorldMondai, &g_mtxWorldMondai, &mtxScl);	//　引数は2番目と3番目の計算結果を1番目に入れる
+		D3DXMatrixMultiply(&g_mtxWorldMondai, &g_mtxWorldMondai, &mtxScl);						//　引数は2番目と3番目の計算結果を1番目に入れる
 		D3DXMatrixRotationYawPitchRoll(&mtxRot, g_rotMondai.x, g_rotMondai.y, g_rotMondai.z);
 		D3DXMatrixMultiply(&g_mtxWorldMondai, &g_mtxWorldMondai, &mtxRot);
 		D3DXMatrixTranslation(&mtxTranslate, g_posMondai.y, g_posMondai.x, g_posMondai.z);
@@ -128,7 +128,7 @@ HRESULT Mondai::MakeVertexMondai(LPDIRECT3DDEVICE9 pDevice)
 		/*pVtx[6].pos = D3DXVECTOR3(10.0f, 10.0f, 10.0f);
 		pVtx[7].pos = D3DXVECTOR3(-10.0f, 10.0f, 10.0f);*/
 
-		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);                 
 		pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
