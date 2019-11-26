@@ -13,10 +13,10 @@ Author : hohman yuushi
 #include <d3dx9tex.h>
 
 
-	//#	キャラクタークラス :　親クラス
+//#	キャラクタークラス :　親クラス
 
-	/* キャラクターの情報を管理するクラス　*/
-	class Character
+/* キャラクターの情報を管理するクラス　*/
+class Character
 {
 private:
 	CharacterCamera m_Camera;	//	キャラクターにつけるカメラのインスタンス

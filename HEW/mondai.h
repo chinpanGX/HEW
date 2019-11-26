@@ -16,7 +16,7 @@ class Mondai
 {
 private:
 	static LPDIRECT3DVERTEXBUFFER9	g_pVtxBuffMondai;	// 頂点バッファへのポインタ
-	static LPDIRECT3DINDEXBUFFER9 g_pIdxBuffMondai;
+	static LPDIRECT3DINDEXBUFFER9	g_pIdxBuffMondai;
 	static D3DXMATRIX				g_mtxWorldMondai;	// ワールドマトリックス
 	static LPDIRECT3DDEVICE9		pDevice;			// デバイス取得用変数
 	//	3次元ベクトル
