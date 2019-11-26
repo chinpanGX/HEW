@@ -77,7 +77,7 @@ void Mondai::Draw()
 		pDevice->SetStreamSource(0, g_pVtxBuffMondai, 0, sizeof(VERTEX_3D));
 
 		//	頂点フォーマットの設定
-		pDevice->SetFVF(FVF_VERTEX_3D);
+		pDevice->SetFVF(FVF_VERTEX3D);
 
 		//テクスチャの設定
 		//pDevice->SetTexture(0, Texture_GetTexture(TEXTURE_INDEX_MONDAI));
@@ -96,7 +96,7 @@ HRESULT Mondai::MakeVertexMondai(LPDIRECT3DDEVICE9 pDevice)
 {
 	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 8,
 		D3DUSAGE_WRITEONLY,
-		FVF_VERTEX_3D,
+		FVF_VERTEX3D,
 		D3DPOOL_MANAGED,
 		&g_pVtxBuffMondai,
 		NULL)))

@@ -11,13 +11,16 @@
 #include "DebugCamera.h"
 #include "Map.h"
 #include "Character.h"
+#include "sprite.h"
 
 //# SceneDebug : 親クラスSceneBase
 class SceneDebug: public SceneBase
 {
+private:
 	Character	m_Character;
 	DebugCamera m_Camera;
 	Map			m_Map;
+	Sprite		m_Sprite;
 public:
 	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	

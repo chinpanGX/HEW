@@ -26,6 +26,7 @@ static const TEXTURE g_TextureFiles[] =
 {
 	{ "asset/texture/result.png",		1920, 1080 },	//	リザルト背景テクスチャ
 	{ "asset/texture/modeselect.png",	1920, 1080 },	//	モード選択背景テクスチャ
+	{ "asset/texture/quizsample.png",	1024, 256  },
 };
 
 static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//テクスチャファイルを数える
@@ -37,8 +38,8 @@ static LPDIRECT3DTEXTURE9 g_pTextures[TEXTURE_FILE_COUNT] = {};	//テクスチャを格
 //テクスチャファイルの読み込み
 int Texture_Load()
 {   
-    LPDIRECT3DDEVICE9 pDevice = GetD3DDevice();
-	if( !pDevice ) {
+    LPDIRECT3DDEVICE9 m_Device = GetD3DDevice();
+	if( !m_Device ) {
 		return TEXTURE_FILE_COUNT;
 	}
 
@@ -46,7 +47,7 @@ int Texture_Load()
 
 	for( int i = 0; i < TEXTURE_FILE_COUNT; i++ ) {
 		
-		if( FAILED(D3DXCreateTextureFromFile(pDevice, g_TextureFiles[i].filename, &g_pTextures[i])) ) {
+		if( FAILED(D3DXCreateTextureFromFile(m_Device, g_TextureFiles[i].filename, &g_pTextures[i])) ) {
             // DebugPrintf("テクスチャの読み込みに失敗 ... %s\n", g_TextureFiles[i].filename);
 			failed_count++;
 		}
