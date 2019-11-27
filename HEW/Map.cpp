@@ -34,7 +34,7 @@ void Map::Init()
 	}
 
 	//	インスタンス生成、メモリの動的確保 (引数：位置、大きさ、回転、読み込むファイル名)
-	m_Actor[0] = new Model (D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(10.0f, 10.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/dai.x"]);
+	m_Actor[0] = new Model (D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 50.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/dai.x"]);
 }
 
 //	終了処理
