@@ -9,8 +9,8 @@
 
 //　マクロ定義
 #define	CAM_POS_V_X		(0.0f)											// カメラの視点初期位置(X座標)
-#define	CAM_POS_V_Y		(100.0f)										// カメラの視点初期位置(Y座標)
-#define	CAM_POS_V_Z		(200.0f)										// カメラの視点初期位置(Z座標)
+#define	CAM_POS_V_Y		(0.0f)										// カメラの視点初期位置(Y座標)
+#define	CAM_POS_V_Z		(0.0f)										// カメラの視点初期位置(Z座標)
 #define	CAM_POS_R_X		(0.0f)											// カメラの注視点初期位置(X座標)
 #define	CAM_POS_R_Y		(0.0f)											// カメラの注視点初期位置(Y座標)
 #define	CAM_POS_R_Z		(0.0f)											// カメラの注視点初期位置(Z座標)

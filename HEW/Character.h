@@ -13,13 +13,25 @@ Author : hohman yuushi
 #include <d3dx9tex.h>
 
 
+
+
 //#	キャラクタークラス :　親クラス
+
+class XFile;
 
 /* キャラクターの情報を管理するクラス　*/
 class Character
 {
 private:
 	CharacterCamera m_Camera;	//	キャラクターにつけるカメラのインスタンス
+
+	D3DXVECTOR3 position;
+	D3DXVECTOR3 scale;
+	D3DXVECTOR3 angle;
+	XFile		*pmodel;
+
+	static LPDIRECT3DDEVICE9 g_pD3DDevice;
+
 public:
 	Character();
 	~Character();
