@@ -231,5 +231,5 @@ void Sprite::Draw(TextureIndex Texture, float pos_x,float pos_y,float pos_z,floa
 	//	自分で作った頂点バッファを描画（メモリの確保、解放をしなければならない　-> 多用すると遅くなる）
 	//DrawPrimitive (第1引数：プリミティブを指定、第2引数：描画を開始する頂点を指定、第3引数：使用するプリミティブの数を指定)
 	//m_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, POLYGON_NUM);
-	m_Device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 20, 0, 12);
+	m_Device->DrawIndexedPrimitiveUP(D3DPT_TRIANGLESTRIP, 0, 0, 20, 0, 6);
 }
