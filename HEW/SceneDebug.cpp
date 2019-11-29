@@ -18,11 +18,12 @@ void SceneDebug::Init()
 {
 	//LPDIRECT3DDEVICE9 pD3DDevice = GetD3DDevice();
 	m_Map.Init();
-	//Light::Init();
+	Light::Init();
 	//m_Camera.Init();
 	//m_Character = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(10.0f, 10.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/dai.x"]);
 	m_Character.Init(D3DXVECTOR3(0.0f, 100.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_CharaCamera.Init();
+	
 	//DebugProc_Initialize();
 	//m_Sprite.Init(pD3DDevice);
 
@@ -33,7 +34,7 @@ void SceneDebug::Init()
 void SceneDebug::Uninit()
 {
 	m_Map.Uninit();
-	//Light::Uninit();
+	Light::Uninit();
 	//m_Camera.Uninit();
 	m_Character.Uninit();
 	m_CharaCamera.Uninit();

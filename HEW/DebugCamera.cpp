@@ -96,11 +96,13 @@ void DebugCamera::Update()
 	if (KeyBoard::IsPress(DIK_Y))
 	{
 		posV.y += MOVE_CAMERA;
+		posR.y += MOVE_CAMERA;
 	}
 
 	if (KeyBoard::IsPress(DIK_N))
 	{
 		posV.y -= MOVE_CAMERA;
+		posR.y -= MOVE_CAMERA;
 	}
 
 	if (KeyBoard::IsPress(DIK_E))

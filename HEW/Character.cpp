@@ -19,8 +19,8 @@ Author :hohman yuushi
 //	マクロ定義
 #define FILELIST 1	//	読み込むファイルの数
 #define	MODEL_CAR			"asset/model/ri.x"	// 読み込むモデル名
-#define	VALUE_MOVE_MODEL	(0.50f)					// 移動速度
-#define	RATE_MOVE_MODEL		(0.20f)					// 移動慣性係数
+#define	VALUE_MOVE_MODEL	(0.1f)					// 移動速度
+#define	RATE_MOVE_MODEL		(0.2f)					// 移動慣性係数
 #define	VALUE_ROTATE_MODEL	(D3DX_PI * 0.05f)		// 回転速度
 #define	RATE_ROTATE_MODEL	(0.20f)					// 回転慣性係数
 
@@ -35,26 +35,6 @@ enum PLAYER_STATE		//g_Playerの状態遷移
 	PLAYER_JUMP,		//	ジャンプ
 	PLAYER_FINISH		//	終了(着地かな)
 };
-
-
-enum LANE_STATE			//レーンのなんかあれ
-{
-	LANE_START,
-
-
-	LANE_SELECT,
-
-	LANE_1,
-	LANE_2,
-	LANE_3,
-	LANE_4,
-
-
-	LANE_JUMP,
-
-	LANE_END
-};
-
 
 /*---------------------------------------------------------------------------------
 global
@@ -256,9 +236,19 @@ void Character::Update()
 	posModel.x += moveModel.x;
 	posModel.z += moveModel.z;
 
+
 	// 移動量に慣性をかける
 	moveModel.x += (0.0f - moveModel.x) * RATE_MOVE_MODEL;
 	moveModel.z += (0.0f - moveModel.z) * RATE_MOVE_MODEL;
+
+	if (KeyBoard::IsPress(DIK_A))
+	{
+		posModel.x += RATE_MOVE_MODEL;
+	}
+	if (KeyBoard::IsPress(DIK_D))
+	{
+		posModel.x -= RATE_MOVE_MODEL;
+	}
 
 #if 0
 	// 範囲チェック
@@ -316,6 +306,7 @@ void Character::Update()
 		position.z += 1.0f;
 	}
 #endif
+
 }
 
 
