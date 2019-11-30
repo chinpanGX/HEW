@@ -11,9 +11,9 @@
 
 //#	CharacterCameraクラス : 基底クラスCameraの派生
 /* キャラクターにつけるカメラ */
-class CharacterCamera :public Camera
+class CharacterCamera
 {
-protected:
+private:
 	//メンバ変数
 	D3DXVECTOR3			posV;			// 視点（カメラの位置）
 	D3DXVECTOR3			posR;			// 注視点（カメラはどこを見ているのか）
@@ -21,6 +21,8 @@ protected:
 	D3DXMATRIX			mtxProjection;	// プロジェクションマトリックス
 	D3DXMATRIX			mtxView;		// ビューマトリックス
 	LPDIRECT3DDEVICE9	pDevice;		//　デバイスの取得用変数
+public:
+	D3DXVECTOR3			rot;
 
 public:
 	void Init();
