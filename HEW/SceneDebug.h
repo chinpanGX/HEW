@@ -12,6 +12,7 @@
 #include "Map.h"
 #include "Character.h"
 #include "sprite.h"
+#include "mondai.h"
 
 //# SceneDebug : 親クラスSceneBase
 class SceneDebug: public SceneBase
@@ -21,6 +22,8 @@ private:
 	DebugCamera m_Camera;
 	Map			m_Map;
 	Sprite		m_Sprite;
+	Mondai		m_mondai;
+
 public:
 	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	

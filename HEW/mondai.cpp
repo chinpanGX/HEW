@@ -184,7 +184,7 @@ HRESULT Mondai::MakeVertexMondai(LPDIRECT3DDEVICE9 pDevice)
 	//
 
 		//頂点バッファをアンロック
-		g_pVtxBuffMondai->Unlock();
+		//g_pVtxBuffMondai->Unlock();
 	
 
 	return S_OK;

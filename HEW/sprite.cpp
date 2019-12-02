@@ -38,12 +38,12 @@ HRESULT Sprite::Init(LPDIRECT3DDEVICE9 pDevice)
 	WORD* pIndex;		//	インデクスバッファへのポインタ
 	m_pVertexBuffer->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].pos = D3DXVECTOR3(-30.0f, 30.0f, -30.0f);		//	中身「を関数の引数にする
-	pVtx[1].pos = D3DXVECTOR3(30.0f, 30.0f, -30.0f);
+	pVtx[0].pos = D3DXVECTOR3(-30.0f,  30.0f, -30.0f);	
+	pVtx[1].pos = D3DXVECTOR3( 30.0f,  30.0f, -30.0f);
 	pVtx[2].pos = D3DXVECTOR3(-30.0f, -30.0f, -30.0f);
-	pVtx[3].pos = D3DXVECTOR3(30.0f, -30.0f, -30.0f);
-	pVtx[4].pos = D3DXVECTOR3(30.0f, -30.0f, 30.0f);
-	pVtx[5].pos = D3DXVECTOR3(-30.0f, -30.0f, 30.0f);
+	pVtx[3].pos = D3DXVECTOR3( 30.0f, -30.0f, -30.0f);
+	pVtx[4].pos = D3DXVECTOR3( 30.0f, -30.0f,  30.0f);
+	pVtx[5].pos = D3DXVECTOR3(-30.0f, -30.0f,  30.0f);
 
 	for (int i = 0; i < 5 ; i++)
 	{
@@ -187,31 +187,24 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 }
 
 //	3D描画（引数：テクスチャ、X座標、Y座標、Z座標、）
-void Sprite::Draw(TextureIndex Texture, float pos_x,float pos_y,float pos_z,float rot_x,float rot_y,float rot_z,float scl_x,float scl_y,float scl_z)
+void Sprite::Draw(TextureIndex Texture, float pos_x,float pos_y,float pos_z)
 {
 	m_Device = GetD3DDevice();
 
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
 
-	//	ワールド変換（ワールドマトリクスの初期化）
+	//	ワールド変換（ワールドマトリクスの初期化）0
 	D3DXMatrixIdentity(&m_mtxWorld);
-	D3DXMatrixScaling(&mtxScl, scl_x, scl_y, scl_z);
+	D3DXMatrixScaling(&mtxScl, 1, 1, 1);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScl);					//　引数は2番目と3番目の計算結果を1番目に入れる
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot_x, rot_y, rot_z);
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, 0, 0, 0);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
-	D3DXMatrixTranslation(&mtxTranslate, pos_y, pos_x, pos_z);
+	D3DXMatrixTranslation(&mtxTranslate, pos_x, pos_y, pos_z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTranslate);
 
 	// ワールドマトリクスの設定
 	m_Device->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-
-	//	頂点バッファをデバイスのデータストリームにバインド
-	//	SetStreamSource	(第１引数:頂点バッファを設定するストリーム番号を指定、第２引数:頂点バッファへのポインタを指定、第３引数:頂点データの一つ分のデータサイズをバイト単位で指定)
-	m_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX_3D));
-
-	//インデックスバッファのセット
-	m_Device->SetIndices(m_pIndexBuffer);
-
+		
 	//	頂点フォーマットの設定
 	m_Device->SetFVF(FVF_VERTEX3D);
 
@@ -229,7 +222,9 @@ void Sprite::Draw(TextureIndex Texture, float pos_x,float pos_y,float pos_z,floa
 	//----------------------------------------------------------------------------------------------
 
 	//	自分で作った頂点バッファを描画（メモリの確保、解放をしなければならない　-> 多用すると遅くなる）
-	//DrawPrimitive (第1引数：プリミティブを指定、第2引数：描画を開始する頂点を指定、第3引数：使用するプリミティブの数を指定)
+	//DrawPrimitive (第1引数：プリミティブを指定、第2引数：描画を開始する頂点を指定、第3引数：使用するプリミティブの数を指定)n 
 	//m_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, POLYGON_NUM);
 	m_Device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 20, 0, 12);
+
+	m_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 }
