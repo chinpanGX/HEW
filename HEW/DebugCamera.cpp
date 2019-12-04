@@ -14,7 +14,7 @@
 
 //　マクロ定義
 #define	CAM_POS_V_X		(0.0f)											// カメラの視点初期位置(X座標)
-#define	CAM_POS_V_Y		(0.0f)										// カメラの視点初期位置(Y座標)
+#define	CAM_POS_V_Y		(0.0f)											// カメラの視点初期位置(Y座標)
 #define	CAM_POS_V_Z		(-100.0f)										// カメラの視点初期位置(Z座標)
 #define	CAM_POS_R_X		(0.0f)											// カメラの注視点初期位置(X座標)
 #define	CAM_POS_R_Y		(0.0f)											// カメラの注視点初期位置(Y座標)
@@ -96,11 +96,13 @@ void DebugCamera::Update()
 	if (KeyBoard::IsPress(DIK_Y))
 	{
 		posV.y += MOVE_CAMERA;
+		posR.y += MOVE_CAMERA;
 	}
 
 	if (KeyBoard::IsPress(DIK_N))
 	{
 		posV.y -= MOVE_CAMERA;
+		posR.y -= MOVE_CAMERA;
 	}
 
 	if (KeyBoard::IsPress(DIK_E))
