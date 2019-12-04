@@ -136,7 +136,7 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 }
 
 //	描画 (引数：テクスチャ、カラー設定、X座標、Y座標、テクスチャX座標、テクスチャY座標、テクスチャの横幅、テクスチャの縦幅)
-void Sprite::Draw(TextureIndex texture_index, D3DCOLOR color,float dx, float dy, int tx, int ty, int tw, int th)
+void Sprite::Draw(TextureIndex texture_index, int col_r, int col_g, int col_b, int col_a,float dx, float dy, int tx, int ty, int tw, int th)
 {
 	m_Device = GetD3DDevice();
 	if (!m_Device) return;
@@ -152,10 +152,10 @@ void Sprite::Draw(TextureIndex texture_index, D3DCOLOR color,float dx, float dy,
 
 	VERTEX_2D vertexes[] =
 	{
-		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f),color, D3DXVECTOR2(u[0], v[0]) },
-		{ D3DXVECTOR4(dx + tw - MINA, dy - MINA, 0.0f, 1.0f),color, D3DXVECTOR2(u[1], v[0]) },
-		{ D3DXVECTOR4(dx - MINA, dy + th - MINA, 0.0f, 1.0f),color, D3DXVECTOR2(u[0], v[1]) },
-		{ D3DXVECTOR4(dx + tw - MINA, dy + th - MINA, 0.0f, 1.0f), color, D3DXVECTOR2(u[1], v[1]) },
+		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[0], v[0]) },
+		{ D3DXVECTOR4(dx + tw - MINA, dy - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[1], v[0]) },
+		{ D3DXVECTOR4(dx - MINA, dy + th - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[0], v[1]) },
+		{ D3DXVECTOR4(dx + tw - MINA, dy + th - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[1], v[1]) },
 	};
 
 	m_Device->SetFVF(FVF_VERTEX2D);
