@@ -135,8 +135,8 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
     m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
 }
 
-//	描画 (引数：テクスチャ、カラー設定、X座標、Y座標、テクスチャX座標、テクスチャY座標、テクスチャの横幅、テクスチャの縦幅)
-void Sprite::Draw(TextureIndex texture_index, int col_r, int col_g, int col_b, int col_a,float dx, float dy, int tx, int ty, int tw, int th)
+//	描画 (引数：テクスチャ、X座標、Y座標、テクスチャX座標、テクスチャY座標、テクスチャの横幅、テクスチャの縦幅、カラー設定(R)、カラー設定(G)、カラー設定(B)、カラー設定(A))
+void Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, int col_r, int col_g, int col_b, int col_a)
 {
 	m_Device = GetD3DDevice();
 	if (!m_Device) return;
