@@ -32,10 +32,10 @@ struct VERTEX_2D
 // 3Dポリゴン頂点フォーマットに合わせた構造体を定義
 struct VERTEX_3D
 {
-	D3DXVECTOR3 pos;	// 頂点座標
+	D3DXVECTOR3 pos;	    // 頂点座標
 	D3DXVECTOR3 nor;		// 法線ベクトル
 	D3DCOLOR	col;		// 頂点カラー
-	D3DXVECTOR2 tex;	// テクスチャ座標
+	D3DXVECTOR2 tex;	    // テクスチャ座標
 };
 
 //　シーンの状態管理変数　

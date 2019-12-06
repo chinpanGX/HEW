@@ -1,7 +1,7 @@
 /*==================================
 
 	[sprite.cpp]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ==================================*/
 
@@ -11,22 +11,22 @@
 #include "texture.h"
 #include "sprite.h"
 
-//	ƒ}ƒNƒ’è‹`
-#define MINA	(0.5f)	//	‰æ–Ê‚Ì•\¦ˆÊ’u‚ÌC³ŒÅ’è’l
+//	ãƒã‚¯ãƒ­å®šç¾©
+#define MINA	(0.5f)	//	ç”»é¢ã®è¡¨ç¤ºä½ç½®ã®ä¿®æ­£å›ºå®šå€¤
 
-//	ƒOƒ[ƒoƒ‹•Ï”
-D3DCOLOR g_Color = D3DCOLOR_RGBA(255, 255, 255, 255);	//ƒJƒ‰[‚Ì•ÏX‚ª‰Â”\
+//	ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+D3DCOLOR g_Color = D3DCOLOR_RGBA(255, 255, 255, 255);	//ã‚«ãƒ©ãƒ¼ã®å¤‰æ›´ãŒå¯èƒ½
 
-//	ƒXƒ^ƒeƒBƒbƒN•Ï”
-LPDIRECT3DDEVICE9		Sprite::m_Device;			//	ƒfƒoƒCƒX
+//	ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯å¤‰æ•°
+LPDIRECT3DDEVICE9		Sprite::m_Device;			//	ãƒ‡ãƒã‚¤ã‚¹
 
-//	F‚ğİ’è‚·‚éƒZƒbƒ^[
+//	è‰²ã‚’è¨­å®šã™ã‚‹ã‚»ãƒƒã‚¿ãƒ¼
 void Sprite::SetColor(D3DCOLOR color)
 {
 	g_Color = color;
 }
 
-//	•`‰æ (ˆø”FƒeƒNƒXƒ`ƒƒAXÀ•WAYÀ•W)
+//	æç”» (å¼•æ•°ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã€Xåº§æ¨™ã€Yåº§æ¨™)
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 {
 	m_Device = GetD3DDevice();
@@ -35,8 +35,9 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 	float w = (float)Texture_GetWidth(texture_index);
 	float h = (float)Texture_GetHeight(texture_index);
 
-	VERTEX_2D vertexes[] = {
-		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(0.0f, 0.0f) },
+	VERTEX_2D vertexes[] = 
+	{
+		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f),     g_Color, D3DXVECTOR2(0.0f, 0.0f) },
 		{ D3DXVECTOR4(dx + w - MINA, dy - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(1.0f, 0.0f) },
 		{ D3DXVECTOR4(dx - MINA, dy + h - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(0.0f, 1.0f) },
 		{ D3DXVECTOR4(dx + w - MINA, dy + h - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(1.0f, 1.0f) },
@@ -48,8 +49,8 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 	m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
 }
 
-//	•`‰æ (ˆø”FƒeƒNƒXƒ`ƒƒAXÀ•WAYÀ•WAƒeƒNƒXƒ`ƒƒXÀ•WAƒeƒNƒXƒ`ƒƒYÀ•WAƒeƒNƒXƒ`ƒƒ‚Ì‰¡•AƒeƒNƒXƒ`ƒƒ‚Ìc•)
-void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty,int tw, int th)
+//	æç”» (å¼•æ•°ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã€Xåº§æ¨™ã€Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Xåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…)
+void Sprite::Draw(TextureIndex texture_index, float dx, float dy,int tx, int ty,int tw, int th)
 {
 	m_Device = GetD3DDevice();
     if( !m_Device ) return;
@@ -74,9 +75,10 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
     m_Device->SetFVF(FVF_VERTEX2D);
 	m_Device->SetTexture(0, Texture_GetTexture(texture_index));
     m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
+	
 }
 
-//	•`‰æ (ˆø”FƒeƒNƒXƒ`ƒƒAXÀ•WAYÀ•WAƒeƒNƒXƒ`ƒƒXÀ•WAƒeƒNƒXƒ`ƒƒYÀ•WAƒeƒNƒXƒ`ƒƒ‚Ì‰¡•AƒeƒNƒXƒ`ƒƒ‚Ìc•AƒJƒ‰[İ’è(R)AƒJƒ‰[İ’è(G)AƒJƒ‰[İ’è(B)AƒJƒ‰[İ’è(A))
+//	æç”» (å¼•æ•°ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã€Xåº§æ¨™ã€Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Xåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…ã€ã‚«ãƒ©ãƒ¼è¨­å®š(R)ã€ã‚«ãƒ©ãƒ¼è¨­å®š(G)ã€ã‚«ãƒ©ãƒ¼è¨­å®š(B)ã€ã‚«ãƒ©ãƒ¼è¨­å®š(A))
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, int col_r, int col_g, int col_b, int col_a)
 {
 	m_Device = GetD3DDevice();
@@ -104,7 +106,7 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 	m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
 }
 
-//	•`‰æ (ˆø”FƒeƒNƒXƒ`ƒƒAXÀ•WAYÀ•WAƒeƒNƒXƒ`ƒƒXÀ•WAƒeƒNƒXƒ`ƒƒYÀ•WAƒeƒNƒXƒ`ƒƒ‚Ì‰¡•AƒeƒNƒXƒ`ƒƒ‚Ìc•AƒeƒNƒXƒ`ƒƒ‚Ì’†SÀ•WAŠg‘åk¬A‰ñ“])
+//	æç”» (å¼•æ•°ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã€Xåº§æ¨™ã€Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Xåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ä¸­å¿ƒåº§æ¨™ã€æ‹¡å¤§ç¸®å°ã€å›è»¢)
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, float cx, float cy, float sx, float sy, float rotation)
 {
 	m_Device = GetD3DDevice();
@@ -136,7 +138,8 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 	D3DXMatrixRotationZ(&matRot, rotation);
 	D3DXMatrixScaling(&matScale, sx, sy, 1.0f);
 
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < 4; i++)
+	{
 		matAll = matBase[i] * matScale * matRot * matTrans;
 		px[i] = matAll._41;
 		py[i] = matAll._42;
