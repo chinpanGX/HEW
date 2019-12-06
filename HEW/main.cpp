@@ -14,6 +14,7 @@
 #include "SceneManager.h"
 #include "DebugCamera.h"
 #include "texture.h"
+#include "Count.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -419,6 +420,7 @@ void Draw()
 
 	// 描画バッチ命令の終了
 	pD3DDevice->EndScene();
+
 
 	// バックバッファをフリップ（タイミングはD3DPRESENT_PARAMETERSの設定による）
 	pD3DDevice->Present(NULL, NULL, NULL, NULL);

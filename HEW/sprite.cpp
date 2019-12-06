@@ -24,53 +24,53 @@ LPDIRECT3DINDEXBUFFER9	Sprite::m_pIndexBuffer;		//	インデックスバッファ
 LPDIRECT3DDEVICE9		Sprite::m_Device;			//	デバイス
 
 //	初期化処理
-HRESULT Sprite::Init(LPDIRECT3DDEVICE9 pDevice)
-{
-	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX3D, D3DPOOL_MANAGED, &m_pVertexBuffer, NULL)))
-	{
-		return E_FAIL;
-	}
-	if(FAILED(pDevice->CreateIndexBuffer(sizeof(WORD) * 6, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_pIndexBuffer, NULL)))
-	{
-		return E_FAIL;
-	}
-	VERTEX_3D *pVtx;	//	頂点バッファへのポインタ
-	WORD* pIndex;		//	インデクスバッファへのポインタ
-	m_pVertexBuffer->Lock(0, 0, (void**)&pVtx, 0);
-
-	pVtx[0].pos = D3DXVECTOR3(-30.0f, 30.0f, -30.0f);		//	中身「を関数の引数にする
-	pVtx[1].pos = D3DXVECTOR3(30.0f, 30.0f, -30.0f);
-	pVtx[2].pos = D3DXVECTOR3(-30.0f, -30.0f, -30.0f);
-	pVtx[3].pos = D3DXVECTOR3(30.0f, -30.0f, -30.0f);
-	pVtx[4].pos = D3DXVECTOR3(30.0f, -30.0f, 30.0f);
-	pVtx[5].pos = D3DXVECTOR3(-30.0f, -30.0f, 30.0f);
-
-	for (int i = 0; i < 5 ; i++)
-	{
-		pVtx[i].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		pVtx[i].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	}
-
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(2.0f, 0.0f);
-	pVtx[3].tex = D3DXVECTOR2(3.0f, 0.0f);
-	pVtx[4].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[5].tex = D3DXVECTOR2(1.0f, 1.0f);
-	pVtx[6].tex = D3DXVECTOR2(2.0f, 1.0f);
-	pVtx[7].tex = D3DXVECTOR2(3.0f, 1.0f);
-	
-	m_pVertexBuffer ->Unlock();
-	
-	m_pIndexBuffer->Lock(0, 0, (void**)&pIndex, D3DLOCK_DISCARD);
-	pIndex[0] = 0;
-	pIndex[1] = 1;
-	pIndex[2] = 2;
-	pIndex[3] = 1;
-	pIndex[4] = 3;
-	pIndex[5] = 2;
-	m_pIndexBuffer->Unlock();
-}
+//HRESULT Sprite::Init(LPDIRECT3DDEVICE9 pDevice)
+//{
+//	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX3D, D3DPOOL_MANAGED, &m_pVertexBuffer, NULL)))
+//	{
+//		return E_FAIL;
+//	}
+//	if(FAILED(pDevice->CreateIndexBuffer(sizeof(WORD) * 6, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_pIndexBuffer, NULL)))
+//	{
+//		return E_FAIL;
+//	}
+//	VERTEX_3D *pVtx;	//	頂点バッファへのポインタ
+//	WORD* pIndex;		//	インデクスバッファへのポインタ
+//	m_pVertexBuffer->Lock(0, 0, (void**)&pVtx, 0);
+//
+//	pVtx[0].pos = D3DXVECTOR3(-30.0f, 30.0f, -30.0f);		//	中身「を関数の引数にする
+//	pVtx[1].pos = D3DXVECTOR3(30.0f, 30.0f, -30.0f);
+//	pVtx[2].pos = D3DXVECTOR3(-30.0f, -30.0f, -30.0f);
+//	pVtx[3].pos = D3DXVECTOR3(30.0f, -30.0f, -30.0f);
+//	pVtx[4].pos = D3DXVECTOR3(30.0f, -30.0f, 30.0f);
+//	pVtx[5].pos = D3DXVECTOR3(-30.0f, -30.0f, 30.0f);
+//
+//	for (int i = 0; i < 5 ; i++)
+//	{
+//		pVtx[i].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+//		pVtx[i].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+//	}
+//
+//	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+//	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+//	pVtx[2].tex = D3DXVECTOR2(2.0f, 0.0f);
+//	pVtx[3].tex = D3DXVECTOR2(3.0f, 0.0f);
+//	pVtx[4].tex = D3DXVECTOR2(0.0f, 1.0f);
+//	pVtx[5].tex = D3DXVECTOR2(1.0f, 1.0f);
+//	pVtx[6].tex = D3DXVECTOR2(2.0f, 1.0f);
+//	pVtx[7].tex = D3DXVECTOR2(3.0f, 1.0f);
+//	
+//	m_pVertexBuffer ->Unlock();
+//	
+//	m_pIndexBuffer->Lock(0, 0, (void**)&pIndex, D3DLOCK_DISCARD);
+//	pIndex[0] = 0;
+//	pIndex[1] = 1;
+//	pIndex[2] = 2;
+//	pIndex[3] = 1;
+//	pIndex[4] = 3;
+//	pIndex[5] = 2;
+//	m_pIndexBuffer->Unlock();
+//}
 
 //	終了処理
 void Sprite::Uninit()
@@ -94,8 +94,9 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 	float w = (float)Texture_GetWidth(texture_index);
 	float h = (float)Texture_GetHeight(texture_index);
 
-	VERTEX_2D vertexes[] = {
-		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(0.0f, 0.0f) },
+	VERTEX_2D vertexes[] = 
+	{
+		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f),     g_Color, D3DXVECTOR2(0.0f, 0.0f) },
 		{ D3DXVECTOR4(dx + w - MINA, dy - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(1.0f, 0.0f) },
 		{ D3DXVECTOR4(dx - MINA, dy + h - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(0.0f, 1.0f) },
 		{ D3DXVECTOR4(dx + w - MINA, dy + h - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(1.0f, 1.0f) },
@@ -108,7 +109,7 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 }
 
 //	描画 (引数：テクスチャ、X座標、Y座標、テクスチャX座標、テクスチャY座標、テクスチャの横幅、テクスチャの縦幅)
-void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty,int tw, int th)
+void Sprite::Draw(TextureIndex texture_index, float dx, float dy,int tx, int ty,int tw, int th)
 {
 	m_Device = GetD3DDevice();
     if( !m_Device ) return;
@@ -133,6 +134,7 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
     m_Device->SetFVF(FVF_VERTEX2D);
 	m_Device->SetTexture(0, Texture_GetTexture(texture_index));
     m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
+	
 }
 
 //	描画 (引数：テクスチャ、X座標、Y座標、テクスチャX座標、テクスチャY座標、テクスチャの横幅、テクスチャの縦幅、テクスチャの中心座標、拡大縮小、回転)
@@ -167,7 +169,8 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 	D3DXMatrixRotationZ(&matRot, rotation);
 	D3DXMatrixScaling(&matScale, sx, sy, 1.0f);
 
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < 4; i++)
+	{
 		matAll = matBase[i] * matScale * matRot * matTrans;
 		px[i] = matAll._41;
 		py[i] = matAll._42;

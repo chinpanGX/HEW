@@ -27,6 +27,7 @@ static const TEXTURE g_TextureFiles[] =
 	{ "asset/texture/result.png",		1920, 1080 },	//	リザルト背景テクスチャ
 	{ "asset/texture/modeselect.png",	1920, 1080 },	//	モード選択背景テクスチャ
 	{ "asset/texture/quizsample.png",	1024, 256  },
+	{ "asset/texture/su.png",	         640,  64  },
 };
 
 static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//テクスチャファイルを数える
@@ -39,7 +40,8 @@ static LPDIRECT3DTEXTURE9 g_pTextures[TEXTURE_FILE_COUNT] = {};	//テクスチャを格
 int Texture_Load()
 {   
     LPDIRECT3DDEVICE9 m_Device = GetD3DDevice();
-	if( !m_Device ) {
+	if( !m_Device )
+	{
 		return TEXTURE_FILE_COUNT;
 	}
 
@@ -68,7 +70,8 @@ void Texture_Release()
 //テクスチャオブジェクトを画像ファイルから読み込む関数
 LPDIRECT3DTEXTURE9 Texture_GetTexture(TextureIndex index)
 {
-    if( index < 0 || index >= TEXTURE_INDEX_MAX ) {
+    if( index < 0 || index >= TEXTURE_INDEX_MAX ) 
+	{
         return NULL;
     }
 
