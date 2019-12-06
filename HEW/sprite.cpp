@@ -1,7 +1,7 @@
 /*==================================
 
 	[sprite.cpp]
-	Author : èoçá„ƒëæ
+	Author : Âá∫ÂêàÁøîÂ§™
 
 ==================================*/
 
@@ -11,81 +11,22 @@
 #include "texture.h"
 #include "sprite.h"
 
-//	É}ÉNÉçíËã`
-#define MINA	(0.5f)	//	âÊñ ÇÃï\é¶à íuÇÃèCê≥å≈íËíl
+//	„Éû„ÇØ„É≠ÂÆöÁæ©
+#define MINA	(0.5f)	//	ÁîªÈù¢„ÅÆË°®Á§∫‰ΩçÁΩÆ„ÅÆ‰øÆÊ≠£Âõ∫ÂÆöÂÄ§
 
-//	ÉOÉçÅ[ÉoÉãïœêî
-D3DCOLOR g_Color = D3DCOLOR_RGBA(255, 255, 255, 255);	//ÉJÉâÅ[ÇÃïœçXÇ™â¬î\
+//	„Ç∞„É≠„Éº„Éê„É´Â§âÊï∞
+D3DCOLOR g_Color = D3DCOLOR_RGBA(255, 255, 255, 255);	//„Ç´„É©„Éº„ÅÆÂ§âÊõ¥„ÅåÂèØËÉΩ
 
-//	ÉXÉ^ÉeÉBÉbÉNïœêî
-D3DXMATRIX				Sprite::m_mtxWorld;			//	ÉèÅ[ÉãÉhÉ}ÉgÉäÉbÉNÉX
-LPDIRECT3DVERTEXBUFFER9 Sprite::m_pVertexBuffer;	//	í∏ì_ÉoÉbÉtÉ@(í∏ì_èÓïÒ)Çäiî[ÇµÇΩÉÅÉÇÉä
-LPDIRECT3DINDEXBUFFER9	Sprite::m_pIndexBuffer;		//	ÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@
-LPDIRECT3DDEVICE9		Sprite::m_Device;			//	ÉfÉoÉCÉX
+//	„Çπ„Çø„ÉÜ„Ç£„ÉÉ„ÇØÂ§âÊï∞
+LPDIRECT3DDEVICE9		Sprite::m_Device;			//	„Éá„Éê„Ç§„Çπ
 
-//	èâä˙âªèàóù
-//HRESULT Sprite::Init(LPDIRECT3DDEVICE9 pDevice)
-//{
-//	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX3D, D3DPOOL_MANAGED, &m_pVertexBuffer, NULL)))
-//	{
-//		return E_FAIL;
-//	}
-//	if(FAILED(pDevice->CreateIndexBuffer(sizeof(WORD) * 6, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_pIndexBuffer, NULL)))
-//	{
-//		return E_FAIL;
-//	}
-//	VERTEX_3D *pVtx;	//	í∏ì_ÉoÉbÉtÉ@Ç÷ÇÃÉ|ÉCÉìÉ^
-//	WORD* pIndex;		//	ÉCÉìÉfÉNÉXÉoÉbÉtÉ@Ç÷ÇÃÉ|ÉCÉìÉ^
-//	m_pVertexBuffer->Lock(0, 0, (void**)&pVtx, 0);
-//
-//	pVtx[0].pos = D3DXVECTOR3(-30.0f, 30.0f, -30.0f);		//	íÜêgÅuÇä÷êîÇÃà¯êîÇ…Ç∑ÇÈ
-//	pVtx[1].pos = D3DXVECTOR3(30.0f, 30.0f, -30.0f);
-//	pVtx[2].pos = D3DXVECTOR3(-30.0f, -30.0f, -30.0f);
-//	pVtx[3].pos = D3DXVECTOR3(30.0f, -30.0f, -30.0f);
-//	pVtx[4].pos = D3DXVECTOR3(30.0f, -30.0f, 30.0f);
-//	pVtx[5].pos = D3DXVECTOR3(-30.0f, -30.0f, 30.0f);
-//
-//	for (int i = 0; i < 5 ; i++)
-//	{
-//		pVtx[i].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-//		pVtx[i].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-//	}
-//
-//	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-//	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-//	pVtx[2].tex = D3DXVECTOR2(2.0f, 0.0f);
-//	pVtx[3].tex = D3DXVECTOR2(3.0f, 0.0f);
-//	pVtx[4].tex = D3DXVECTOR2(0.0f, 1.0f);
-//	pVtx[5].tex = D3DXVECTOR2(1.0f, 1.0f);
-//	pVtx[6].tex = D3DXVECTOR2(2.0f, 1.0f);
-//	pVtx[7].tex = D3DXVECTOR2(3.0f, 1.0f);
-//	
-//	m_pVertexBuffer ->Unlock();
-//	
-//	m_pIndexBuffer->Lock(0, 0, (void**)&pIndex, D3DLOCK_DISCARD);
-//	pIndex[0] = 0;
-//	pIndex[1] = 1;
-//	pIndex[2] = 2;
-//	pIndex[3] = 1;
-//	pIndex[4] = 3;
-//	pIndex[5] = 2;
-//	m_pIndexBuffer->Unlock();
-//}
-
-//	èIóπèàóù
-void Sprite::Uninit()
-{
-	DEVICE_RELEASE(m_pIndexBuffer);
-	DEVICE_RELEASE(m_pVertexBuffer);
-}
-
-//	êFÇê›íËÇ∑ÇÈÉZÉbÉ^Å[
+//	Ëâ≤„ÇíË®≠ÂÆö„Åô„Çã„Çª„ÉÉ„Çø„Éº
 void Sprite::SetColor(D3DCOLOR color)
 {
 	g_Color = color;
 }
 
-//	ï`âÊ (à¯êîÅFÉeÉNÉXÉ`ÉÉÅAXç¿ïWÅAYç¿ïW)
+//	ÊèèÁîª (ÂºïÊï∞Ôºö„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÄÅXÂ∫ßÊ®ô„ÄÅYÂ∫ßÊ®ô)
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 {
 	m_Device = GetD3DDevice();
@@ -108,7 +49,7 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 	m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
 }
 
-//	ï`âÊ (à¯êîÅFÉeÉNÉXÉ`ÉÉÅAXç¿ïWÅAYç¿ïWÅAÉeÉNÉXÉ`ÉÉXç¿ïWÅAÉeÉNÉXÉ`ÉÉYç¿ïWÅAÉeÉNÉXÉ`ÉÉÇÃâ°ïùÅAÉeÉNÉXÉ`ÉÉÇÃècïù)
+//	ÊèèÁîª (ÂºïÊï∞Ôºö„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÄÅXÂ∫ßÊ®ô„ÄÅYÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£XÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£YÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆÊ®™ÂπÖ„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆÁ∏¶ÂπÖ)
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy,int tx, int ty,int tw, int th)
 {
 	m_Device = GetD3DDevice();
@@ -137,7 +78,35 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy,int tx, int ty,
 	
 }
 
-//	ï`âÊ (à¯êîÅFÉeÉNÉXÉ`ÉÉÅAXç¿ïWÅAYç¿ïWÅAÉeÉNÉXÉ`ÉÉXç¿ïWÅAÉeÉNÉXÉ`ÉÉYç¿ïWÅAÉeÉNÉXÉ`ÉÉÇÃâ°ïùÅAÉeÉNÉXÉ`ÉÉÇÃècïùÅAÉeÉNÉXÉ`ÉÉÇÃíÜêSç¿ïWÅAägëÂèkè¨ÅAâÒì])
+//	ÊèèÁîª (ÂºïÊï∞Ôºö„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÄÅXÂ∫ßÊ®ô„ÄÅYÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£XÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£YÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆÊ®™ÂπÖ„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆÁ∏¶ÂπÖ„ÄÅ„Ç´„É©„ÉºË®≠ÂÆö(R)„ÄÅ„Ç´„É©„ÉºË®≠ÂÆö(G)„ÄÅ„Ç´„É©„ÉºË®≠ÂÆö(B)„ÄÅ„Ç´„É©„ÉºË®≠ÂÆö(A))
+void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, int col_r, int col_g, int col_b, int col_a)
+{
+	m_Device = GetD3DDevice();
+	if (!m_Device) return;
+
+	float w = (float)Texture_GetWidth(texture_index);
+	float h = (float)Texture_GetHeight(texture_index);
+
+	float u[2], v[2];
+	u[0] = (float)tx / w;
+	v[0] = (float)ty / h;
+	u[1] = (float)(tx + tw) / w;
+	v[1] = (float)(ty + th) / h;
+
+	VERTEX_2D vertexes[] =
+	{
+		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[0], v[0]) },
+		{ D3DXVECTOR4(dx + tw - MINA, dy - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[1], v[0]) },
+		{ D3DXVECTOR4(dx - MINA, dy + th - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[0], v[1]) },
+		{ D3DXVECTOR4(dx + tw - MINA, dy + th - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[1], v[1]) },
+	};
+
+	m_Device->SetFVF(FVF_VERTEX2D);
+	m_Device->SetTexture(0, Texture_GetTexture(texture_index));
+	m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
+}
+
+//	ÊèèÁîª (ÂºïÊï∞Ôºö„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÄÅXÂ∫ßÊ®ô„ÄÅYÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£XÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£YÂ∫ßÊ®ô„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆÊ®™ÂπÖ„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆÁ∏¶ÂπÖ„ÄÅ„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆ‰∏≠ÂøÉÂ∫ßÊ®ô„ÄÅÊã°Â§ßÁ∏ÆÂ∞è„ÄÅÂõûËª¢)
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, float cx, float cy, float sx, float sy, float rotation)
 {
 	m_Device = GetD3DDevice();
@@ -187,52 +156,4 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 	m_Device->SetFVF(FVF_VERTEX2D);
 	m_Device->SetTexture(0, Texture_GetTexture(texture_index));
 	m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
-}
-
-//	3Dï`âÊÅià¯êîÅFÉeÉNÉXÉ`ÉÉÅAXç¿ïWÅAYç¿ïWÅAZç¿ïWÅAÅj
-void Sprite::Draw(TextureIndex Texture, float pos_x,float pos_y,float pos_z,float rot_x,float rot_y,float rot_z,float scl_x,float scl_y,float scl_z)
-{
-	m_Device = GetD3DDevice();
-
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
-
-	//	ÉèÅ[ÉãÉhïœä∑ÅiÉèÅ[ÉãÉhÉ}ÉgÉäÉNÉXÇÃèâä˙âªÅj
-	D3DXMatrixIdentity(&m_mtxWorld);
-	D3DXMatrixScaling(&mtxScl, scl_x, scl_y, scl_z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScl);					//Å@à¯êîÇÕ2î‘ñ⁄Ç∆3î‘ñ⁄ÇÃåvéZåãâ Ç1î‘ñ⁄Ç…ì¸ÇÍÇÈ
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot_x, rot_y, rot_z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
-	D3DXMatrixTranslation(&mtxTranslate, pos_y, pos_x, pos_z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTranslate);
-
-	// ÉèÅ[ÉãÉhÉ}ÉgÉäÉNÉXÇÃê›íË
-	m_Device->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-
-	//	í∏ì_ÉoÉbÉtÉ@ÇÉfÉoÉCÉXÇÃÉfÅ[É^ÉXÉgÉäÅ[ÉÄÇ…ÉoÉCÉìÉh
-	//	SetStreamSource	(ëÊÇPà¯êî:í∏ì_ÉoÉbÉtÉ@Çê›íËÇ∑ÇÈÉXÉgÉäÅ[ÉÄî‘çÜÇéwíËÅAëÊÇQà¯êî:í∏ì_ÉoÉbÉtÉ@Ç÷ÇÃÉ|ÉCÉìÉ^ÇéwíËÅAëÊÇRà¯êî:í∏ì_ÉfÅ[É^ÇÃàÍÇ¬ï™ÇÃÉfÅ[É^ÉTÉCÉYÇÉoÉCÉgíPà Ç≈éwíË)
-	m_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX_3D));
-
-	//ÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@ÇÃÉZÉbÉg
-	m_Device->SetIndices(m_pIndexBuffer);
-
-	//	í∏ì_ÉtÉHÅ[É}ÉbÉgÇÃê›íË
-	m_Device->SetFVF(FVF_VERTEX3D);
-
-	//ÉeÉNÉXÉ`ÉÉÇÃê›íË
-	m_Device->SetTexture(0, Texture_GetTexture(Texture));
-
-	//----------------------------------------------------------------------------------------------
-	//	  DrawPrimitiveUpÇ∆DrawRimitiveÇÃà·Ç¢
-	//"		DrawPrimitiveUpÇÃê‡ñæ	->	î¬É|ÉäÇ»Ç«í∏ì_Ç™è≠Ç»Ç¢ÉIÉuÉWÉFÉNÉgÇ≈égÇ§
-	//!			ÇPÅDDrawPrimitiveUpÇ™í∏ì_èÓïÒÇí èÌÇÃÉÅÉÇÉäÇ…íuÇ≠ -> èàóùÇ™íxÇ≠Ç»ÇÈ
-	//!			ÇQÅDLockÇ∆UnlockÇégÇÌÇ»Ç≠ÇƒÇ¢Ç¢	
-	//"		DrawPrimitiveÇÃê‡ñæ		->	í∏ì_Ç™ëΩÇ¢ÉÇÉfÉãÉtÉ@ÉCÉãÇ»Ç«Çï`âÊÇ∑ÇÈÇ∆Ç´Ç…égÇ§
-	//!			ÇPÅDí∏ì_èÓïÒÇ™VRAMè„Ç…íuÇ©ÇÍÇÈÅ@-> èàóùë¨ìxÇ™ë¨Ç¢
-	//!			ÇQÅDLockÇ∆UnlockÇ™ïKóvÇ…Ç»ÇÈ	-> ÉpÉtÉHÅ[É}ÉìÉXÇ™í·â∫ ->Ç»ÇÈÇ◊Ç≠è≠Ç»Ç≠ÇµÇΩÇ¢
-	//----------------------------------------------------------------------------------------------
-
-	//	é©ï™Ç≈çÏÇ¡ÇΩí∏ì_ÉoÉbÉtÉ@Çï`âÊÅiÉÅÉÇÉäÇÃämï€ÅAâï˙ÇÇµÇ»ÇØÇÍÇŒÇ»ÇÁÇ»Ç¢Å@-> ëΩópÇ∑ÇÈÇ∆íxÇ≠Ç»ÇÈÅj
-	//DrawPrimitive (ëÊ1à¯êîÅFÉvÉäÉ~ÉeÉBÉuÇéwíËÅAëÊ2à¯êîÅFï`âÊÇäJénÇ∑ÇÈí∏ì_ÇéwíËÅAëÊ3à¯êîÅFégópÇ∑ÇÈÉvÉäÉ~ÉeÉBÉuÇÃêîÇéwíË)
-	//m_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, POLYGON_NUM);
-	m_Device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 20, 0, 12);
 }

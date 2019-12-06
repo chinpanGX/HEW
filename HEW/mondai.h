@@ -16,7 +16,7 @@ class Mondai
 {
 private:
 	static LPDIRECT3DVERTEXBUFFER9	g_pVtxBuffMondai;	// 頂点バッファへのポインタ
-	static LPDIRECT3DINDEXBUFFER9	g_pIdxBuffMondai;
+	static LPDIRECT3DINDEXBUFFER9 g_pIdxBuffMondai;
 	static D3DXMATRIX				g_mtxWorldMondai;	// ワールドマトリックス
 	static LPDIRECT3DDEVICE9		pDevice;			// デバイス取得用変数
 	//	3次元ベクトル
@@ -28,6 +28,7 @@ public:
 	static void Uninit();										//	終了処理
 	static void Draw();										//	描画
 	static void Update();
-	static HRESULT MakeVertexMondai(LPDIRECT3DDEVICE9 pDevice);	//	頂点作成
+	//static void HitMondai();
+	//static HRESULT MakeVertexMondai(LPDIRECT3DDEVICE9 pDevice);	//	頂点作成
 };
 
