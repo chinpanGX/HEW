@@ -24,6 +24,12 @@ Author :hohman yuushi
 #define	VALUE_ROTATE_MODEL	(D3DX_PI * 0.05f)		// 回転速度
 #define	RATE_ROTATE_MODEL	(0.20f)					// 回転慣性係数
 
+#define	VALUE_JUMP				(10.0f)							// ジャンプ力
+#define	VALUE_GRAVITY			(0.45f)							// 重力
+#define	RATE_REGIST				(0.075f)						// 抵抗係数
+#define	RATE_REFRECT			(-0.90f)						// 反射係数
+
+
 /*--------------------------------------------------------------
 enum
 ---------------------------------------------------------------*/
@@ -47,6 +53,11 @@ static int	g_Q,g_A;				//正解番号格納、回答格納
 
 static float		Speedtmp;					//SPEED一時保存
 
+
+//重力で使用
+static bool flag;
+static double Gravity;
+static double moveGravity;
 
 LPDIRECT3DDEVICE9 Character::pDevice;
 //extern std::map<std::string, XFile *>g_pXFileList;
@@ -82,6 +93,11 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	rotModel = rot;
 	rotDestModel = rot;
 	moveModel = D3DXVECTOR3(0.0f, 0.0f, 0.05f);
+
+	//重力のやつ
+	Gravity = -0.0089;	//定数やねこれ
+	moveGravity = 0;
+	flag = false;
 
 	//Xファイルの読み込み
 	if (FAILED(D3DXLoadMeshFromX(MODEL_CAR,
@@ -250,6 +266,24 @@ void Character::Update()
 		posModel.x -= RATE_MOVE_MODEL;
 	}
 
+
+	//何も抵抗を考えない場合
+	if (flag == true)
+	{
+		if (posModel.y > -100)
+		{
+			moveGravity += Gravity;
+			moveModel.y += moveGravity;
+		}
+	}
+
+	if (KeyBoard::IsPress(DIK_G))
+	{
+		flag = true;
+	}
+
+
+	
 #if 0
 	// 範囲チェック
 	if (g_posModel.x < -310.0f)

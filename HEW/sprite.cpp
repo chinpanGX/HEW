@@ -18,66 +18,7 @@
 D3DCOLOR g_Color = D3DCOLOR_RGBA(255, 255, 255, 255);	//カラーの変更が可能
 
 //	スタティック変数
-D3DXMATRIX				Sprite::m_mtxWorld;			//	ワールドマトリックス
-LPDIRECT3DVERTEXBUFFER9 Sprite::m_pVertexBuffer;	//	頂点バッファ(頂点情報)を格納したメモリ
-LPDIRECT3DINDEXBUFFER9	Sprite::m_pIndexBuffer;		//	インデックスバッファ
 LPDIRECT3DDEVICE9		Sprite::m_Device;			//	デバイス
-
-//	初期化処理
-HRESULT Sprite::Init(LPDIRECT3DDEVICE9 pDevice)
-{
-	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX3D, D3DPOOL_MANAGED, &m_pVertexBuffer, NULL)))
-	{
-		return E_FAIL;
-	}
-	if(FAILED(pDevice->CreateIndexBuffer(sizeof(WORD) * 6, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_pIndexBuffer, NULL)))
-	{
-		return E_FAIL;
-	}
-	VERTEX_3D *pVtx;	//	頂点バッファへのポインタ
-	WORD* pIndex;		//	インデクスバッファへのポインタ
-	m_pVertexBuffer->Lock(0, 0, (void**)&pVtx, 0);
-
-	pVtx[0].pos = D3DXVECTOR3(-30.0f,  30.0f, -30.0f);	
-	pVtx[1].pos = D3DXVECTOR3( 30.0f,  30.0f, -30.0f);
-	pVtx[2].pos = D3DXVECTOR3(-30.0f, -30.0f, -30.0f);
-	pVtx[3].pos = D3DXVECTOR3( 30.0f, -30.0f, -30.0f);
-	pVtx[4].pos = D3DXVECTOR3( 30.0f, -30.0f,  30.0f);
-	pVtx[5].pos = D3DXVECTOR3(-30.0f, -30.0f,  30.0f);
-
-	for (int i = 0; i < 5 ; i++)
-	{
-		pVtx[i].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		pVtx[i].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	}
-
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(2.0f, 0.0f);
-	pVtx[3].tex = D3DXVECTOR2(3.0f, 0.0f);
-	pVtx[4].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[5].tex = D3DXVECTOR2(1.0f, 1.0f);
-	pVtx[6].tex = D3DXVECTOR2(2.0f, 1.0f);
-	pVtx[7].tex = D3DXVECTOR2(3.0f, 1.0f);
-	
-	m_pVertexBuffer ->Unlock();
-	
-	m_pIndexBuffer->Lock(0, 0, (void**)&pIndex, D3DLOCK_DISCARD);
-	pIndex[0] = 0;
-	pIndex[1] = 1;
-	pIndex[2] = 2;
-	pIndex[3] = 1;
-	pIndex[4] = 3;
-	pIndex[5] = 2;
-	m_pIndexBuffer->Unlock();
-}
-
-//	終了処理
-void Sprite::Uninit()
-{
-	DEVICE_RELEASE(m_pIndexBuffer);
-	DEVICE_RELEASE(m_pVertexBuffer);
-}
 
 //	色を設定するセッター
 void Sprite::SetColor(D3DCOLOR color)
@@ -135,8 +76,8 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
     m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
 }
 
-//	描画 (引数：テクスチャ、カラー設定、X座標、Y座標、テクスチャX座標、テクスチャY座標、テクスチャの横幅、テクスチャの縦幅)
-void Sprite::Draw(TextureIndex texture_index, int col_r, int col_g, int col_b, int col_a,float dx, float dy, int tx, int ty, int tw, int th)
+//	描画 (引数：テクスチャ、X座標、Y座標、テクスチャX座標、テクスチャY座標、テクスチャの横幅、テクスチャの縦幅、カラー設定(R)、カラー設定(G)、カラー設定(B)、カラー設定(A))
+void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, int col_r, int col_g, int col_b, int col_a)
 {
 	m_Device = GetD3DDevice();
 	if (!m_Device) return;
