@@ -1,7 +1,7 @@
 /*============================================
 
-[Character.cpp]
-Author :hohman yuushi
+	[Character.cpp]
+	Author :hohman yuushi
 
 =============================================*/
 
@@ -272,8 +272,8 @@ void Character::Update()
 	{
 		if (posModel.y > -100)
 		{
-			moveGravity += Gravity;
-			moveModel.y += moveGravity;
+			//moveGravity += Gravity;
+			//moveModel.y += moveGravity;
 		}
 	}
 

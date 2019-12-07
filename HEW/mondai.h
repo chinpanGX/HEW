@@ -1,7 +1,7 @@
 
 //ê¨
 
-
+#if 0
 
 
 #pragma once
@@ -32,3 +32,4 @@ public:
 	//static HRESULT MakeVertexMondai(LPDIRECT3DDEVICE9 pDevice);	//	í∏ì_çÏê¨
 };
 
+#endif

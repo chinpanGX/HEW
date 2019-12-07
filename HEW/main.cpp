@@ -414,6 +414,7 @@ void Draw()
 	// 描画バッチ命令の開始
 	pD3DDevice->BeginScene();
 
+	pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	//	シーンマネージャーの描画処理
 	SceneManager::Draw();
 

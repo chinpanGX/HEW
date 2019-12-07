@@ -17,9 +17,9 @@
 class SceneDebug: public SceneBase
 {
 private:
-	Character			m_Character;	//	Character型のインスタンス
-	CharacterCamera		m_CharaCamera;	//	CharacterCamera型のインスタンス
-	DebugCamera			m_Camera;		//	DebugCamera型のインスタンス	
+	//Character			m_Character;	//	Character型のインスタンス
+	CharacterCamera	m_CharaCamera;	//	CharacterCamera型のインスタンス
+	//DebugCamera			m_Camera;		//	DebugCamera型のインスタンス	
 	Map					m_Map;			//	Map型のインスタンス
 	Sprite				m_Sprite;		//	Sprite型のインスタンス
 public:
