@@ -22,7 +22,7 @@ private:
 	Character	m_Character;
 	DebugCamera m_Camera;
 	Map			m_Map;
-	//Sprite		m_Sprite;
+	//Sprite	m_Sprite;
 	Count       m_Count;
 public:
 	//SceneBaseのメンバー関数のオーバーライド

@@ -13,7 +13,7 @@
 //	マクロ定義
 #define SCREEN_WIDTH  (1920)												// スクリーン(クライアント領域)の幅
 #define SCREEN_HEIGHT (1080)												// スクリーン(クライアント領域)の高さ
-#define DEVICE_RELEASE(p) do {if(p){(p)->Release(); (p) = NULL;} } while(0)	//	DirectXデバイス解放マクロ
+#define SAFE_RELEASE(p) do {if(p){(p)->Release(); (p) = NULL;} } while(0)	//	DirectXデバイス解放マクロ
 //!	リリース版はフルスクリーン（FALSE）にする	
 #define WINMODE	TRUE														//ウィンドウモードの指定（TRUE：ウィンドウモード/FALSE:フルスクリーン）
 //!	2Dポリゴン頂点フォーマット( 頂点座標[2D] / 頂点カラー / テクスチャ座標 )	2Dポリゴンをスクリーン座標変換

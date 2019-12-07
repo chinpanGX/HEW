@@ -30,5 +30,5 @@ bool Input::Init(HINSTANCE hInstance)
 //DirectInputオブジェクト終了処理
 void Input::Uninit()
 {	
-	DEVICE_RELEASE(m_pInput);
+	SAFE_RELEASE(m_pInput);
 }

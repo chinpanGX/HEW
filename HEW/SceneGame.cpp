@@ -9,25 +9,33 @@
 #include "SceneManager.h"
 #include "Controller.h"
 #include "Character.h"
-#include "XFile.h"
-#include "Model.h"
 #include "main.h"
+#include "light.h"
+#include "debugproc.h"
 
 //	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—
 void SceneGame::Init()
 {
-
+	m_Character.Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 10.0f, 0.0f));
+	//m_Map.Init();
+	Light::Init();
+	m_Camera.Init();
+	DebugProc_Initialize();
 }
 
 //	ƒQ[ƒ€‚ÌI—¹ˆ—
 void SceneGame::Uninit()
 {
-	
+	m_Character.Uninit();
+	//m_Map.Uninit();
+	m_Camera.Uninit();
+	DebugProc_Finalize();
 }
 
 //	ƒQ[ƒ€‚ÌXVˆ—
 void SceneGame::Update()
 {
+	m_Camera.Update();
 	if (KeyBoard::IsTrigger(DIK_W))
 	{
 		SceneManager::ChangeSceneState();
@@ -37,5 +45,8 @@ void SceneGame::Update()
 //	ƒQ[ƒ€‚Ì•`‰æˆ—
 void SceneGame::Draw()
 {
-
+	m_Character.Draw();
+	//m_Map.Draw();
+	m_Camera.Set();
+	DebugProc_Draw();
 }

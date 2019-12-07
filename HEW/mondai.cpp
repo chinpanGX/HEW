@@ -1,6 +1,6 @@
 ﻿// author 成
 
-
+#if 0
 
 #include"main.h"
 
@@ -511,3 +511,5 @@ void SetVertexBillboard(float fSizeX, float fSizeY)
 //		DWORD dwStride,                     // count in bytes to subsequent position vectors 每个顶点字节数
 //		D3DXVECTOR3 *pCenter,
 //		FLOAT *pRadius); 
+
+#endif

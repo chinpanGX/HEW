@@ -63,7 +63,7 @@ void Texture_Release()
 {
 	for( int i = 0; i < TEXTURE_FILE_COUNT; i++ )
 	{
-		DEVICE_RELEASE(g_pTextures[i]);
+		SAFE_RELEASE(g_pTextures[i]);
 	}
 }
 

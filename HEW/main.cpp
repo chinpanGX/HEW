@@ -340,8 +340,8 @@ bool D3D_Init(HWND hWnd)
 // デバイスの終了処理
 void D3D_Uninit()
 {
-	DEVICE_RELEASE(g_pD3DDevice);	//	Direct3Dデバイスの解放
-	DEVICE_RELEASE(g_pD3D);			//	Direct3Dインタフェースの解放
+	SAFE_RELEASE(g_pD3DDevice);	//	Direct3Dデバイスの解放
+	SAFE_RELEASE(g_pD3D);			//	Direct3Dインタフェースの解放
 }
 
 //　初期化処理関数
