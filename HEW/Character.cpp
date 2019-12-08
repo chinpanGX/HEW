@@ -10,6 +10,7 @@
 #include "CharacterCamera.h"
 #include "debugproc.h"
 #include "Collision.h"
+#include "SceneManager.h"
 
 //	マクロ定義
 #define	VALUE_MOVE_MODEL	(0.5f)					// 移動速度
@@ -17,13 +18,13 @@
 #define	VALUE_ROTATE_MODEL	(D3DX_PI * 0.05f)		// 回転速度
 #define	RATE_ROTATE_MODEL	(0.2f)					// 回転慣性係数
 
-
 // スタティック変数
 LPDIRECT3DTEXTURE9	Character::m_pTexture = NULL;	//	テクスチャへのポインタ
 LPD3DXMESH			Character::m_pMesh	= NULL;		//	メッシュ情報へのポインタ
-LPD3DXBUFFER		Character::m_pBuffMat = NULL;		// マテリアル情報へのポインタ
-DWORD				Character::m_nNumMat;	//	マテリアル情報の総数
-D3DXMATRIX			Character::m_mtxWorld;	//	ワールドマトリックス
+LPD3DXBUFFER		Character::m_pBuffMat = NULL;	// マテリアル情報へのポインタ
+DWORD				Character::m_nNumMat;			//	マテリアル情報の総数
+D3DXMATRIX			Character::m_mtxWorld;			//	ワールドマトリックス
+int					Character::m_count;				//	問題数のカウンター
 
 //	初期化処理
 HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
@@ -35,20 +36,25 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	{
 		return E_FAIL;
 	}
-
-	//m_gravity = 0.9f;	//	重力	
-
+	
+	///	<summary>
+	///	変数の初期化
+	///	</summary>
 	m_position = pos;	//	位置
 	m_rotation = rot;	//	向き
 	m_rotDest = rot;	//	目的の向き
 	m_velocity = D3DXVECTOR3(0.0f, 0.5f, 0.0f);	//移動
-	
+	m_pCamera = new CharacterCamera;
+	m_count = 0;
+	m_score = 0;
+
 	return S_OK;
 }
 
 //	終了処理
 void Character::Uninit()
 {
+	delete m_pCamera;
 	SAFE_RELEASE(m_pBuffMat);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pTexture);
@@ -57,73 +63,70 @@ void Character::Uninit()
 //	更新処理
 void Character::Update()
 {
-	CharacterCamera *pCamera;
-	float fDiffRotY;
-
 	// カメラの取得
-	pCamera = GetCharCam();
+	m_pCamera = GetCharCam();
 
 	if (KeyBoard::IsPress(DIK_A) || GamePad::IsPress(0, LEFTSTICK_LEFT))
 	{
 		if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
 		{// 左奥移動
-			m_velocity.x += sinf(-D3DX_PI * 0.75f - pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(-D3DX_PI * 0.75f - pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.x += sinf(-D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.z -= cosf(-D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
-			m_rotDest.y = pCamera->rot.y + D3DX_PI * 0.75f;
+			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.75f;
 		}
 		else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_DOWN))
 		{// 左手前移動
-			m_velocity.x += sinf(-D3DX_PI * 0.25f - pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(-D3DX_PI * 0.25f - pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.x += sinf(-D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.z -= cosf(-D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
-			m_rotDest.y = pCamera->rot.y + D3DX_PI * 0.25f;
+			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.25f;
 		}
 		else
 		{// 左移動
-			m_velocity.x += sinf(-D3DX_PI * 0.50f - pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(-D3DX_PI * 0.50f - pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.x += sinf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.z -= cosf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
-			m_rotDest.y = pCamera->rot.y + D3DX_PI * 0.50f;
+			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.50f;
 		}
 	}
 	else if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_RIGHT))
 	{
 		if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
 		{// 右奥移動
-			m_velocity.x += sinf(D3DX_PI * 0.75f - pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(D3DX_PI * 0.75f - pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.x += sinf(D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.z -= cosf(D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
-			m_rotDest.y = pCamera->rot.y - D3DX_PI * 0.75f;
+			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.75f;
 		}
 		else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_DOWN))
 		{// 右手前移動
-			m_velocity.x += sinf(D3DX_PI * 0.25f - pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(D3DX_PI * 0.25f - pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.x += sinf(D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.z -= cosf(D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
-			m_rotDest.y = pCamera->rot.y - D3DX_PI * 0.25f;
+			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.25f;
 		}
 		else
 		{// 右移動
-			m_velocity.x += sinf(D3DX_PI * 0.50f - pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(D3DX_PI * 0.50f - pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.x += sinf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.z -= cosf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
-			m_rotDest.y = pCamera->rot.y - D3DX_PI * 0.50f;
+			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.50f;
 		}
 	}
 	else if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
 	{// 前移動
-		m_velocity.x += sinf(D3DX_PI * 1.0f - pCamera->rot.y) * VALUE_MOVE_MODEL;
-		m_velocity.z -= cosf(D3DX_PI * 1.0f - pCamera->rot.y) * VALUE_MOVE_MODEL;
+		m_velocity.x += sinf(D3DX_PI * 1.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+		m_velocity.z -= cosf(D3DX_PI * 1.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
-		m_rotDest.y = pCamera->rot.y + D3DX_PI * 1.0f;
+		m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 1.0f;
 	}
 	else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_DOWN))
 	{// 後移動
-		m_velocity.x += sinf(D3DX_PI * 0.0f - pCamera->rot.y) * VALUE_MOVE_MODEL;
-		m_velocity.z -= cosf(D3DX_PI * 0.0f - pCamera->rot.y) * VALUE_MOVE_MODEL;
+		m_velocity.x += sinf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+		m_velocity.z -= cosf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
-		m_rotDest.y = pCamera->rot.y + D3DX_PI * 0.0f;
+		m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.0f;
 	}
 
 	if (KeyBoard::IsPress(DIK_Q) || GamePad::IsPress(0, PS4RIGHTSTICK_LEFT))
@@ -142,7 +145,7 @@ void Character::Update()
 			m_rotDest.y -= D3DX_PI * 2.0f;
 		}
 	}
-
+	float fDiffRotY;
 	// 目的の角度までの差分
 	fDiffRotY = m_rotDest.y - m_rotation.y;
 	if (fDiffRotY > D3DX_PI)
@@ -178,7 +181,9 @@ void Character::Update()
 	// 移動量に慣性をかける
 	m_velocity.x += (0.0f - m_velocity.x) * RATE_MOVE_MODEL;
 	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;
-	
+
+	/// <summary>当たり判定</summary>
+#if 0	
 	// 当たり判定
 	FLOAT fDistance = 0;
 	D3DXVECTOR3 vNormal;
@@ -205,23 +210,36 @@ void Character::Update()
 
 	DebugProc_Print((char*)"Character [%f : %f : %f]\n", m_position.x, m_position.y, m_position.z);
 	DebugProc_Print((char*)"\n");
+#endif
 
+	///	<summary> 
+	///	ステート
+	///	当たり判定が完成したら、実行
+	///</summary>
+#if 0
 	//	ステート
-	switch (m_state)
+	switch (m_PlayerState)
 	{
 	case PLAYER_INIT:
+		InitState();
 		break;
-	case PLAYER_STRAT:
+	case PLAYER_MOVE:
+		MoveState();
 		break;
 	case PlAYER_ANSWERSTAY:
+		AnswerstayState();
 		break;
 	case PLAYER_ANSWER: 
+		AnswerState();
 		break;
 	case PLAYER_JUMP:
+		JumpState();
 		break;
 	case PLAYER_END:
+		EndState();
 		break;
 	}
+#endif // 0
 }
 
 //	描画処理
@@ -297,28 +315,127 @@ LPD3DXMESH Character::GetMesh()
 	return  m_pMesh;
 }
 
-//!	ステート用関数
-//	スタート時
-void Character::Strat()
+//	スコアのゲッター
+int Character::Score()
 {
+	return m_score;
 }
 
-//	解答まち
-void Character::Answerstay()
+//	ステートの初期化
+void Character::InitState()
 {
+	//!	カウントダウン
+
+	//if (カウントがゼロになったら)
+	{
+		m_PlayerState = PLAYER_MOVE;
+	}
 }
 
-//	解答
-void Character::Answer()
+//	プレイヤーのスタート
+void Character::MoveState()
 {
+	/// <summary> 移動の処理　</summary>
+	m_velocity.x += sinf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+	m_velocity.z -= cosf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+	m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.0f;
+	
+	m_position.y -= m_velocity.y;	//	重力の値を加算代入
+	m_position.z += m_velocity.z;
+	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;	//	慣性
+	
+	/// <summary>
+	/// 関数の呼び出し回数を数える
+	///	</summary>
+	m_count++;
+	if (m_count >= 3)	//	4回目ならジャンプ
+	{
+		m_PlayerState = PLAYER_JUMP;
+	}
+	else
+	{
+		m_PlayerState = PlAYER_ANSWERSTAY;
+	}
 }
 
-//	ジャンプ
-void Character::Jump()
+void Character::AnswerstayState()
 {
+	float fDiffRotY;
+	switch (m_AnsawerStayState)
+	{
+	case ANSWER_DROW:
+		//!	問題文の描画
+		
+		//!if ( 問題の選出、描画が完了したら )
+		{
+			m_AnsawerStayState = ANSWER_SELECT;
+		}
+		break;
+
+	case ANSWER_SELECT:
+
+		//!	カウントダウンを開始
+
+		//	移動
+		if (KeyBoard::IsPress(DIK_A) || GamePad::IsPress(0,LEFTSTICK_RIGHT))
+		{
+			m_velocity.x += sinf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.z -= cosf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.50f;
+		}
+		if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_LEFT))
+		{
+			m_velocity.x += sinf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_velocity.z -= cosf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
+			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.50f;
+		}
+		m_position.x += m_velocity.x;	//	x座標しか移動させない
+
+		//!if ( カウントダウンが終了したら )
+		{
+			m_PlayerState = PLAYER_ANSWER;
+		}
+		break;
+
+	}
 }
 
-//	ステート終了
-void Character::End()
+void Character::AnswerState()
 {
+	/// <sumamry>
+	///	当たり判定はコリジョンのリターンフラグで判別する
+	///	</summaey>
+	//!if ( 正解 )
+	{
+		//	スピード補正
+		m_velocity.z *= 1.05f;
+	}
+	//!else	不正解
+	{
+		//	何もしない
+	}
+	m_PlayerState = PLAYER_MOVE;
+}
+
+void Character::JumpState()
+{
+	/// <summary>
+	///	関数を実行している間、更新する 
+	///	60FPS = 1 の更新速度
+	///	</summary>
+	m_score++;
+	//!if ( 地面に着いたら　= yの座標値)
+	{
+		m_PlayerState = PLAYER_END;
+	}
+}
+
+void Character::EndState()
+{
+	//!	飛距離の描画
+
+	//! if ( しばらくたったら )
+	{
+		SceneManager::ChangeSceneState();
+	}
 }
