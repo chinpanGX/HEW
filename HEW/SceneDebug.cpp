@@ -55,7 +55,7 @@ void SceneDebug::Draw()
 	m_Map.Draw();
 	//m_Camera.Set();
 
-	//m_Character.Draw();
+	m_Character.Draw();
 	//m_Sprite.Draw(TEXTURE_INDEX_QUIZSAMPLE,1024,256,0,0,0,0,1,1,1);
 	m_Count.Draw();
 

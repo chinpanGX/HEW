@@ -93,3 +93,10 @@ void XFile::Draw()
 	}
 }
 
+
+LPD3DXMESH XFile::GetMesh()
+{
+	return Mesh;
+}
+
+

@@ -21,11 +21,14 @@ private:
 	D3DXVECTOR3	scale;						//	大きさ
 	D3DXVECTOR3	angle;						//	回転
 	XFile *pmodel;							//	XFile型ポインタ変数
+	static D3DXMATRIX world_matrix;
 	static LPDIRECT3DDEVICE9 g_pD3DDevice;	//	デバイス
 
 public:
+	Model();
 	Model(D3DXVECTOR3 position, D3DXVECTOR3 scale, D3DXVECTOR3 angle, XFile *pmodel) :position(position), scale(scale), angle(angle), pmodel(pmodel) {}	//	コンストラクタ：変数の初期値
 	void Draw();	//	描画処理
+	D3DXMATRIX GetMat();
 };
 
 

@@ -17,16 +17,14 @@ class Collision
 {
 private:
 	Character	m_Character;
-	Map			m_Map;
-
+	XFile		m_XFile;
+	Model		m_Model;
 public:
-	static void Update();	//更新処理
-private:
-	//	ヘルパー関数群
-	void Player_vs_Map();	//	プレイヤーとマップの当たり判定
-	HRESULT FindVerticesOnPoly(LPD3DXMESH pMesh, DWORD dwPolyIndex, D3DXVECTOR3* pvVertices);							//	ポリゴンの頂点を見つける
-	BOOL Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir, Character* pChara, FLOAT* pfDistance, D3DXVECTOR3* pvNormal);	//	レイによる衝突判定
-	D3DXVECTOR3 Slip(D3DXVECTOR3 L, D3DXVECTOR3 N);																		//	滑りベクトル
+	Collision();
+	D3DXVECTOR3 Player_vs_Map(D3DXVECTOR3 pos,D3DXVECTOR3 move);	//	プレイヤーとマップの当たり判定
+	HRESULT FindVerticesOnPoly(LPD3DXMESH pMesh, DWORD dwPolyIndex, D3DXVECTOR3* pvVertices);									//	ポリゴンの頂点を見つける
+	BOOL Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir, XFile* XFile, Model* pModel, FLOAT* pfDistance, D3DXVECTOR3* pvNormal);	//	レイによる衝突判定
+	D3DXVECTOR3 Slip(D3DXVECTOR3 L, D3DXVECTOR3 N);																				//	滑りベクトル
 };
 
 /*	メモ

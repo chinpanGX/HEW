@@ -13,21 +13,24 @@
 #include "light.h"
 #include "debugproc.h"
 
+
 //	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—
 void SceneGame::Init()
 {
-	m_Character.Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 10.0f, 0.0f));
-	//m_Map.Init();
+	
+	m_Character.Init(D3DXVECTOR3(0.0f, 200.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_Map.Init();
 	Light::Init();
 	m_Camera.Init();
 	DebugProc_Initialize();
+	
 }
 
 //	ƒQ[ƒ€‚ÌI—¹ˆ—
 void SceneGame::Uninit()
 {
 	m_Character.Uninit();
-	//m_Map.Uninit();
+	m_Map.Uninit();
 	m_Camera.Uninit();
 	DebugProc_Finalize();
 }
@@ -35,18 +38,21 @@ void SceneGame::Uninit()
 //	ƒQ[ƒ€‚ÌXVˆ—
 void SceneGame::Update()
 {
+
+	m_Character.Update();
 	m_Camera.Update();
-	if (KeyBoard::IsTrigger(DIK_W))
+	//if (KeyBoard::IsTrigger(DIK_W))
 	{
-		SceneManager::ChangeSceneState();
+		//SceneManager::ChangeSceneState();
 	}
+
 }
 
 //	ƒQ[ƒ€‚Ì•`‰æˆ—
 void SceneGame::Draw()
 {
 	m_Character.Draw();
-	//m_Map.Draw();
+	m_Map.Draw();
 	m_Camera.Set();
 	DebugProc_Draw();
 }

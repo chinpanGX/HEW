@@ -8,6 +8,8 @@
 #include "Controller.h"
 #include "Character.h"
 #include "CharacterCamera.h"
+#include "debugproc.h"
+#include "Collision.h"
 
 //	マクロ定義
 #define	VALUE_MOVE_MODEL	(0.5f)					// 移動速度
@@ -34,12 +36,12 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		return E_FAIL;
 	}
 
-	m_gravity = 0.9f;	//	重力	
+	//m_gravity = 0.9f;	//	重力	
 
 	m_position = pos;	//	位置
 	m_rotation = rot;	//	向き
 	m_rotDest = rot;	//	目的の向き
-	m_velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//移動
+	m_velocity = D3DXVECTOR3(0.0f, 0.5f, 0.0f);	//移動
 	
 	return S_OK;
 }
@@ -55,7 +57,6 @@ void Character::Uninit()
 //	更新処理
 void Character::Update()
 {
-	m_velocity.y += m_gravity;	//	重力の値を加算代入
 	CharacterCamera *pCamera;
 	float fDiffRotY;
 
@@ -164,13 +165,47 @@ void Character::Update()
 		m_rotation.y += D3DX_PI * 2.0f;
 	}
 
-	/// 位置移動
+	Collision m_Col;
+
+	//m_Col.Player_vs_Map(m_position,m_velocity);
+
+
+	// 位置移動
 	m_position.x += m_velocity.x;
+	m_position.y -= m_velocity.y;	//	重力の値を加算代入
 	m_position.z += m_velocity.z;
 
 	// 移動量に慣性をかける
 	m_velocity.x += (0.0f - m_velocity.x) * RATE_MOVE_MODEL;
 	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;
+	
+	// 当たり判定
+	FLOAT fDistance = 0;
+	D3DXVECTOR3 vNormal;
+
+	if (m_Col.Collide(m_position, m_velocity, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.3)
+	{
+		//当たり状態なので、滑らせる
+		m_velocity = m_Col.Slip(m_velocity, vNormal);//滑りベクトルを計算
+
+		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
+		if (m_Col.Collide(m_position, m_velocity, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.2)
+		{
+			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
+			m_velocity = m_Col.Slip(m_velocity, vNormal);//滑りベクトルを計算
+		}
+		DebugProc_Print((char*)"当たっている");
+		m_position += m_velocity;
+	}
+
+	//pos = m_Character.GetMove();
+	//move = m_Character.GetMove();
+
+
+
+	DebugProc_Print((char*)"Character [%f : %f : %f]\n", m_position.x, m_position.y, m_position.z);
+	DebugProc_Print((char*)"\n");
+
 	//	ステート
 	switch (m_state)
 	{
@@ -205,7 +240,7 @@ void Character::Draw()
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
 
 	//移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, m_position.x, m_velocity.y, m_position.z);
+	D3DXMatrixTranslation(&mtxTranslate, m_position.x, m_position.y, m_position.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTranslate);
 
 	//ワールドマトリックスの設定

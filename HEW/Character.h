@@ -7,6 +7,8 @@
 
 #pragma once
 #include "main.h"
+#include "Model.h"
+#include "XFile.h"
 
 //	プレイヤーのステートマシン管理変数
 enum PlayerState
@@ -35,6 +37,9 @@ private:
 	int							m_count;	//	問題数のカウンター
 	float						m_gravity;	//	重力	
 	PlayerState					m_state;	//	ステート変数
+	XFile						m_XFile;
+	Model						m_Model;
+
 public:
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	//	初期化処理
 	void Uninit();									//	終了処理

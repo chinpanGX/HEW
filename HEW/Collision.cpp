@@ -6,42 +6,42 @@
 ==================================================*/
 
 #include "Collision.h"
+#include "debugproc.h"
 
-void Collision::Update()
+Collision::Collision()
 {
 
 }
-#if 0
 
-
-void Collision::Player_vs_Map()
+D3DXVECTOR3 Collision::Player_vs_Map(D3DXVECTOR3 pos, D3DXVECTOR3 move)
 {
-	//	当たり判定
+	// 当たり判定
 	FLOAT fDistance = 0;
 	D3DXVECTOR3 vNormal;
 
-	if (Collide(m_Character.GetPos(), m_Character.GetMove(), &m_Actor[0], &fDistance, &vNormal) && fDistance <= 0.3)
+	if (Collide(pos, move, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.3)
 	{
 		//当たり状態なので、滑らせる
-		Thing[1].vDir = Slip(Thing[1].vDir, vNormal);//滑りベクトルを計算
+		move = Slip(move, vNormal);//滑りベクトルを計算
 
 		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
-		if (Collide(Thing[1].vPosition, Thing[1].vDir, &Thing[0], &fDistance, &vNormal) && fDistance <= 0.2)
+		if (Collide(pos,move, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.2)
 		{
 			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
-			Thing[1].vDir = Slip(Thing[1].vDir, vNormal);//滑りベクトルを計算
+			move = Slip(move, vNormal);//滑りベクトルを計算
 		}
+		DebugProc_Print((char*)"当たっている");
 	}
-	Thing[1].vPosition.y += 0.7;
-
-	//ロボット　位置更新
-	Thing[1].vPosition += Thing[1].vDir;
+	
+	//pos = m_Character.GetMove();
+	//move = m_Character.GetMove();
+	pos += move;
+	return pos, move;
 }
-#endif // 0
 
 HRESULT Collision::FindVerticesOnPoly(LPD3DXMESH pMesh, DWORD dwPolyIndex, D3DXVECTOR3 * pvVertices)
 {
-	DWORD i, k;
+	//DWORD i, k;
 	DWORD dwStride = pMesh->GetNumBytesPerVertex();
 	DWORD dwVertexNum = pMesh->GetNumVertices();
 	DWORD dwPolyNum = pMesh->GetNumFaces();
@@ -77,23 +77,23 @@ HRESULT Collision::FindVerticesOnPoly(LPD3DXMESH pMesh, DWORD dwPolyIndex, D3DXV
 }
 
 //レイによる衝突判定　レイが相手メッシュと交差する場合は、pfDistanceに距離を、pvNormalに衝突面の法線を入れてtrueを返す
-BOOL Collision::Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir, Character *pChara, FLOAT * pfDistance, D3DXVECTOR3 * pvNormal)
+BOOL Collision::Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir, XFile* XFile,Model* pModel, FLOAT * pfDistance, D3DXVECTOR3 * pvNormal)
 {
 	BOOL boHit = false;
 	D3DXMATRIX mWorld;
 	D3DXVec3Normalize(&vDir, &vDir);
 
 	// レイを当てるメッシュが動いていたり回転している場合でも対象のワールド行列の逆行列を用いれば正しくレイが当たる
-	D3DXMatrixInverse(&mWorld, NULL, &pChara->GetMat());
+	D3DXMatrixInverse(&mWorld, NULL, &pModel->GetMat());
 	D3DXVec3TransformCoord(&vStart, &vStart, &mWorld);
 
 	DWORD dwPolyIndex;
-	D3DXIntersect(pChara->GetMesh(), &vStart, &vDir, &boHit, &dwPolyIndex, NULL, NULL, pfDistance, NULL, NULL);
+	D3DXIntersect(XFile->GetMesh(), &vStart, &vDir, &boHit, &dwPolyIndex, NULL, NULL, pfDistance, NULL, NULL);
 	if (boHit)
 	{
 		//交差しているポリゴンの頂点を見つける
 		D3DXVECTOR3 vVertex[3];
-		FindVerticesOnPoly(pChara->GetMesh(), dwPolyIndex, vVertex);
+		FindVerticesOnPoly(XFile->GetMesh(), dwPolyIndex, vVertex);
 		D3DXPLANE p;
 		//その頂点から平面方程式を得る
 		D3DXPlaneFromPoints(&p, &vVertex[0], &vVertex[1], &vVertex[2]);
