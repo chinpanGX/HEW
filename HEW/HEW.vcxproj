@@ -147,6 +147,7 @@
     <ClCompile Include="Count.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="debugproc.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Count.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="debugproc.h" />
+    <ClInclude Include="Field.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
