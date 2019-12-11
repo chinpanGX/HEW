@@ -1,7 +1,7 @@
 /*===================================================
 
 	[SceneTitle.h]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ====================================================*/
 
@@ -11,19 +11,18 @@
 #include "Map.h"
 #include "Count.h"
 
-//	SCENETILEƒNƒ‰ƒX
-/* ƒ^ƒCƒgƒ‹ƒV[ƒ“‚ğŠÇ—‚·‚éƒNƒ‰ƒX */
+//	SCENETILEã‚¯ãƒ©ã‚¹
+/* ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ */
 class SceneTitle : public SceneBase 
 {
 private:
 	TitleCamera m_Camera;
 	Map			m_Map;
-	Count       m_count;
 public:
-	//SceneBase‚Ìƒƒ“ƒo[ŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh
-	void Init();	//	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—	
-	void Uninit();	//	ƒQ[ƒ€‚ÌI—¹ˆ—
-	void Update();	//	ƒQ[ƒ€‚ÌXVˆ—
-	void Draw();	//	ƒQ[ƒ€‚Ì•`‰æˆ—
+	//SceneBaseã®ãƒ¡ãƒ³ãƒãƒ¼é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+	void Init();	//	ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–å‡¦ç†	
+	void Uninit();	//	ã‚²ãƒ¼ãƒ ã®çµ‚äº†å‡¦ç†
+	void Update();	//	ã‚²ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†
+	void Draw();	//	ã‚²ãƒ¼ãƒ ã®æç”»å‡¦ç†
 };
 

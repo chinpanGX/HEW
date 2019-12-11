@@ -1,42 +1,44 @@
 /*==================================
 	
 	[texture.cpp]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ==================================*/
 
-//ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 #include <d3dx9.h>
 #include "main.h"
 #include "texture.h"
 
-//ƒ}ƒNƒ’è‹`
-#define TEXTURE_FILENAME_MAX (64)	//ƒtƒ@ƒCƒ‹‚Ì•¶š”
+//ãƒã‚¯ãƒ­å®šç¾©
+#define TEXTURE_FILENAME_MAX (64)	//ãƒ•ã‚¡ã‚¤ãƒ«ã®æ–‡å­—æ•°
 
-//	TEXTURE\‘¢‘Ì
+//	TEXTUREæ§‹é€ ä½“
 struct TEXTURE
 {
-	char filename[TEXTURE_FILENAME_MAX];	//ƒtƒ@ƒCƒ‹–¼
-	int width;								//ƒeƒNƒXƒ`ƒƒ‚Ì‰¡•
-	int height;								//ƒeƒNƒXƒ`ƒƒ‚Ìc•
+	char filename[TEXTURE_FILENAME_MAX];	//ãƒ•ã‚¡ã‚¤ãƒ«å
+	int width;								//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…
+	int height;								//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…
 };
 
-//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹‚Ìˆê——
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸€è¦§
 static const TEXTURE g_TextureFiles[] = 
 {
-	{ "asset/texture/result.png",		1920, 1080 },	//	ƒŠƒUƒ‹ƒg”wŒiƒeƒNƒXƒ`ƒƒ
-	{ "asset/texture/modeselect.png",	1920, 1080 },	//	ƒ‚[ƒh‘I‘ğ”wŒiƒeƒNƒXƒ`ƒƒ
+	{ "asset/texture/result.png",		1920, 1080 },	//	ãƒªã‚¶ãƒ«ãƒˆèƒŒæ™¯ãƒ†ã‚¯ã‚¹ãƒãƒ£
+	{ "asset/texture/modeselect.png",	1920, 1080 },	//	ãƒ¢ãƒ¼ãƒ‰é¸æŠèƒŒæ™¯ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	{ "asset/texture/quizsample.png",	1024, 256  },
+  { "asset/texture/tutorial.png",      500, 500  },   //  ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ãƒ†ã‚¯ã‚¹ãƒãƒ£
+	{ "asset/texture/game.png",          500, 500  },   //  ã‚²ãƒ¼ãƒ ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	{ "asset/texture/su.png",	         640,  64  },
 };
 
-static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹‚ğ”‚¦‚é
+static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ•°ãˆã‚‹
 
 static_assert(TEXTURE_INDEX_MAX == TEXTURE_FILE_COUNT, "TEXTURE_INDEX_MAX != TEXTURE_FILE_COUNT");	
 
-static LPDIRECT3DTEXTURE9 g_pTextures[TEXTURE_FILE_COUNT] = {};	//ƒeƒNƒXƒ`ƒƒ‚ğŠi”[‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX
+static LPDIRECT3DTEXTURE9 g_pTextures[TEXTURE_FILE_COUNT] = {};	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’æ ¼ç´ã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 
-//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 int Texture_Load()
 {   
     LPDIRECT3DDEVICE9 m_Device = GetD3DDevice();
@@ -50,7 +52,7 @@ int Texture_Load()
 	for( int i = 0; i < TEXTURE_FILE_COUNT; i++ ) {
 		
 		if( FAILED(D3DXCreateTextureFromFile(m_Device, g_TextureFiles[i].filename, &g_pTextures[i])) ) {
-            // DebugPrintf("ƒeƒNƒXƒ`ƒƒ‚Ì“Ç‚İ‚İ‚É¸”s ... %s\n", g_TextureFiles[i].filename);
+            // DebugPrintf("ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­ã¿è¾¼ã¿ã«å¤±æ•— ... %s\n", g_TextureFiles[i].filename);
 			failed_count++;
 		}
 	}
@@ -58,7 +60,7 @@ int Texture_Load()
 	return failed_count;
 }
 
-//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹‚Ì‰ğ•ú
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«ã®è§£æ”¾
 void Texture_Release()
 {
 	for( int i = 0; i < TEXTURE_FILE_COUNT; i++ )
@@ -67,7 +69,7 @@ void Texture_Release()
 	}
 }
 
-//ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğ‰æ‘œƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ŞŠÖ”
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚€é–¢æ•°
 LPDIRECT3DTEXTURE9 Texture_GetTexture(TextureIndex index)
 {
     if( index < 0 || index >= TEXTURE_INDEX_MAX ) 
@@ -78,7 +80,7 @@ LPDIRECT3DTEXTURE9 Texture_GetTexture(TextureIndex index)
 	return g_pTextures[index];
 }
 
-//ƒeƒNƒXƒ`ƒƒ‚Ì‰¡•
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…
 int Texture_GetWidth(TextureIndex index)
 {
     if( index < 0 || index >= TEXTURE_INDEX_MAX ) 
@@ -86,10 +88,10 @@ int Texture_GetWidth(TextureIndex index)
         return NULL;
     }
 
-	return g_TextureFiles[index].width;	//	ƒeƒNƒXƒ`ƒƒ‚Ì‰¡•‚Ì’l
+	return g_TextureFiles[index].width;	//	ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…ã®å€¤
 }
 
-//ƒeƒNƒXƒ`ƒƒ‚Ìc•
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…
 int Texture_GetHeight(TextureIndex index)
 {
     if( index < 0 || index >= TEXTURE_INDEX_MAX ) 
@@ -97,5 +99,5 @@ int Texture_GetHeight(TextureIndex index)
         return NULL;
     }
 
-	return g_TextureFiles[index].height;	//	ƒeƒNƒXƒ`ƒƒ‚Ìc•‚Ì’l
+	return g_TextureFiles[index].height;	//	ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…ã®å€¤
 }

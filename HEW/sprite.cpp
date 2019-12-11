@@ -78,6 +78,8 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy,int tx, int ty,
 	
 }
 
+
+//	�`�� (��F�e�N�X�`���AX��W�AY��W�A�e�N�X�`��X��W�A�e�N�X�`��Y��W�A�e�N�X�`���̉����A�e�N�X�`���̏c���A�J���[�ݒ�(R)�A�J���[�ݒ�(G)�A�J���[�ݒ�(B)�A�J���[�ݒ�(A))
 //	描画 (引数：テクスチャ、X座標、Y座標、テクスチャX座標、テクスチャY座標、テクスチャの横幅、テクスチャの縦幅、カラー設定(R)、カラー設定(G)、カラー設定(B)、カラー設定(A))
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, int col_r, int col_g, int col_b, int col_a)
 {
