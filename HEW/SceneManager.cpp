@@ -32,7 +32,7 @@ void SceneManager::Init()
 	m_scene[4] = new SceneResult;
 	m_scene[5] = new SceneDebug;
 
-	m_sceneState = SCENE_DEBUG;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
+	m_sceneState = SCENE_MODESELECT;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
 	m_scene[m_sceneState]->Init();		//	初期シーンの初期化
 }
 
@@ -71,6 +71,7 @@ void SceneManager::Draw()
 //	シーン遷移処理
 void SceneManager::ChangeSceneState()
 {
+	bool flg = Getflg();
 	switch (m_sceneState)
 	{
 	case SCENE_TITLE:
@@ -80,8 +81,17 @@ void SceneManager::ChangeSceneState()
 		break;
 	case SCENE_MODESELECT:
 		m_scene[m_sceneState]->Uninit();
-		m_sceneState = SCENE_TUTORIAL;		//	チュートリアルへ遷移
-		m_scene[m_sceneState]->Init();
+		
+		if (flg == true)
+		{
+			m_sceneState = SCENE_TUTORIAL;		//	チュートリアルへ遷移
+			m_scene[m_sceneState]->Init();
+		}
+		else if (flg == false)
+		{
+			m_sceneState = SCENE_GAME;			//	ゲームへ遷移
+			m_scene[m_sceneState]->Init();
+		}
 		break;
 	case SCENE_TUTORIAL:
 		m_scene[m_sceneState]->Uninit();

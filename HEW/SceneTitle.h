@@ -17,6 +17,7 @@ class SceneTitle : public SceneBase
 private:
 	TitleCamera m_Camera;
 	Map			m_Map;
+	
 public:
 	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	

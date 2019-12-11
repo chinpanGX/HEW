@@ -27,6 +27,9 @@ static const TEXTURE g_TextureFiles[] =
 	{ "asset/texture/result.png",		1920, 1080 },	//	リザルト背景テクスチャ
 	{ "asset/texture/modeselect.png",	1920, 1080 },	//	モード選択背景テクスチャ
 	{ "asset/texture/quizsample.png",	1024, 256  },
+    { "asset/texture/tutorial.png",      500, 500  },   //  チュートリアルテクスチャ
+	{ "asset/texture/game.png",          500, 500  },   //  ゲームテクスチャ
+	
 };
 
 static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//テクスチャファイルを数える
