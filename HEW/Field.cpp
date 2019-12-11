@@ -9,7 +9,7 @@
 
 //	スタティック変数
 LPDIRECT3DTEXTURE9	Field::m_pTextureModel = NULL;		// テクスチャへのポインタ
-LPD3DXMESH			Field::m_pMeshModel = NULL;		// メッシュ情報へのポインタ
+LPD3DXMESH			Field::m_pMeshModel = NULL;			// メッシュ情報へのポインタ
 LPD3DXBUFFER		Field::m_pBuffMatModel = NULL;		// マテリアル情報へのポインタ
 DWORD				Field::m_nNumMatModel;				// マテリアル情報の総数
 LPDIRECT3DDEVICE9	Field::m_pDevice;

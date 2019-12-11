@@ -8,6 +8,7 @@
 #pragma once
 #include "main.h"
 #include "CharacterCamera.h"
+#include "Field.h"
 
 ///	<summary>
 ///	プレイヤーのステートマシンを管理する
@@ -48,6 +49,7 @@ private:
 	D3DXVECTOR3					m_rotation;	//	現在の向き
 	D3DXVECTOR3					m_rotDest;	//	目的の向き
 	D3DXVECTOR3					m_velocity;	//	移動量
+	float						m_grivity;	//	重力
 	int							m_score;
 	/// <summary>
 	///	プレイヤーに関するステート用メンバー変数
@@ -58,7 +60,6 @@ private:
 	///	</summary>
 	AnswerStayState				m_AnsawerStayState;
 	CharacterCamera				*m_pCamera;
-
 public:
 	///	<summary>
 	///	初期化処理

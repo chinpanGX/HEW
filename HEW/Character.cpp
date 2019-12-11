@@ -11,6 +11,7 @@
 #include "debugproc.h"
 #include "Collision.h"
 #include "SceneManager.h"
+#include "Collision.h"
 
 //	マクロ定義
 #define	VALUE_MOVE_MODEL	(0.5f)					// 移動速度
@@ -43,7 +44,8 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_position = pos;	//	位置
 	m_rotation = rot;	//	向き
 	m_rotDest = rot;	//	目的の向き
-	m_velocity = D3DXVECTOR3(0.0f, 0.5f, 0.0f);	//移動
+	m_velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//ベクトル
+	m_grivity = 0.7f;
 	m_pCamera = new CharacterCamera;
 	m_count = 0;
 	m_score = 0;
@@ -66,7 +68,7 @@ void Character::Update()
 	// カメラの取得
 	m_pCamera = GetCharCam();
 
-	if (KeyBoard::IsPress(DIK_A) || GamePad::IsPress(0, LEFTSTICK_LEFT))
+	if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_LEFT))
 	{
 		if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
 		{// 左奥移動
@@ -90,7 +92,7 @@ void Character::Update()
 			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.50f;
 		}
 	}
-	else if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_RIGHT))
+	else if (KeyBoard::IsPress(DIK_A) || GamePad::IsPress(0, LEFTSTICK_RIGHT))
 	{
 		if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
 		{// 右奥移動
@@ -114,14 +116,14 @@ void Character::Update()
 			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.50f;
 		}
 	}
-	else if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
+	else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_UP))
 	{// 前移動
 		m_velocity.x += sinf(D3DX_PI * 1.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 		m_velocity.z -= cosf(D3DX_PI * 1.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
 		m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 1.0f;
 	}
-	else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_DOWN))
+	else if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_DOWN))
 	{// 後移動
 		m_velocity.x += sinf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 		m_velocity.z -= cosf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
@@ -168,11 +170,6 @@ void Character::Update()
 		m_rotation.y += D3DX_PI * 2.0f;
 	}
 
-	Collision m_Col;
-
-	//m_Col.Player_vs_Map(m_position,m_velocity);
-
-
 	// 位置移動
 	m_position.x += m_velocity.x;
 	m_position.y -= m_velocity.y;	//	重力の値を加算代入
@@ -211,6 +208,35 @@ void Character::Update()
 	DebugProc_Print((char*)"Character [%f : %f : %f]\n", m_position.x, m_position.y, m_position.z);
 	DebugProc_Print((char*)"\n");
 #endif
+
+	DebugProc_Print((char*)"%f,%f,%f",m_position.x,m_position.y,m_position.z);
+
+	//RenderRay(m_pDevice, m_position, m_velocity);
+
+	/// <summary> 当たり判定
+	FLOAT fDistance=0;
+	D3DXVECTOR3 vNormal;
+
+	//	重力をかける
+	m_position.y -= m_grivity;
+	Field field;
+	
+	//m_position.y = -0.7f;
+	if( Collide(m_position,m_velocity,&field,&fDistance,&vNormal) && fDistance<=0.3)	
+	{
+		//当たり状態なので、滑らせる
+		m_velocity=Slip(m_velocity,vNormal);//滑りベクトルを計算
+
+		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
+		if( Collide(m_position,m_velocity,&field,&fDistance,&vNormal)&& fDistance<=0.2 )			
+		{				
+			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
+			m_velocity=Slip(m_velocity,vNormal);//滑りベクトルを計算
+		}		
+	}
+	//m_position.y = -0.7f;
+	//ロボット　位置更新
+	m_position += m_velocity;	
 
 	///	<summary> 
 	///	ステート

@@ -10,7 +10,7 @@
 
 class Field
 {
-private:
+public:
 	static LPDIRECT3DTEXTURE9	m_pTextureModel;	//	テクスチャへのポインタ
 	static LPD3DXMESH			m_pMeshModel;		//	メッシュ情報へのポインタ
 	static LPD3DXBUFFER			m_pBuffMatModel;	//	マテリアル情報へのポインタ

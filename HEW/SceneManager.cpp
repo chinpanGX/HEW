@@ -32,7 +32,7 @@ void SceneManager::Init()
 	m_scene[4] = new SceneResult;
 	m_scene[5] = new SceneDebug;
 
-	m_sceneState = SCENE_GAME;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
+	m_sceneState = SCENE_TITLE;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
 	m_scene[m_sceneState]->Init();		//	初期シーンの初期化
 }
 
@@ -40,12 +40,12 @@ void SceneManager::Init()
 void SceneManager::Uninit()
 {
 	//	各シーンのUninit関数を呼び出す
-	m_scene[5]->Uninit();
-	m_scene[4]->Uninit();
-	m_scene[3]->Uninit();
-	m_scene[2]->Uninit();
-	m_scene[1]->Uninit();
-	m_scene[0]->Uninit();
+	//m_scene[5]->Uninit();
+	//m_scene[4]->Uninit();
+	//m_scene[3]->Uninit();
+	//m_scene[2]->Uninit();
+	//m_scene[1]->Uninit();
+	//m_scene[0]->Uninit();
 
 	//	各シーンのメモリの解放
 	delete m_scene[5];

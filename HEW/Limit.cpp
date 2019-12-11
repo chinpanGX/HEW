@@ -82,7 +82,7 @@ void Limit::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty,
 		Cl++;
 	
 		
-		if (Cl==15)//数字の表示スピードの調整
+		if (Cl==60)//数字の表示スピードの調整
 		{
 			m_tx = m_tx - 64;//数字変化
 			Cl = 0;//初期化

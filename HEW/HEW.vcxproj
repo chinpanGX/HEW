@@ -142,11 +142,11 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterCamera.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Count.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="debugproc.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
@@ -174,11 +174,11 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterCamera.h" />
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Count.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="debugproc.h" />
+    <ClInclude Include="Fade.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />

@@ -18,7 +18,7 @@
 void SceneGame::Init()
 {
 	
-	m_Character.Init(D3DXVECTOR3(0.0f, 200.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_Character.Init(D3DXVECTOR3(0.0f, 150.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_Map.Init();
 	Light::Init();
 	m_Camera.Init();
