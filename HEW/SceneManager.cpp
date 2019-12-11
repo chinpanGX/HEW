@@ -1,7 +1,7 @@
 /*==============================================
 
 	[SceneManager.cpp]	
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ===============================================*/
 #include "main.h"
@@ -14,17 +14,17 @@
 #include "SceneResult.h"
 #include "SceneDebug.h"
 
-//	ƒXƒ^ƒeƒBƒbƒN•Ï”
-SceneBase			*SceneManager::m_scene[SCENE_NUMBER];	//	ƒV[ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ðŠi”[[ƒV[ƒ“‚Ì”z—ñ]
-SCENE_STATE			SceneManager::m_sceneState;				//	ƒV[ƒ“‚ÌƒXƒe[ƒgƒ}ƒVƒ“iƒV[ƒ“‚Ìó‘Ô‚ðŠi”[j
-LPDIRECT3DDEVICE9	SceneManager::p3DDevice;				//	ƒfƒoƒCƒX
+//	ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯å¤‰æ•°
+SceneBase			*SceneManager::m_scene[SCENE_NUMBER];	//	ã‚·ãƒ¼ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æ ¼ç´[ã‚·ãƒ¼ãƒ³ã®é…åˆ—]
+SCENE_STATE			SceneManager::m_sceneState;				//	ã‚·ãƒ¼ãƒ³ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒžã‚·ãƒ³ï¼ˆã‚·ãƒ¼ãƒ³ã®çŠ¶æ…‹ã‚’æ ¼ç´ï¼‰
+LPDIRECT3DDEVICE9	SceneManager::p3DDevice;				//	ãƒ‡ãƒã‚¤ã‚¹
 
-//	‰Šú‰»ˆ—
+//	åˆæœŸåŒ–å‡¦ç†
 void SceneManager::Init()
 {
-	p3DDevice = GetD3DDevice();			//	ƒfƒoƒCƒX‚ÌŽæ“¾
+	p3DDevice = GetD3DDevice();			//	ãƒ‡ãƒã‚¤ã‚¹ã®å–å¾—
 
-	//	ƒƒ‚ƒŠ‚ÌŠm•Û
+	//	ãƒ¡ãƒ¢ãƒªã®ç¢ºä¿
 	m_scene[0] = new SceneTitle;		
 	m_scene[1] = new SceneModeSelect;	
 	m_scene[2] = new SceneTutorial;		
@@ -32,22 +32,23 @@ void SceneManager::Init()
 	m_scene[4] = new SceneResult;
 	m_scene[5] = new SceneDebug;
 
-	m_sceneState = SCENE_MODESELECT;			//	‰ŠúƒV[ƒ“‚ÌÝ’è(ƒQ[ƒ€‚ð‹N“®‚µ‚½‚Æ‚«‚ÌÅ‰‚ÌƒV[ƒ“)
-	m_scene[m_sceneState]->Init();		//	‰ŠúƒV[ƒ“‚Ì‰Šú‰»
+
+	m_sceneState = SCENE_MODESELECT;			//	åˆæœŸã‚·ãƒ¼ãƒ³ã®è¨­å®š(ã‚²ãƒ¼ãƒ ã‚’èµ·å‹•ã—ãŸã¨ãã®æœ€åˆã®ã‚·ãƒ¼ãƒ³)
+	m_scene[m_sceneState]->Init();		//	åˆæœŸã‚·ãƒ¼ãƒ³ã®åˆæœŸåŒ–
 }
 
-//	I—¹ˆ—
+//	çµ‚äº†å‡¦ç†
 void SceneManager::Uninit()
 {
-	//	ŠeƒV[ƒ“‚ÌUninitŠÖ”‚ðŒÄ‚Ño‚·
-	m_scene[5]->Uninit();
-	m_scene[4]->Uninit();
-	m_scene[3]->Uninit();
-	m_scene[2]->Uninit();
-	m_scene[1]->Uninit();
-	m_scene[0]->Uninit();
+	//	å„ã‚·ãƒ¼ãƒ³ã®Uninité–¢æ•°ã‚’å‘¼ã³å‡ºã™
+	//m_scene[5]->Uninit();
+	//m_scene[4]->Uninit();
+	//m_scene[3]->Uninit();
+	//m_scene[2]->Uninit();
+	//m_scene[1]->Uninit();
+	//m_scene[0]->Uninit();
 
-	//	ŠeƒV[ƒ“‚Ìƒƒ‚ƒŠ‚Ì‰ð•ú
+	//	å„ã‚·ãƒ¼ãƒ³ã®ãƒ¡ãƒ¢ãƒªã®è§£æ”¾
 	delete m_scene[5];
 	delete m_scene[4];
 	delete m_scene[3];
@@ -56,19 +57,19 @@ void SceneManager::Uninit()
 	delete m_scene[0];
 }
 
-//	XVˆ—
+//	æ›´æ–°å‡¦ç†
 void SceneManager::Update()
 {
-	m_scene[m_sceneState]->Update();	//	ŠeƒV[ƒ“‚ÌUpdateŠÖ”‚ÌŒÄ‚Ño‚µ
+	m_scene[m_sceneState]->Update();	//	å„ã‚·ãƒ¼ãƒ³ã®Updateé–¢æ•°ã®å‘¼ã³å‡ºã—
 }
 
-//	•`‰æˆ—
+//	æç”»å‡¦ç†
 void SceneManager::Draw()
 {
-	m_scene[m_sceneState]->Draw();		//	ŠeƒV[ƒ“‚ÌDrawŠÖ”‚ÌŒÄ‚Ño‚µ
+	m_scene[m_sceneState]->Draw();		//	å„ã‚·ãƒ¼ãƒ³ã®Drawé–¢æ•°ã®å‘¼ã³å‡ºã—
 }
 
-//	ƒV[ƒ“‘JˆÚˆ—
+//	ã‚·ãƒ¼ãƒ³é·ç§»å‡¦ç†
 void SceneManager::ChangeSceneState()
 {
 	bool flg = Getflg();
@@ -76,7 +77,7 @@ void SceneManager::ChangeSceneState()
 	{
 	case SCENE_TITLE:
 		m_scene[m_sceneState]->Uninit();
-		m_sceneState = SCENE_MODESELECT;	//	ƒ‚[ƒh‘I‘ð‚É‘JˆÚ
+		m_sceneState = SCENE_MODESELECT;	//	ãƒ¢ãƒ¼ãƒ‰é¸æŠžã«é·ç§»
 		m_scene[m_sceneState]->Init();
 		break;
 	case SCENE_MODESELECT:
@@ -84,31 +85,31 @@ void SceneManager::ChangeSceneState()
 		
 		if (flg == true)
 		{
-			m_sceneState = SCENE_TUTORIAL;		//	ƒ`ƒ…[ƒgƒŠƒAƒ‹‚Ö‘JˆÚ
+			m_sceneState = SCENE_TUTORIAL;		//	ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ã¸é·ç§»
 			m_scene[m_sceneState]->Init();
 		}
 		else if (flg == false)
 		{
-			m_sceneState = SCENE_GAME;			//	ƒQ[ƒ€‚Ö‘JˆÚ
+			m_sceneState = SCENE_GAME;			//	ã‚²ãƒ¼ãƒ ã¸é·ç§»
 			m_scene[m_sceneState]->Init();
 		}
 		break;
 	case SCENE_TUTORIAL:
 		m_scene[m_sceneState]->Uninit();
-		m_sceneState = SCENE_GAME;			//	ƒQ[ƒ€‚Ö‘JˆÚ
+		m_sceneState = SCENE_GAME;			//	ã‚²ãƒ¼ãƒ ã¸é·ç§»
 		m_scene[m_sceneState]->Init();
 		break;
 	case SCENE_GAME:
 		m_scene[m_sceneState]->Uninit();
-		m_sceneState = SCENE_RESULT;		//	ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
+		m_sceneState = SCENE_RESULT;		//	ãƒªã‚¶ãƒ«ãƒˆã¸é·ç§»
 		m_scene[m_sceneState]->Init();
 		break;
 	case SCENE_RESULT:
 		m_scene[m_sceneState]->Uninit();
-		m_sceneState = SCENE_TITLE;			//	ƒ^ƒCƒgƒ‹‚Ö‘JˆÚ
+		m_sceneState = SCENE_TITLE;			//	ã‚¿ã‚¤ãƒˆãƒ«ã¸é·ç§»
 		m_scene[m_sceneState]->Init();
 		break;
-	//!	ƒfƒoƒbƒOƒV[ƒ“‚Í‚ ‚Æ‚ÅÁ‚·
+	//!	ãƒ‡ãƒãƒƒã‚°ã‚·ãƒ¼ãƒ³ã¯ã‚ã¨ã§æ¶ˆã™
 	case SCENE_DEBUG:	
 		m_scene[m_sceneState]->Uninit();
 	}

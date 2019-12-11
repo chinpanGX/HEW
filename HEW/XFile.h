@@ -27,6 +27,7 @@ public:
 	~XFile();							//	デストラクタ,モデルデータのアンロード
 	bool Load(std::string fliename);	//	モデルデータのロード(引数：ファイル名)
 	void Draw();						//	描画処理
+	LPD3DXMESH	GetMesh();
 };
 
 

@@ -1,7 +1,7 @@
 /*==============================================
 
 	[SceneDebug.h]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ==============================================*/
 
@@ -12,21 +12,23 @@
 #include "Map.h"
 #include "Character.h"
 #include "sprite.h"
+#include "Count.h"
 
-//# SceneDebug : eƒNƒ‰ƒXSceneBase
+
+//# SceneDebug : è¦ªã‚¯ãƒ©ã‚¹SceneBase
 class SceneDebug: public SceneBase
 {
 private:
-	Character			m_Character;	//	CharacterŒ^‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	CharacterCamera		m_CharaCamera;	//	CharacterCameraŒ^‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	DebugCamera			m_Camera;		//	DebugCameraŒ^‚ÌƒCƒ“ƒXƒ^ƒ“ƒX	
-	Map					m_Map;			//	MapŒ^‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	Sprite				m_Sprite;		//	SpriteŒ^‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	Character	m_Character;
+	DebugCamera m_Camera;
+	Map			m_Map;
+	//Sprite	m_Sprite;
+	Count       m_Count;
 public:
-	//SceneBase‚Ìƒƒ“ƒo[ŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh
-	void Init();	//	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—	
-	void Uninit();	//	ƒQ[ƒ€‚ÌI—¹ˆ—
-	void Update();	//	ƒQ[ƒ€‚ÌXVˆ—
-	void Draw();	//	ƒQ[ƒ€‚Ì•`‰æˆ—
+	//SceneBaseã®ãƒ¡ãƒ³ãƒãƒ¼é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+	void Init();	//	ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–å‡¦ç†	
+	void Uninit();	//	ã‚²ãƒ¼ãƒ ã®çµ‚äº†å‡¦ç†
+	void Update();	//	ã‚²ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†
+	void Draw();	//	ã‚²ãƒ¼ãƒ ã®æç”»å‡¦ç†
 };
 

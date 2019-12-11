@@ -14,6 +14,7 @@
 #include "SceneManager.h"
 #include "DebugCamera.h"
 #include "texture.h"
+#include "Count.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -339,8 +340,8 @@ bool D3D_Init(HWND hWnd)
 // デバイスの終了処理
 void D3D_Uninit()
 {
-	DEVICE_RELEASE(g_pD3DDevice);	//	Direct3Dデバイスの解放
-	DEVICE_RELEASE(g_pD3D);			//	Direct3Dインタフェースの解放
+	SAFE_RELEASE(g_pD3DDevice);	//	Direct3Dデバイスの解放
+	SAFE_RELEASE(g_pD3D);			//	Direct3Dインタフェースの解放
 }
 
 //　初期化処理関数
@@ -414,11 +415,15 @@ void Draw()
 	// 描画バッチ命令の開始
 	pD3DDevice->BeginScene();
 
+	//	ワイヤーフレームをセット
+	pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	//	シーンマネージャーの描画処理
 	SceneManager::Draw();
 
 	// 描画バッチ命令の終了
 	pD3DDevice->EndScene();
+
 
 	// バックバッファをフリップ（タイミングはD3DPRESENT_PARAMETERSの設定による）
 	pD3DDevice->Present(NULL, NULL, NULL, NULL);

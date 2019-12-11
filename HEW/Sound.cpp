@@ -186,7 +186,7 @@ void Sound::Uninit()
 	}
 	
 	//	XAudio2オブジェクトの解放
-	DEVICE_RELEASE(g_pXAudio2);
+	SAFE_RELEASE(g_pXAudio2);
 
 	// マスターボイスの破棄
 	g_pMasteringVoice->DestroyVoice();

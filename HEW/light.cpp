@@ -8,8 +8,6 @@
 #include "light.h"
 #include "main.h"
 
-//!	ライトの種類　p110
-
 #define	NUM_LIGHT		(3)		// ライトの数(9コまで)
 
 // グローバル変数
@@ -73,15 +71,5 @@ void Light::Init()
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
-// ライトの終了処理
-void Light::Uninit()
-{
-	DEVICE_RELEASE(pDevice);
-}
-
-// ライトの更新処理
-void Light::Update()
-{
-}
 
 
