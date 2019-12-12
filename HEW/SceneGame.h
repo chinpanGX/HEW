@@ -9,24 +9,22 @@
 #include "main.h"
 #include "SceneBase.h"
 #include "Character.h"
-#include "DebugCamera.h"
 #include "Map.h"
 #include "CharacterCamera.h"
-
+#include "Field.h"
 
 //#	SceneGameクラス:親クラス,SceneBaseを継承した子クラス
 class SceneGame:public SceneBase
 {
 private:
-	Character	m_Character;
+	Character		m_Character;
 	CharacterCamera	m_Camera;
-	Map			m_Map;
-//	Count       m_Count;
+	Field			m_Map;
 public:
-	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理
 	void Update();	//	ゲームの更新処理
 	void Draw();	//	ゲームの描画処理
+	Character*	SetCharacter();
+	Field*		SetField();
 };
-

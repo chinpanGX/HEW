@@ -9,41 +9,113 @@
 #include "debugproc.h"
 
 #if 0
-Collision::Collision()
+void  Collision::Player_vs_Map()
 {
-
-}
-
-D3DXVECTOR3 Collision::Player_vs_Map(D3DXVECTOR3 pos, D3DXVECTOR3 move)
-{
+	
 	// 当たり判定
 	FLOAT fDistance = 0;
 	D3DXVECTOR3 vNormal;
 
-	if (Collide(pos, move, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.3)
+	if (Collision::Collide(pos, move, m_Field, &fDistance, &vNormal) && fDistance <= 0.3)
 	{
 		//当たり状態なので、滑らせる
 		move = Slip(move, vNormal);//滑りベクトルを計算
 
 		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
-		if (Collide(pos,move, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.2)
+		if (Collision::Collide(pos,move, m_Field, &fDistance, &vNormal) && fDistance <= 0.2)
 		{
 			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
 			move = Slip(move, vNormal);//滑りベクトルを計算
 		}
-		DebugProc_Print((char*)"当たっている");
 	}
-	
 	//pos = m_Character.GetMove();
 	//move = m_Character.GetMove();
 	pos += move;
-	return pos, move;
 }
-
 #endif
 
+BOOL Collision::Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir, Field* pField, FLOAT * pfDistance, D3DXVECTOR3 * pvNormal)
+{
+	BOOL boHit = false;
+	D3DXMATRIX mWorld;
+	D3DXVec3Normalize(&vDir, &vDir);
+
+	// レイを当てるメッシュが動いていたり回転している場合でも対象のワールド行列の逆行列を用いれば正しくレイが当たる
+	D3DXMatrixInverse(&mWorld, NULL, &pField->m_mtxWorldModel);
+	D3DXVec3TransformCoord(&vStart, &vStart, &mWorld);
+
+	DWORD dwPolyIndex;
+	D3DXIntersect(pField->m_pMeshModel, &vStart, &vDir, &boHit, &dwPolyIndex, NULL, NULL, pfDistance, NULL, NULL);
+
+	if (boHit == true)
+	{
+		DebugProc_Print((char*)"当たっている");
+		//交差しているポリゴンの頂点を見つける
+		D3DXVECTOR3 vVertex[3];
+		Collision::FindVerticesOnPoly(pField->m_pMeshModel, dwPolyIndex, vVertex);
+		D3DXPLANE p;
+		//その頂点から平面方程式を得る
+		D3DXPlaneFromPoints(&p, &vVertex[0], &vVertex[1], &vVertex[2]);
+		//平面方程式の係数が法線の成分
+		pvNormal->x = p.a;
+		pvNormal->y = p.b;
+		pvNormal->z = p.c;
+
+		return true;
+	}
+	return false;
+}
+
+HRESULT Collision::FindVerticesOnPoly(LPD3DXMESH pMesh, DWORD dwPolyIndex, D3DXVECTOR3 * pvVertices)
+{
+	DWORD dwStride = pMesh->GetNumBytesPerVertex();
+	DWORD dwVertexNum = pMesh->GetNumVertices();
+	DWORD dwPolyNum = pMesh->GetNumFaces();
+	WORD* pwPoly = NULL;
+	pMesh->LockIndexBuffer(D3DLOCK_READONLY, (VOID**)&pwPoly);
+
+	BYTE *pbVertices = NULL;
+	FLOAT* pfVetices = NULL;
+	LPDIRECT3DVERTEXBUFFER9 VB = NULL;
+	pMesh->GetVertexBuffer(&VB);
+	if (SUCCEEDED(VB->Lock(0, 0, (VOID**)&pbVertices, 0)))
+	{
+		pfVetices = (FLOAT*)&pbVertices[dwStride*pwPoly[dwPolyIndex * 3]];
+		pvVertices[0].x = pfVetices[0];
+		pvVertices[0].y = pfVetices[1];
+		pvVertices[0].z = pfVetices[2];
+
+		pfVetices = (FLOAT*)&pbVertices[dwStride*pwPoly[dwPolyIndex * 3 + 1]];
+		pvVertices[1].x = pfVetices[0];
+		pvVertices[1].y = pfVetices[1];
+		pvVertices[1].z = pfVetices[2];
+
+		pfVetices = (FLOAT*)&pbVertices[dwStride*pwPoly[dwPolyIndex * 3 + 2]];
+		pvVertices[2].x = pfVetices[0];
+		pvVertices[2].y = pfVetices[1];
+		pvVertices[2].z = pfVetices[2];
+
+		pMesh->UnlockIndexBuffer();
+		VB->Unlock();
+		VB->Release();
+	}
+	return S_OK;
+}
+
+
+D3DXVECTOR3 Collision::Slip(D3DXVECTOR3 L, D3DXVECTOR3 N)
+{
+	D3DXVECTOR3 S; //滑りベクトル（滑る方向）
+
+	//滑りベクトル S=L-(N * L)/(|N|^2)*N
+	S = L - ((D3DXVec3Dot(&N, &L)) / (pow(D3DXVec3Length(&N), 2))) * N;
+
+	return S;
+}
+
+#if 0
 //レイによる衝突判定　レイが相手メッシュと交差する場合は、pfDistanceに距離を、pvNormalに衝突面の法線を入れてtrueを返す
-BOOL Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir,Field* pField, FLOAT* pfDistance, D3DXVECTOR3* pvNormal)
+BOOL Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir,Field *pField, FLOAT* pfDistance, D3DXVECTOR3* pvNormal)
 {
 	BOOL boHit = false;
 	D3DXMATRIX mWorld;
@@ -64,7 +136,7 @@ BOOL Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir,Field* pField, FLOAT* pfDistan
 		
 		//交差しているポリゴンの頂点を見つける
 		D3DXVECTOR3 vVertex[3];
-		FindVerticesOnPoly(pField->m_pMeshModel, dwPolyIndex, vVertex);
+		Collision::FindVerticesOnPoly(pField->m_pMeshModel, dwPolyIndex, vVertex);
 		D3DXPLANE p;
 		//その頂点から平面方程式を得る
 		D3DXPlaneFromPoints(&p, &vVertex[0], &vVertex[1], &vVertex[2]);
@@ -153,3 +225,5 @@ VOID RenderRay(LPDIRECT3DDEVICE9 pDevice, D3DXVECTOR3 vStart, D3DXVECTOR3 vDir)
 	//レイのレンダリング
 	pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, vPnt, sizeof(D3DXVECTOR3));
 }
+
+#endif

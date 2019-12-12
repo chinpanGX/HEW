@@ -7,7 +7,6 @@
 
 #pragma once
 #include "SceneBase.h"
-#include "TitleCamera.h"
 #include "Map.h"
 #include "Count.h"
 
@@ -16,10 +15,8 @@
 class SceneTitle : public SceneBase 
 {
 private:
-	TitleCamera m_Camera;
 	Map			m_Map;
 public:
-	//SceneBaseのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理
 	void Update();	//	ゲームの更新処理

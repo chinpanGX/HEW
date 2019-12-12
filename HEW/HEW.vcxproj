@@ -138,13 +138,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterCamera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Count.cpp" />
-    <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="debugproc.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Field.cpp" />
@@ -155,6 +153,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="mondai.cpp" />
     <ClCompile Include="Limit.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="SceneDebug.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -165,18 +164,14 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="texture.cpp" />
-    <ClCompile Include="TitleCamera.cpp" />
     <ClCompile Include="XFile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraBase.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterCamera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Count.h" />
-    <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="debugproc.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="Field.h" />
@@ -187,6 +182,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="mondai.h" />
     <ClInclude Include="Limit.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneDebug.h" />
     <ClInclude Include="SceneGame.h" />
@@ -198,7 +194,6 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="texture.h" />
-    <ClInclude Include="TitleCamera.h" />
     <ClInclude Include="XFile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

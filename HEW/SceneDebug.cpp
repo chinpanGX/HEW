@@ -8,7 +8,6 @@
 #include "SceneDebug.h"
 #include "SceneManager.h"
 #include "main.h"
-#include "DebugCamera.h"
 #include "light.h"
 #include "debugproc.h"
 //#include "Map.h"
@@ -19,7 +18,6 @@ void SceneDebug::Init()
 	//LPDIRECT3DDEVICE9 pD3DDevice = GetD3DDevice();
 	//m_Map.Init();
 	//Light::Init();
-	m_Camera.Init();
 	//m_Character = new Model(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(10.0f, 10.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), g_pXFileList["asset/model/dai.x"]);
 	//m_Character.Init(D3DXVECTOR3(0.0f, 100.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	
@@ -54,7 +52,6 @@ void SceneDebug::Draw()
 {
 	//DebugProc_Draw();
 	//m_Map.Draw();
-	m_Camera.Set();
 
 	//m_Character.Draw();
 	//m_Sprite.Draw(TEXTURE_INDEX_QUIZSAMPLE,1024,256,0,0,0,0,1,1,1);

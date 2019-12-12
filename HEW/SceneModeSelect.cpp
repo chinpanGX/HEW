@@ -11,6 +11,7 @@
 #include "main.h"
 
 static bool flg=true;
+
 //	初期化
 void SceneModeSelect::Init()
 {
@@ -62,14 +63,14 @@ void SceneModeSelect::Draw()
 	//m_Sprite.Draw; //(通常のやつ)
 	//m_Sprite.Draw; //(通常のやつ)
 
-		if (flg == true)
-		{
-			m_Sprite.Draw(TEXTURE_INDEX_SCENE_TUTORIAL,0.0f,0.0f,0.0f,0.0f,500.0f,500.0f,255.0f,255.0f,255.0f,255.0f);// (色変更)
-		}
-		else if (flg == false)
-		{
-			m_Sprite.Draw(TEXTURE_INDEX_SCENE_GAME, 0.0f, 0.0f, 0.0f, 0.0f, 500.0f, 500.0f, 20.0f,200.0f, 0.0f, 0.0f);// (色変更)
-		}
+	if (flg == true)
+	{
+		m_Sprite.Draw(TEXTURE_INDEX_SCENE_TUTORIAL,0.0f,0.0f,0.0f,0.0f,500.0f,500.0f,255.0f,255.0f,255.0f,255.0f);// (色変更)
+	}
+	else if (flg == false)
+	{
+		m_Sprite.Draw(TEXTURE_INDEX_SCENE_GAME, 0.0f, 0.0f, 0.0f, 0.0f, 500.0f, 500.0f, 20.0f,200.0f, 0.0f, 0.0f);// (色変更)
+	}
 	
 }
 
