@@ -12,6 +12,9 @@
 #include "Collision.h"
 #include "SceneManager.h"
 #include "Collision.h"
+#include "Field.h"
+#include "SceneGame.h"
+#include "ObjectManager.h"
 
 //	マクロ定義
 #define	VALUE_MOVE_MODEL	(0.5f)					// 移動速度
@@ -31,7 +34,7 @@ int					Character::m_count;				//	問題数のカウンター
 HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	m_pDevice = GetD3DDevice();
-	
+
 	//Xファイルの読み込み
 	if (FAILED(D3DXLoadMeshFromX("asset/model/ri.x", D3DXMESH_SYSTEMMEM, m_pDevice, NULL, &m_pBuffMat, NULL, &m_nNumMat, &m_pMesh)))
 	{
@@ -172,7 +175,6 @@ void Character::Update()
 
 	// 位置移動
 	m_position.x += m_velocity.x;
-	m_position.y -= m_velocity.y;	//	重力の値を加算代入
 	m_position.z += m_velocity.z;
 
 	// 移動量に慣性をかける
@@ -212,26 +214,35 @@ void Character::Update()
 	DebugProc_Print((char*)"%f,%f,%f",m_position.x,m_position.y,m_position.z);
 
 	//RenderRay(m_pDevice, m_position, m_velocity);
-
+	//m_position.y -= m_grivity;
 	/// <summary> 当たり判定
+
 	FLOAT fDistance=0;
 	D3DXVECTOR3 vNormal;
+	Field *field = ObjectManager::SetField();
 
 	//	重力をかける
-	m_position.y -= m_grivity;
-	Field field;
-	
+	if (KeyBoard::IsPress(DIK_SPACE))
+	{
+		m_position.y -= m_grivity;
+	}
+
+	if (KeyBoard::IsPress(DIK_Q))
+	{
+		m_position.y += m_grivity;
+	}
+
 	//m_position.y = -0.7f;
-	if( Collide(m_position,m_velocity,&field,&fDistance,&vNormal) && fDistance<=0.3)	
+	if( Collision::Collide(m_position,m_velocity, field,&fDistance,&vNormal) && fDistance<=0.3)
 	{
 		//当たり状態なので、滑らせる
-		m_velocity=Slip(m_velocity,vNormal);//滑りベクトルを計算
+		m_velocity= Collision::Slip(m_velocity,vNormal);//滑りベクトルを計算
 
 		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
-		if( Collide(m_position,m_velocity,&field,&fDistance,&vNormal)&& fDistance<=0.2 )			
+		if(Collision::Collide(m_position,m_velocity,field,&fDistance,&vNormal)&& fDistance<=0.2 )
 		{				
 			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
-			m_velocity=Slip(m_velocity,vNormal);//滑りベクトルを計算
+			m_velocity= Collision::Slip(m_velocity,vNormal);//滑りベクトルを計算
 		}		
 	}
 	//m_position.y = -0.7f;

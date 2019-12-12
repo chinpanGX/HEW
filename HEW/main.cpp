@@ -8,11 +8,9 @@
 //#	インクルードファイル
 #include "main.h"
 #include "Controller.h"
-#include "camera.h"
 #include "light.h"
 #include <time.h>
 #include "SceneManager.h"
-#include "DebugCamera.h"
 #include "texture.h"
 #include "Count.h"
 

@@ -8,21 +8,18 @@
 #include "SceneGame.h"
 #include "SceneManager.h"
 #include "Controller.h"
-#include "Character.h"
 #include "main.h"
 #include "light.h"
 #include "debugproc.h"
 
-
 //	ゲームの初期化処理
 void SceneGame::Init()
 {
-	
-	m_Character.Init(D3DXVECTOR3(0.0f, 150.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_Map.Init();
+	DebugProc_Initialize();
+	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 48.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	Light::Init();
 	m_Camera.Init();
-	DebugProc_Initialize();
 	
 }
 
@@ -38,7 +35,6 @@ void SceneGame::Uninit()
 //	ゲームの更新処理
 void SceneGame::Update()
 {
-
 	m_Character.Update();
 	m_Camera.Update();
 	//if (KeyBoard::IsTrigger(DIK_W))
@@ -58,4 +54,14 @@ void SceneGame::Draw()
 	m_Map.Draw();
 	m_Camera.Set();
 	DebugProc_Draw();
+}
+
+Character * SceneGame::SetCharacter()
+{
+	return &m_Character;
+}
+
+Field * SceneGame::SetField()
+{
+	return &m_Map;
 }

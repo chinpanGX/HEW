@@ -71,3 +71,4 @@ void Field::Draw()
 	//マテリアルをデフォルトに戻す
 	m_pDevice->SetMaterial(&matDef);
 }
+
