@@ -47,6 +47,9 @@ void SceneGame::Update()
 //	ゲームの描画処理
 void SceneGame::Draw()
 {
+	//	ワイヤーフレームをセット
+	//pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	m_Character.Draw();
 	m_Map.Draw();
 	m_Camera.Set();

@@ -87,6 +87,9 @@
     <ClCompile Include="ObjectManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="billboard.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterCamera.h">
@@ -143,6 +146,8 @@
     <ClInclude Include="Controller.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+
+    <ClInclude Include="billboard.h">
     <ClInclude Include="Count.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
