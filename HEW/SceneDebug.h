@@ -8,7 +8,6 @@
 #pragma once
 #include "main.h"
 #include "SceneBase.h"
-#include "Map.h"
 #include "Character.h"
 #include "sprite.h"
 #include "Count.h"
@@ -19,7 +18,6 @@ class SceneDebug: public SceneBase
 {
 private:
 	Character	m_Character;
-	Map			m_Map;
 	//Sprite	m_Sprite;
 	Count       m_Count;
 public:

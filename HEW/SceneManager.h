@@ -25,6 +25,6 @@ public:
 	static void Update();				//	更新処理
 	static void Draw();					//	描画処理
 	static void ChangeSceneState();		//	シーン遷移処理
-	static SceneBase*	SetSceneGame();
+	static SceneBase*	SetSceneGame();	
 };
 

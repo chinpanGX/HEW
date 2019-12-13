@@ -8,7 +8,6 @@
 #pragma once
 #include "main.h"
 #include "Character.h"
-#include "Map.h"
 #include "Field.h"
 
 //	コリジョンを管理するクラス

@@ -8,32 +8,6 @@
 #include "Collision.h"
 #include "debugproc.h"
 
-#if 0
-void  Collision::Player_vs_Map()
-{
-	
-	// 当たり判定
-	FLOAT fDistance = 0;
-	D3DXVECTOR3 vNormal;
-
-	if (Collision::Collide(pos, move, m_Field, &fDistance, &vNormal) && fDistance <= 0.3)
-	{
-		//当たり状態なので、滑らせる
-		move = Slip(move, vNormal);//滑りベクトルを計算
-
-		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
-		if (Collision::Collide(pos,move, m_Field, &fDistance, &vNormal) && fDistance <= 0.2)
-		{
-			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
-			move = Slip(move, vNormal);//滑りベクトルを計算
-		}
-	}
-	//pos = m_Character.GetMove();
-	//move = m_Character.GetMove();
-	pos += move;
-}
-#endif
-
 BOOL Collision::Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir, Field* pField, FLOAT * pfDistance, D3DXVECTOR3 * pvNormal)
 {
 	BOOL boHit = false;
@@ -49,13 +23,17 @@ BOOL Collision::Collide(D3DXVECTOR3 vStart, D3DXVECTOR3 vDir, Field* pField, FLO
 
 	if (boHit == true)
 	{
+		//!	後で消す
 		DebugProc_Print((char*)"当たっている");
+		
 		//交差しているポリゴンの頂点を見つける
 		D3DXVECTOR3 vVertex[3];
 		Collision::FindVerticesOnPoly(pField->m_pMeshModel, dwPolyIndex, vVertex);
 		D3DXPLANE p;
+		
 		//その頂点から平面方程式を得る
 		D3DXPlaneFromPoints(&p, &vVertex[0], &vVertex[1], &vVertex[2]);
+		
 		//平面方程式の係数が法線の成分
 		pvNormal->x = p.a;
 		pvNormal->y = p.b;

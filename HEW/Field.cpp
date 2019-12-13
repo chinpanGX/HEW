@@ -36,6 +36,7 @@ HRESULT Field::Init(D3DXVECTOR3 Pos, D3DXVECTOR3 Scale, D3DXVECTOR3 Angle)
 
 void Field::Uninit()
 {
+
 }
 
 void Field::Draw()

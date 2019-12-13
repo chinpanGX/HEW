@@ -149,8 +149,6 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Model.cpp" />
     <ClCompile Include="mondai.cpp" />
     <ClCompile Include="Limit.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -164,7 +162,6 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="texture.cpp" />
-    <ClCompile Include="XFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -178,8 +175,6 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="mondai.h" />
     <ClInclude Include="Limit.h" />
     <ClInclude Include="ObjectManager.h" />
@@ -194,7 +189,6 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="texture.h" />
-    <ClInclude Include="XFile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

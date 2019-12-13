@@ -40,12 +40,12 @@ void SceneManager::Init()
 void SceneManager::Uninit()
 {
 	//	各シーンのUninit関数を呼び出す
-	//m_scene[5]->Uninit();
-	//m_scene[4]->Uninit();
-	//m_scene[3]->Uninit();
-	//m_scene[2]->Uninit();
-	//m_scene[1]->Uninit();
-	//m_scene[0]->Uninit();
+	m_scene[5]->Uninit();
+	m_scene[4]->Uninit();
+	m_scene[3]->Uninit();
+	m_scene[2]->Uninit();
+	m_scene[1]->Uninit();
+	m_scene[0]->Uninit();
 
 	//	各シーンのメモリの解放
 	delete m_scene[5];
@@ -84,12 +84,12 @@ void SceneManager::ChangeSceneState()
 		
 		if (flg == true)
 		{
-			m_sceneState = SCENE_TUTORIAL;		//	チュートリアルへ遷移
+			m_sceneState = SCENE_TUTORIAL;	//	チュートリアルへ遷移
 			m_scene[m_sceneState]->Init();
 		}
 		else if (flg == false)
 		{
-			m_sceneState = SCENE_GAME;			//	ゲームへ遷移
+			m_sceneState = SCENE_GAME;		//	ゲームへ遷移
 			m_scene[m_sceneState]->Init();
 		}
 		break;

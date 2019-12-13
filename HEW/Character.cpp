@@ -227,6 +227,7 @@ void Character::Update()
 		m_position.y -= m_grivity;
 	}
 
+	//	è„è∏
 	if (KeyBoard::IsPress(DIK_Q))
 	{
 		m_position.y += m_grivity;
