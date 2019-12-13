@@ -10,11 +10,11 @@
 
 //　マクロ定義
 #define	CAM_POS_V_X		(0.0f)											// カメラの視点初期位置(X座標)
-#define	CAM_POS_V_Y		(60.0f)											// カメラの視点初期位置(Y座標)
-#define	CAM_POS_V_Z		(30.0f)											// カメラの視点初期位置(Z座標)
+#define	CAM_POS_V_Y		(100.0f)										// カメラの視点初期位置(Y座標)
+#define	CAM_POS_V_Z		(250.0f)										// カメラの視点初期位置(Z座標)
 #define	CAM_POS_R_X		(0.0f)											// カメラの注視点初期位置(X座標)
 #define	CAM_POS_R_Y		(50.0f)											// カメラの注視点初期位置(Y座標)
-#define	CAM_POS_R_Z		(-30.0f)											// カメラの注視点初期位置(Z座標)
+#define	CAM_POS_R_Z		(-30.0f)										// カメラの注視点初期位置(Z座標)
 #define	VIEW_ANGLE		(D3DXToRadian(45.0f))							// ビュー平面の視野角
 #define	VIEW_ASPECT		((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比
 #define	VIEW_NEAR_Z		(10.0f)											// ビュー平面のNearZ値	値より近いと描画しない
@@ -36,15 +36,16 @@ void CharacterCamera::Uninit()
 
 void CharacterCamera::Update()
 {
-
-	//D3DXVECTOR3 GetMove();
+#if 0
+	D3DXVECTOR3 GetMove();
 	g_CharCamera.posV.z += sinf(D3DX_PI * 0.0f -rot.y) * 0.5f;
 	g_CharCamera.posR.z -= cosf(D3DX_PI * 0.0f -rot.y) * 0.5f;
 	/// 位置移動
-	//g_CharCamera.posV.x += 0.;
+	g_CharCamera.posV.x += 0.;
 	g_CharCamera.posV.z -= 0.5f;
-	//g_CharCamera.posV.z -= 0.5f;
-	//g_CharCamera.posR.z -= 0.5f;
+	g_CharCamera.posV.z -= 0.5f;
+	g_CharCamera.posR.z -= 0.5f;
+#endif
 }
 
 void CharacterCamera::Set()

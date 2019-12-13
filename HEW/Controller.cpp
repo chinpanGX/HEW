@@ -52,7 +52,7 @@ bool KeyBoard::Init(HINSTANCE hInstance, HWND hWnd)
 //	キーボードの終了処理
 void KeyBoard::Uninit()
 {
-	DEVICE_RELEASE(m_pDevKeyboard);
+	SAFE_RELEASE(m_pDevKeyboard);
 	Input::Uninit();
 }
 

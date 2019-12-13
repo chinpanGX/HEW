@@ -1,7 +1,7 @@
 /*==================================
 
 	[sprite.cpp]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ==================================*/
 
@@ -11,81 +11,22 @@
 #include "texture.h"
 #include "sprite.h"
 
-//	ƒ}ƒNƒ’è‹`
-#define MINA	(0.5f)	//	‰æ–Ê‚Ì•\¦ˆÊ’u‚ÌC³ŒÅ’è’l
+//	ãƒã‚¯ãƒ­å®šç¾©
+#define MINA	(0.5f)	//	ç”»é¢ã®è¡¨ç¤ºä½ç½®ã®ä¿®æ­£å›ºå®šå€¤
 
-//	ƒOƒ[ƒoƒ‹•Ï”
-D3DCOLOR g_Color = D3DCOLOR_RGBA(255, 255, 255, 255);	//ƒJƒ‰[‚Ì•ÏX‚ª‰Â”\
+//	ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+D3DCOLOR g_Color = D3DCOLOR_RGBA(255, 255, 255, 255);	//ã‚«ãƒ©ãƒ¼ã®å¤‰æ›´ãŒå¯èƒ½
 
-//	ƒXƒ^ƒeƒBƒbƒN•Ï”
-D3DXMATRIX				Sprite::m_mtxWorld;			//	ƒ[ƒ‹ƒhƒ}ƒgƒŠƒbƒNƒX
-LPDIRECT3DVERTEXBUFFER9 Sprite::m_pVertexBuffer;	//	’¸“_ƒoƒbƒtƒ@(’¸“_î•ñ)‚ğŠi”[‚µ‚½ƒƒ‚ƒŠ
-LPDIRECT3DINDEXBUFFER9	Sprite::m_pIndexBuffer;		//	ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
-LPDIRECT3DDEVICE9		Sprite::m_Device;			//	ƒfƒoƒCƒX
+//	ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯å¤‰æ•°
+LPDIRECT3DDEVICE9		Sprite::m_Device;			//	ãƒ‡ãƒã‚¤ã‚¹
 
-//	‰Šú‰»ˆ—
-HRESULT Sprite::Init(LPDIRECT3DDEVICE9 pDevice)
-{
-	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX3D, D3DPOOL_MANAGED, &m_pVertexBuffer, NULL)))
-	{
-		return E_FAIL;
-	}
-	if(FAILED(pDevice->CreateIndexBuffer(sizeof(WORD) * 6, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_pIndexBuffer, NULL)))
-	{
-		return E_FAIL;
-	}
-	VERTEX_3D *pVtx;	//	’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^
-	WORD* pIndex;		//	ƒCƒ“ƒfƒNƒXƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^
-	m_pVertexBuffer->Lock(0, 0, (void**)&pVtx, 0);
-
-	pVtx[0].pos = D3DXVECTOR3(-30.0f, 30.0f, -30.0f);		//	’†gu‚ğŠÖ”‚Ìˆø”‚É‚·‚é
-	pVtx[1].pos = D3DXVECTOR3(30.0f, 30.0f, -30.0f);
-	pVtx[2].pos = D3DXVECTOR3(-30.0f, -30.0f, -30.0f);
-	pVtx[3].pos = D3DXVECTOR3(30.0f, -30.0f, -30.0f);
-	pVtx[4].pos = D3DXVECTOR3(30.0f, -30.0f, 30.0f);
-	pVtx[5].pos = D3DXVECTOR3(-30.0f, -30.0f, 30.0f);
-
-	for (int i = 0; i < 5 ; i++)
-	{
-		pVtx[i].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		pVtx[i].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	}
-
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(2.0f, 0.0f);
-	pVtx[3].tex = D3DXVECTOR2(3.0f, 0.0f);
-	pVtx[4].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[5].tex = D3DXVECTOR2(1.0f, 1.0f);
-	pVtx[6].tex = D3DXVECTOR2(2.0f, 1.0f);
-	pVtx[7].tex = D3DXVECTOR2(3.0f, 1.0f);
-	
-	m_pVertexBuffer ->Unlock();
-	
-	m_pIndexBuffer->Lock(0, 0, (void**)&pIndex, D3DLOCK_DISCARD);
-	pIndex[0] = 0;
-	pIndex[1] = 1;
-	pIndex[2] = 2;
-	pIndex[3] = 1;
-	pIndex[4] = 3;
-	pIndex[5] = 2;
-	m_pIndexBuffer->Unlock();
-}
-
-//	I—¹ˆ—
-void Sprite::Uninit()
-{
-	DEVICE_RELEASE(m_pIndexBuffer);
-	DEVICE_RELEASE(m_pVertexBuffer);
-}
-
-//	F‚ğİ’è‚·‚éƒZƒbƒ^[
+//	è‰²ã‚’è¨­å®šã™ã‚‹ã‚»ãƒƒã‚¿ãƒ¼
 void Sprite::SetColor(D3DCOLOR color)
 {
 	g_Color = color;
 }
 
-//	•`‰æ (ˆø”FƒeƒNƒXƒ`ƒƒAXÀ•WAYÀ•W)
+//	æç”» (å¼•æ•°ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã€Xåº§æ¨™ã€Yåº§æ¨™)
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 {
 	m_Device = GetD3DDevice();
@@ -94,8 +35,9 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 	float w = (float)Texture_GetWidth(texture_index);
 	float h = (float)Texture_GetHeight(texture_index);
 
-	VERTEX_2D vertexes[] = {
-		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(0.0f, 0.0f) },
+	VERTEX_2D vertexes[] = 
+	{
+		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f),     g_Color, D3DXVECTOR2(0.0f, 0.0f) },
 		{ D3DXVECTOR4(dx + w - MINA, dy - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(1.0f, 0.0f) },
 		{ D3DXVECTOR4(dx - MINA, dy + h - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(0.0f, 1.0f) },
 		{ D3DXVECTOR4(dx + w - MINA, dy + h - MINA, 0.0f, 1.0f), g_Color, D3DXVECTOR2(1.0f, 1.0f) },
@@ -107,8 +49,8 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy)
 	m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
 }
 
-//	•`‰æ (ˆø”FƒeƒNƒXƒ`ƒƒAXÀ•WAYÀ•WAƒeƒNƒXƒ`ƒƒXÀ•WAƒeƒNƒXƒ`ƒƒYÀ•WAƒeƒNƒXƒ`ƒƒ‚Ì‰¡•AƒeƒNƒXƒ`ƒƒ‚Ìc•)
-void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty,int tw, int th)
+//	æç”» (å¼•æ•°ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã€Xåº§æ¨™ã€Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Xåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…)
+void Sprite::Draw(TextureIndex texture_index, float dx, float dy,int tx, int ty,int tw, int th)
 {
 	m_Device = GetD3DDevice();
     if( !m_Device ) return;
@@ -133,9 +75,40 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
     m_Device->SetFVF(FVF_VERTEX2D);
 	m_Device->SetTexture(0, Texture_GetTexture(texture_index));
     m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
+	
 }
 
-//	•`‰æ (ˆø”FƒeƒNƒXƒ`ƒƒAXÀ•WAYÀ•WAƒeƒNƒXƒ`ƒƒXÀ•WAƒeƒNƒXƒ`ƒƒYÀ•WAƒeƒNƒXƒ`ƒƒ‚Ì‰¡•AƒeƒNƒXƒ`ƒƒ‚Ìc•AƒeƒNƒXƒ`ƒƒ‚Ì’†SÀ•WAŠg‘åk¬A‰ñ“])
+
+
+//	æç”» (å¼•æ•°ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã€Xåº§æ¨™ã€Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Xåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…ã€ã‚«ãƒ©ãƒ¼è¨­å®š(R)ã€ã‚«ãƒ©ãƒ¼è¨­å®š(G)ã€ã‚«ãƒ©ãƒ¼è¨­å®š(B)ã€ã‚«ãƒ©ãƒ¼è¨­å®š(A))
+void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, int col_r, int col_g, int col_b, int col_a)
+{
+	m_Device = GetD3DDevice();
+	if (!m_Device) return;
+
+	float w = (float)Texture_GetWidth(texture_index);
+	float h = (float)Texture_GetHeight(texture_index);
+
+	float u[2], v[2];
+	u[0] = (float)tx / w;
+	v[0] = (float)ty / h;
+	u[1] = (float)(tx + tw) / w;
+	v[1] = (float)(ty + th) / h;
+
+	VERTEX_2D vertexes[] =
+	{
+		{ D3DXVECTOR4(dx - MINA, dy - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[0], v[0]) },
+		{ D3DXVECTOR4(dx + tw - MINA, dy - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[1], v[0]) },
+		{ D3DXVECTOR4(dx - MINA, dy + th - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[0], v[1]) },
+		{ D3DXVECTOR4(dx + tw - MINA, dy + th - MINA, 0.0f, 1.0f),D3DCOLOR_RGBA(col_r,col_g,col_b,col_a), D3DXVECTOR2(u[1], v[1]) },
+	};
+
+	m_Device->SetFVF(FVF_VERTEX2D);
+	m_Device->SetTexture(0, Texture_GetTexture(texture_index));
+	m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
+}
+
+//	æç”» (å¼•æ•°ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã€Xåº§æ¨™ã€Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Xåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£Yåº§æ¨™ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ä¸­å¿ƒåº§æ¨™ã€æ‹¡å¤§ç¸®å°ã€å›è»¢)
 void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, float cx, float cy, float sx, float sy, float rotation)
 {
 	m_Device = GetD3DDevice();
@@ -167,7 +140,8 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 	D3DXMatrixRotationZ(&matRot, rotation);
 	D3DXMatrixScaling(&matScale, sx, sy, 1.0f);
 
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < 4; i++)
+	{
 		matAll = matBase[i] * matScale * matRot * matTrans;
 		px[i] = matAll._41;
 		py[i] = matAll._42;
@@ -184,52 +158,4 @@ void Sprite::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty
 	m_Device->SetFVF(FVF_VERTEX2D);
 	m_Device->SetTexture(0, Texture_GetTexture(texture_index));
 	m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertexes, sizeof(VERTEX_2D));
-}
-
-//	3D•`‰æiˆø”FƒeƒNƒXƒ`ƒƒAXÀ•WAYÀ•WAZÀ•WAj
-void Sprite::Draw(TextureIndex Texture, float pos_x,float pos_y,float pos_z,float rot_x,float rot_y,float rot_z,float scl_x,float scl_y,float scl_z)
-{
-	m_Device = GetD3DDevice();
-
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
-
-	//	ƒ[ƒ‹ƒh•ÏŠ·iƒ[ƒ‹ƒhƒ}ƒgƒŠƒNƒX‚Ì‰Šú‰»j
-	D3DXMatrixIdentity(&m_mtxWorld);
-	D3DXMatrixScaling(&mtxScl, scl_x, scl_y, scl_z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScl);					//@ˆø”‚Í2”Ô–Ú‚Æ3”Ô–Ú‚ÌŒvZŒ‹‰Ê‚ğ1”Ô–Ú‚É“ü‚ê‚é
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot_x, rot_y, rot_z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
-	D3DXMatrixTranslation(&mtxTranslate, pos_y, pos_x, pos_z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTranslate);
-
-	// ƒ[ƒ‹ƒhƒ}ƒgƒŠƒNƒX‚Ìİ’è
-	m_Device->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-
-	//	’¸“_ƒoƒbƒtƒ@‚ğƒfƒoƒCƒX‚Ìƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÉƒoƒCƒ“ƒh
-	//	SetStreamSource	(‘æ‚Pˆø”:’¸“_ƒoƒbƒtƒ@‚ğİ’è‚·‚éƒXƒgƒŠ[ƒ€”Ô†‚ğw’èA‘æ‚Qˆø”:’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğw’èA‘æ‚Rˆø”:’¸“_ƒf[ƒ^‚Ìˆê‚Â•ª‚Ìƒf[ƒ^ƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è)
-	m_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX_3D));
-
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ÌƒZƒbƒg
-	m_Device->SetIndices(m_pIndexBuffer);
-
-	//	’¸“_ƒtƒH[ƒ}ƒbƒg‚Ìİ’è
-	m_Device->SetFVF(FVF_VERTEX3D);
-
-	//ƒeƒNƒXƒ`ƒƒ‚Ìİ’è
-	m_Device->SetTexture(0, Texture_GetTexture(Texture));
-
-	//----------------------------------------------------------------------------------------------
-	//	  DrawPrimitiveUp‚ÆDrawRimitive‚Ìˆá‚¢
-	//"		DrawPrimitiveUp‚Ìà–¾	->	”Âƒ|ƒŠ‚È‚Ç’¸“_‚ª­‚È‚¢ƒIƒuƒWƒFƒNƒg‚Åg‚¤
-	//!			‚PDDrawPrimitiveUp‚ª’¸“_î•ñ‚ğ’Êí‚Ìƒƒ‚ƒŠ‚É’u‚­ -> ˆ—‚ª’x‚­‚È‚é
-	//!			‚QDLock‚ÆUnlock‚ğg‚í‚È‚­‚Ä‚¢‚¢	
-	//"		DrawPrimitive‚Ìà–¾		->	’¸“_‚ª‘½‚¢ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹‚È‚Ç‚ğ•`‰æ‚·‚é‚Æ‚«‚Ég‚¤
-	//!			‚PD’¸“_î•ñ‚ªVRAMã‚É’u‚©‚ê‚é@-> ˆ—‘¬“x‚ª‘¬‚¢
-	//!			‚QDLock‚ÆUnlock‚ª•K—v‚É‚È‚é	-> ƒpƒtƒH[ƒ}ƒ“ƒX‚ª’á‰º ->‚È‚é‚×‚­­‚È‚­‚µ‚½‚¢
-	//----------------------------------------------------------------------------------------------
-
-	//	©•ª‚Åì‚Á‚½’¸“_ƒoƒbƒtƒ@‚ğ•`‰æiƒƒ‚ƒŠ‚ÌŠm•ÛA‰ğ•ú‚ğ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢@-> ‘½—p‚·‚é‚Æ’x‚­‚È‚éj
-	//DrawPrimitive (‘æ1ˆø”FƒvƒŠƒ~ƒeƒBƒu‚ğw’èA‘æ2ˆø”F•`‰æ‚ğŠJn‚·‚é’¸“_‚ğw’èA‘æ3ˆø”Fg—p‚·‚éƒvƒŠƒ~ƒeƒBƒu‚Ì”‚ğw’è)
-	//m_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, POLYGON_NUM);
-	m_Device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 20, 0, 12);
 }

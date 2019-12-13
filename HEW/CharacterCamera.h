@@ -7,7 +7,6 @@
 
 #pragma once
 #include "main.h"
-#include "Camera.h"
 
 //#	CharacterCameraクラス : 基底クラスCameraの派生
 /* キャラクターにつけるカメラ */

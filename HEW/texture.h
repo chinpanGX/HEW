@@ -1,25 +1,28 @@
 /*==================================
 	
 	[texture.h]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ==================================*/
 
 #pragma once
 #include <d3d9.h>
 
-//—ñ‹“Œ^FƒeƒNƒXƒ`ƒƒ‚Ìw’è
+//åˆ—æŒ™å‹ï¼šãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æŒ‡å®š
 typedef enum
 {
 	TEXTURE_INDEX_RESULT,
 	TEXTURE_INDEX_MODESELECT,
 	TEXTURE_INDEX_QUIZSAMPLE,
+	TEXTURE_INDEX_SCENE_TUTORIAL,
+	TEXTURE_INDEX_SCENE_GAME,
+	TEXTURE_INDEX_SU,
 
     TEXTURE_INDEX_MAX
 }TextureIndex;
 
-int Texture_Load();			//ƒeƒNƒXƒ`ƒƒ‚Ìƒ[ƒh					
-void Texture_Release();		//ƒeƒNƒXƒ`ƒƒ‚ÌƒŠƒŠ[ƒX
-LPDIRECT3DTEXTURE9 Texture_GetTexture(TextureIndex index);	//ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğ‰æ‘œƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ŞŠÖ”
-int Texture_GetWidth(TextureIndex index);		//ƒeƒNƒXƒ`ƒƒ‚Ì‰¡•
-int Texture_GetHeight(TextureIndex index);		//ƒeƒNƒXƒ`ƒƒ‚Ìc•
+int Texture_Load();			//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ­ãƒ¼ãƒ‰					
+void Texture_Release();		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒªãƒªãƒ¼ã‚¹
+LPDIRECT3DTEXTURE9 Texture_GetTexture(TextureIndex index);	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚€é–¢æ•°
+int Texture_GetWidth(TextureIndex index);		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¨ªå¹…
+int Texture_GetHeight(TextureIndex index);		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦å¹…

@@ -16,8 +16,6 @@ private:
 	static D3DXVECTOR3 vecDir;
 public:
 	static void Init();
-	static void Uninit();
-	static void Update();
 };
 
 
