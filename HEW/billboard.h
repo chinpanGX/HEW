@@ -1,17 +1,15 @@
-//=============================================================================
-//
-// ビルボード処理 [billboard.h]
-//
-//=============================================================================
+/*=====================================
+
+	[BillBoard.h]
+	
+
+======================================*/
+
 #pragma once
 
 #include "main.h"
+#include "texture.h"
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-HRESULT Billboard_Initialize(void);
-void Billboard_Finalize(void);
-void Billboard_Update(void);
-void Billboard_Draw(void);
-
+HRESULT BillBoard_Init();
+void BillBoard_Uninit();
+void BillBoard_Draw(TextureIndex texture_index,D3DXVECTOR3 mtxPos , D3DXVECTOR3 mtxScl);

@@ -138,7 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="billboard.cpp" />
+    <ClCompile Include="BillBoard.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterCamera.cpp" />
@@ -166,8 +166,7 @@
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-
-    <ClInclude Include="billboard.h" />
+    <ClInclude Include="BillBoard.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="Character.h" />
