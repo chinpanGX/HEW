@@ -17,11 +17,12 @@ struct FadeVertex
 #define FVF_FADE_VERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE)	//	頂点フォーマット
 
 //	スタティック変数
-D3DXCOLOR	Fade::m_FadeColor(0.0f, 0.0f, 0.0f, 1.0f);
-float		Fade::m_Alpha = 0.0f;
-float		Fade::m_AddAlpha = 0.0f;
-bool		Fade::m_bOut = false;
-bool		Fade::m_bIsFade = false;
+D3DXCOLOR			Fade::m_FadeColor(0.0f, 0.0f, 0.0f, 1.0f);
+float				Fade::m_Alpha = 0.0f;
+float				Fade::m_AddAlpha = 0.0f;
+bool				Fade::m_bOut = false;
+bool				Fade::m_bIsFade = false;
+LPDIRECT3DDEVICE9	Fade::m_pDevice;
 
 void Fade::Init()
 {
@@ -90,7 +91,7 @@ void Fade::Start(bool bOut, int frame, D3DXCOLOR color)
 	else
 	{
 		m_Alpha = 1.0f;
-		m_AddAlpha = -m_AddAlpha;
+		m_AddAlpha = -m_AddAlpha;                                                      
 	}
 }
 

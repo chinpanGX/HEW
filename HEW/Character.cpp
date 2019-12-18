@@ -401,33 +401,12 @@ void Character::AnswerstayState()
 	float fDiffRotY;
 	switch (m_AnsawerStayState)
 	{
-	case ANSWER_DROW:
-		//!	問題文の描画
-		
-		//!if ( 問題の選出、描画が完了したら )
-		{
-			m_AnsawerStayState = ANSWER_SELECT;
-		}
-		break;
-
 	case ANSWER_SELECT:
+		//!	問題文の描画	
 
 		//!	カウントダウンを開始
 
-		//	移動
-		if (KeyBoard::IsPress(DIK_A) || GamePad::IsPress(0,LEFTSTICK_RIGHT))
-		{
-			m_velocity.x += sinf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.50f;
-		}
-		if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_LEFT))
-		{
-			m_velocity.x += sinf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.50f;
-		}
-		m_position.x += m_velocity.x;	//	x座標しか移動させない
+		//!	問題文の更新と描画	
 
 		//!if ( カウントダウンが終了したら )
 		{
@@ -440,9 +419,8 @@ void Character::AnswerstayState()
 
 void Character::AnswerState()
 {
-	/// <sumamry>
-	///	当たり判定はコリジョンのリターンフラグで判別する
-	///	</summaey>
+	//	ゲッター
+
 	//!if ( 正解 )
 	{
 		//	スピード補正
@@ -462,6 +440,9 @@ void Character::JumpState()
 	///	60FPS = 1 の更新速度
 	///	</summary>
 	m_score++;
+
+	
+
 	//!if ( 地面に着いたら　= yの座標値)
 	{
 		m_PlayerState = PLAYER_END;

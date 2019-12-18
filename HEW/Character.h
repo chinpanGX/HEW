@@ -37,7 +37,7 @@ enum AnswerStayState
 /// </summary>
 class Character
 {
-private:
+public:
 	static LPDIRECT3DTEXTURE9	m_pTexture;	//	テクスチャへのポインタ
 	static LPD3DXMESH			m_pMesh;	//	メッシュ情報へのポインタ
 	static LPD3DXBUFFER			m_pBuffMat;	//	マテリアル情報へのポインタ
@@ -50,7 +50,7 @@ private:
 	D3DXVECTOR3					m_rotDest;	//	目的の向き
 	D3DXVECTOR3					m_velocity;	//	移動量
 	float						m_grivity;	//	重力
-	int							m_score;
+	int							m_score;	
 	/// <summary>
 	///	プレイヤーに関するステート用メンバー変数
 	///	</summary>
@@ -76,7 +76,7 @@ public:
 	D3DXVECTOR3	GetMove();	///	<return> m_velocity </return>
 	D3DXMATRIX	GetMat();	///	<return> m_mtxworld </return>
 	LPD3DXMESH	GetMesh();	///	<return> m_pMesh </return>
-	int			Score();	///	<return> m_score </return>
+	int			Score();	///	<return> m_score </return
 
 private:
 	//	ステート関数
