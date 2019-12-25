@@ -4,9 +4,6 @@
 #include "sprite.h"
 #include "Limit.h"
 
-#define COUNTDOWN (128)
-
-
 class Count 
 {
 private:

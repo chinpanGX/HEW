@@ -96,7 +96,7 @@ void Mondai::MondaiOne(int answer)
 		//m_sprite.Draw()
 		//m_Sprite.Draw()
 		//m_Sprite.Draw()
-		//m_flg = Answer(true);
+		//m_flg = true;
 		break;
 	case 2:
 		//m_sprite.Draw()

@@ -39,7 +39,7 @@ struct VERTEX_3D
 };
 
 //　シーンの状態管理変数　
-typedef enum
+enum SCENE_STATE
 {
 	SCENE_TITLE,		//	タイトルシーン
 	SCENE_MODESELECT,	//	モードセレクトシーン
@@ -47,8 +47,7 @@ typedef enum
 	SCENE_GAME,			//	ゲームシーン
 	SCENE_RESULT,		//	リザルトシーン
 	SCENE_DEBUG			//!	デバッグ用シーン…マスター版→消去　
-
-}SCENE_STATE;
+};
 
 //　プロトタイプ宣言
 LPDIRECT3DDEVICE9 GetD3DDevice();	//Direct3DDeviceのゲッター

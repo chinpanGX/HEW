@@ -2,9 +2,6 @@
 #include "Count.h"
 #include "texture.h"
 
-
-//static Count g_Count[COUNTDOWN];
-
 void Count::Init()
 {
 	
