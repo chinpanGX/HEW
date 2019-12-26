@@ -161,6 +161,7 @@
     <ClCompile Include="SceneResult.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="SceneTutorial.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="SceneResult.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="SceneTutorial.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="texture.h" />
