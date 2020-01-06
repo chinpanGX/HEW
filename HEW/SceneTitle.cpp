@@ -1,16 +1,22 @@
 /*===================================================
 
 	[SceneTitle.cpp]
-	Author : o‡ãÄ‘¾
+	Author : 出合翔太
 
 ====================================================*/
 
 #include "SceneTitle.h"
 #include "SceneManager.h"
 #include "Controller.h"
+#include"Fade.h"
+
+
 
 void SceneTitle::Init()
 {
+	flag = false;
+
+	
 	//m_Camera.Init();
 	//m_Map.Init();
 	//m_count.Init();
@@ -28,10 +34,28 @@ void SceneTitle::Update()
 	//m_count.Update();
 
 
-	if (KeyBoard::IsTrigger(DIK_W))
+
+	if (flag = false)
 	{
-		SceneManager::ChangeSceneState();
+		if (KeyBoard::IsTrigger(DIK_W))
+		{
+			flag = true;
+
+			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
+		}
+
+		
 	}
+	else
+		if (!Fade::IsFade())
+		{
+
+			SceneManager::ChangeSceneState(); 
+		}
+
+
+
+	
 }
 
 void SceneTitle::Draw()

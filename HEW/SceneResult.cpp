@@ -8,12 +8,16 @@
 #include "SceneResult.h"
 #include "SceneManager.h"
 #include "Controller.h"
-
+#include"Fade.h"
 //	スタティック変数
 int SceneResult::m_Ranking[5];
 
 void SceneResult::Init()
 {
+	flag = false;
+
+	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
+
 
 	//Sort(ゲッターで飛距離の値を持ってくる);
 }
@@ -26,10 +30,25 @@ void SceneResult::Uninit()
 void SceneResult::Update()
 {
 
-	if (KeyBoard::IsTrigger(DIK_W))
+	if (flag = false)
 	{
-		SceneManager::ChangeSceneState();
+		if (KeyBoard::IsTrigger(DIK_W))
+		{
+			flag = true;
+
+			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
+		}
+
+
 	}
+	else
+		if (!Fade::IsFade())
+		{
+
+			SceneManager::ChangeSceneState();
+		}
+
+
 }
 
 void SceneResult::Draw()
