@@ -70,6 +70,3 @@ void Light::Init()
 	// ライティングモード有効…シェーディング処理
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
-
-
-
