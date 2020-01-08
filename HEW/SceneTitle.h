@@ -11,12 +11,10 @@
 
 //	SCENETILEクラス
 /* タイトルシーンを管理するクラス */
-class SceneTitle : public SceneBase 
+class SceneTitle : public SceneBase
 {
 private:
-
 	bool flag;
-
 public:
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理

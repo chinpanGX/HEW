@@ -27,12 +27,12 @@ void SceneModeSelect::Uninit()
 		if (flg == true)
 		{
 			//チュートリアル
-			m_Sprite.Draw(TEXTURE_INDEX_SCENE_TUTORIAL, 0.0f, 0.0f, 0.0f, 0.0f, 10.0f, 20.0f, 2.0f, 0.0f, 5.0f, 0.0f);
+			m_Sprite.Draw(TEXTURE_UI, 0.0f, 0.0f, 0.0f, 0.0f, 10.0f, 20.0f, 2.0f, 0.0f, 5.0f, 0.0f);
 		}
 		else if (flg == false)
 		{
 			//ゲーム
-			m_Sprite.Draw(TEXTURE_INDEX_SCENE_GAME, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,0.0f);
+			m_Sprite.Draw(TEXTURE_UI, 0.0f, 0.0f, 0.0f, 911.0f/2.0f, 1008.0f, 233.0f, 0.0f, 0.0f, 0.0f,0.0f);
 		}
 
 }
@@ -69,7 +69,8 @@ void SceneModeSelect::Draw()
 	}
 	else if (flg == false)
 	{
-		m_Sprite.Draw(TEXTURE_INDEX_SCENE_GAME, 0.0f, 0.0f, 0.0f, 0.0f, 500.0f, 500.0f, 20.0f,200.0f, 0.0f, 0.0f);// (色変更)
+		//m_Sprite.Draw(TEXTURE_UI, 0.0f, 0.0f, 0.0f, 0.0f, 500.0f, 500.0f, 20.0f,200.0f, 0.0f, 0.0f);// (色変更)
+		m_Sprite.Draw(TEXTURE_UI, 0.0f, 0.0f, 0.0f, 911.0f/2.0f, 1008.0f, 233.0f, 0.0f, 0.0f, 0.0f,0.0f);
 	}
 	
 }

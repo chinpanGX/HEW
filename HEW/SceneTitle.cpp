@@ -10,13 +10,9 @@
 #include "Controller.h"
 #include"Fade.h"
 
-
-
 void SceneTitle::Init()
 {
 	flag = false;
-
-	
 	//m_Camera.Init();
 	//m_Map.Init();
 	//m_count.Init();
