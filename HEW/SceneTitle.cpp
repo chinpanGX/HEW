@@ -1,7 +1,7 @@
 /*===================================================
 
 	[SceneTitle.cpp]
-	Author : o‡ãÄ‘¾
+	Author : 出合翔太
 
 ====================================================*/
 
@@ -11,6 +11,8 @@
 
 void SceneTitle::Init()
 {
+	m_bEnd = false;
+	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 	//m_Camera.Init();
 	//m_Map.Init();
 	//m_count.Init();
@@ -27,10 +29,21 @@ void SceneTitle::Update()
 	/*m_Camera.Update();*/
 	//m_count.Update();
 
-
-	if (KeyBoard::IsTrigger(DIK_W))
+	if (!m_bEnd)
 	{
-		SceneManager::ChangeSceneState();
+		//	ゲームへ遷移
+		if (KeyBoard::IsTrigger(DIK_W))
+		{
+			Fade::Start(true, 30, D3DCOLOR_RGBA(0, 0, 0, 0));
+			m_bEnd = true;
+		}
+	}
+	else
+	{
+		if (!Fade::IsFade())
+		{
+			SceneManager::ChangeSceneState();
+		}
 	}
 }
 

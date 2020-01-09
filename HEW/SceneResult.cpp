@@ -14,7 +14,8 @@ int SceneResult::m_Ranking[5];
 
 void SceneResult::Init()
 {
-
+	m_bEnd = false;
+	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 	//Sort(ƒQƒbƒ^[‚Å”ò‹——£‚Ì’l‚ğ‚Á‚Ä‚­‚é);
 }
 
@@ -25,10 +26,21 @@ void SceneResult::Uninit()
 
 void SceneResult::Update()
 {
-
-	if (KeyBoard::IsTrigger(DIK_W))
+	if (!m_bEnd)
 	{
-		SceneManager::ChangeSceneState();
+		//	ƒQ[ƒ€‚Ö‘JˆÚ
+		if (KeyBoard::IsTrigger(DIK_W))
+		{
+			Fade::Start(true, 30, D3DCOLOR_RGBA(0, 0, 0, 0));
+			m_bEnd = true;
+		}
+	}
+	else
+	{
+		if (!Fade::IsFade())
+		{
+			SceneManager::ChangeSceneState();
+		}
 	}
 }
 
@@ -37,7 +49,7 @@ void SceneResult::Draw()
 	m_Sprite.Draw(TEXTURE_INDEX_RESULT,0.0f,0.0f);
 	
 	/*ƒXƒRƒA‚Ì•`‰æ
-	for (int i = 0; i < RANKING_MAX; i++)	//	•`‰æ‚ğŒÜ‰ñŒJ‚è•Ô‚·
+	for (int i = 0; i < RANKING_MAX; i++)	//	•`‰æ‚ğ5‰ñŒJ‚è•Ô‚·
 	{
 		Score_Draw(SCREEN_WIDTH / 2 - 48, SCREEN_HEIGHT / 3 + i * 32, ranking[i], 3, true);	
 	}	

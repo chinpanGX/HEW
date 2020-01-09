@@ -21,26 +21,21 @@ void SceneModeSelect::Init()
 //	終了処理
 void SceneModeSelect::Uninit()
 {
-
-	//flg = Getflg();
-
-		if (flg == true)
-		{
-			//チュートリアル
-			m_Sprite.Draw(TEXTURE_INDEX_SCENE_TUTORIAL, 0.0f, 0.0f, 0.0f, 0.0f, 10.0f, 20.0f, 2.0f, 0.0f, 5.0f, 0.0f);
-		}
-		else if (flg == false)
-		{
-			//ゲーム
-			m_Sprite.Draw(TEXTURE_INDEX_SCENE_GAME, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,0.0f);
-		}
-
+	if (flg == true)
+	{
+		//チュートリアル
+		m_Sprite.Draw(TEXTURE_INDEX_SCENE_TUTORIAL, 0.0f, 0.0f, 0.0f, 0.0f, 10.0f, 20.0f, 2.0f, 0.0f, 5.0f, 0.0f);
+	}
+	else if (flg == false)
+	{
+		//ゲーム
+		m_Sprite.Draw(TEXTURE_INDEX_SCENE_GAME, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,0.0f);
+	}
 }
 
 //	更新処理
 void SceneModeSelect::Update()
 {
-
 	if (KeyBoard::IsTrigger(DIK_Q))
 	{
 		flg = true;

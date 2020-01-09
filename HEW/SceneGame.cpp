@@ -14,6 +14,11 @@
 #include "BillBoard.h"
 #include "camera.h"
 
+bool SceneGame::EndCheck()
+{
+	return false;
+}
+
 //	ゲームの初期化処理
 void SceneGame::Init()
 {
@@ -42,22 +47,39 @@ void SceneGame::Uninit()
 //	ゲームの更新処理
 void SceneGame::Update()
 {
-	Camera_Update();
-	m_Character.Update();
-	m_Camera.Update();
-	//if (KeyBoard::IsTrigger(DIK_W))
+	switch (m_GamePhase)
 	{
-		//SceneManager::ChangeSceneState();
+	case PHASE_FADE:
+		if (Fade::IsFade())
+		{
+			m_GamePhase = PHASE_GAME;
+		}
+		break;
+	case PHASE_GAME:
+		Camera_Update();
+		m_Character.Update();
+		m_Camera.Update();
+		if (EndCheck())
+		{
+			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
+			m_GamePhase = PHASE_CLEARCHECK;
+		}
+	case PHASE_CLEARCHECK:
+		if (!Fade::IsFade())
+		{
+			SceneManager::ChangeSceneState();
+		}
+		break;
 	}
-	
-
+	if (KeyBoard::IsTrigger(DIK_W))
+	{
+		SceneManager::ChangeSceneState();
+	}
 }
 
 //	ゲームの描画処理
 void SceneGame::Draw()
 {
-	//	ワイヤーフレームをセット
-	//pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	Camera_SetCamera();
 	m_Character.Draw();
 	m_Map.Draw();

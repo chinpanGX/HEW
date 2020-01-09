@@ -24,12 +24,6 @@ bool				Fade::m_bOut = false;
 bool				Fade::m_bIsFade = false;
 LPDIRECT3DDEVICE9	Fade::m_pDevice;
 
-void Fade::Init()
-{
-	m_bIsFade = false;
-	m_Alpha = 0.0f;
-}
-
 void Fade::Update()
 {
 	if (!m_bIsFade)
