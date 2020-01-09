@@ -366,8 +366,6 @@ bool Init(HINSTANCE hInst)
 	
 	//	テクスチャのロード
 	Texture_Load();
-	 
-	Fade::Init();
 
 	//	シーンマネージャーの初期化処理
 	SceneManager::Init();
