@@ -24,12 +24,15 @@ struct TEXTURE
 //テクスチャファイルの一覧
 static const TEXTURE g_TextureFiles[] = 
 {
-	{ "asset/texture/result.png",		1920, 1080 },	//	リザルト背景テクスチャ
-	{ "asset/texture/modeselect.png",	1920, 1080 },	//	モード選択背景テクスチャ
-	{ "asset/texture/quizsample.png",	1024, 256  },
-  { "asset/texture/tutorial.png",      500, 500  },   //  チュートリアルテクスチャ
-	{ "asset/texture/game.png",          500, 500  },   //  ゲームテクスチャ
-	{ "asset/texture/su.png",	         640,  64  },
+	{ "asset/texture/result.png",4000,2250 },	//	リザルト背景テクスチャ
+	{ "asset/texture/modeselect.png",1920,1080 },	//	モード選択背景テクスチャ
+	{ "asset/texture/quizsample.png",1024,256},
+	{ "asset/texture/tutorial.png",500,500},   //  チュートリアルテクスチャ
+	{ "asset/texture/game.png",500, 500 },   //  ゲームテクスチャ
+	{ "asset/texture/su.png",640, 64 },
+	{ "asset/texture/UI.png",1008, 911},	//	UIテクスチャ
+	{ "asset/texture/Quiz.png",6404,1603},	//	問題文
+	{"asset/texture/Answer.png",2141,9602}	//	解答
 };
 
 static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//テクスチャファイルを数える

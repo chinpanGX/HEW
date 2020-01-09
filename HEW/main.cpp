@@ -8,11 +8,11 @@
 //#	インクルードファイル
 #include "main.h"
 #include "Controller.h"
-#include "light.h"
 #include <time.h>
 #include "SceneManager.h"
 #include "texture.h"
-#include "Count.h"
+#include "Fade.h"
+
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -366,6 +366,8 @@ bool Init(HINSTANCE hInst)
 	
 	//	テクスチャのロード
 	Texture_Load();
+	 
+	Fade::Init();
 
 	//	シーンマネージャーの初期化処理
 	SceneManager::Init();

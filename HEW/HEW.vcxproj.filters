@@ -60,4 +60,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="Score.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="asset\texture\hewso.png" />
+  </ItemGroup>
 </Project>

@@ -39,3 +39,4 @@ void Score::Draw(float x, float y, int n)
 	if (n < 0 || n > 9) return;
 	m_sprite.Draw(TEXTURE_INDEX_SU, x, y,32 * n, 0, 32, 32);
 }
+

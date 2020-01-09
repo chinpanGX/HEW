@@ -5,7 +5,6 @@
 
 ===============================================*/
 #include "main.h"
-#include "input.h"
 #include "SceneManager.h"
 #include "SceneTitle.h"
 #include "SceneModeSelect.h"
@@ -15,7 +14,7 @@
 #include "SceneDebug.h"
 
 //	スタティック変数
-SceneBase			*SceneManager::m_scene[SCENE_NUMBER];	//	シーンのインスタンスを格納[シーンの配列]
+SceneBase			*SceneManager::m_scene[6];	//	シーンのインスタンスを格納[シーンの配列]
 SCENE_STATE			SceneManager::m_sceneState;				//	シーンのステートマシン（シーンの状態を格納）
 LPDIRECT3DDEVICE9	SceneManager::p3DDevice;				//	デバイス
 
@@ -83,7 +82,6 @@ void SceneManager::ChangeSceneState()
 		break;
 	case SCENE_MODESELECT:
 		m_scene[m_sceneState]->Uninit();
-		
 		if (flg == true)
 		{
 			m_sceneState = SCENE_TUTORIAL;	//	チュートリアルへ遷移
