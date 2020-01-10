@@ -58,12 +58,14 @@ void SceneManager::Uninit()
 //	更新処理
 void SceneManager::Update()
 {
+	Fade::Update();
 	m_scene[m_sceneState]->Update();	//	各シーンのUpdate関数の呼び出し
 }
 
 //	描画処理
 void SceneManager::Draw()
 {
+	Fade::Draw();
 	m_scene[m_sceneState]->Draw();		//	各シーンのDraw関数の呼び出し
 }
 

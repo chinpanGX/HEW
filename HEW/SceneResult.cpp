@@ -15,7 +15,6 @@ int SceneResult::m_Ranking[5];
 void SceneResult::Init()
 {
 	flag = false;
-
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 
 
