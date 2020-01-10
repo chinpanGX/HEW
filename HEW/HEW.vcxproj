@@ -169,7 +169,6 @@
   <ItemGroup>
     <ClInclude Include="BillBoard.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="CameraBase.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterCamera.h" />
     <ClInclude Include="Collision.h" />

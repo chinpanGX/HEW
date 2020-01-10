@@ -8,7 +8,8 @@
 #include "SceneTitle.h"
 #include "SceneManager.h"
 #include "Controller.h"
-#include"Fade.h"
+#include "Fade.h"
+#include "debugproc.h"
 
 void SceneTitle::Init()
 {
@@ -48,9 +49,6 @@ void SceneTitle::Update()
 
 			SceneManager::ChangeSceneState(); 
 		}
-
-
-
 	
 }
 
@@ -59,5 +57,5 @@ void SceneTitle::Draw()
 	/*m_Camera.Set();
 	m_Map.Draw();*/
 //	m_count.Draw();
-
+	DebugProc_Print((char*)"                                           タイトル");
 }

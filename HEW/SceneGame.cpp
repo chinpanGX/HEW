@@ -32,9 +32,9 @@ void SceneGame::Uninit()
 {
 	Camera_Finalize();
 	m_Character.Uninit();
-	m_Map.Uninit();
+	//m_Map.Uninit();
 	//m_Camera.Uninit();
-	DebugProc_Finalize();
+	//DebugProc_Finalize();
 	
 	//BillBoard_Uninit();
 }
@@ -45,9 +45,9 @@ void SceneGame::Update()
 	Camera_Update();
 	m_Character.Update();
 	m_Camera.Update();
-	//if (KeyBoard::IsTrigger(DIK_W))
+	if (KeyBoard::IsTrigger(DIK_T))
 	{
-		//SceneManager::ChangeSceneState();
+		SceneManager::ChangeSceneState();
 	}
 	
 

@@ -48,6 +48,7 @@ public:
 	D3DXVECTOR3					m_position;	//	現在の位置
 	D3DXVECTOR3					m_rotation;	//	現在の向き
 	D3DXVECTOR3					m_rotDest;	//	目的の向き
+	D3DXVECTOR3					m_scale;	//	モデルの大きさ
 	D3DXVECTOR3					m_velocity;	//	移動量
 	float						m_grivity;	//	重力
 	int							m_score;	

@@ -30,7 +30,6 @@
     <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CameraBase.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterCamera.h" />
     <ClInclude Include="Collision.h" />

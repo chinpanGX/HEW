@@ -36,7 +36,7 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_pDevice = GetD3DDevice();
 
 	//Xファイルの読み込み
-	if (FAILED(D3DXLoadMeshFromX("asset/model/ri.x", D3DXMESH_SYSTEMMEM, m_pDevice, NULL, &m_pBuffMat, NULL, &m_nNumMat, &m_pMesh)))
+	if (FAILED(D3DXLoadMeshFromX("asset/model/human.x", D3DXMESH_SYSTEMMEM, m_pDevice, NULL, &m_pBuffMat, NULL, &m_nNumMat, &m_pMesh)))
 	{
 		return E_FAIL;
 	}
@@ -47,9 +47,10 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_position = pos;	//	位置
 	m_rotation = rot;	//	向き
 	m_rotDest = rot;	//	目的の向き
+	m_scale = D3DXVECTOR3(100.0f,100.0f,100.0f);
 	m_velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//ベクトル
 	m_grivity = 0.7f;
-	m_pCamera = new CharacterCamera;
+	//m_pCamera = new CharacterCamera;
 	m_count = 0;
 	m_score = 0;
 
@@ -59,7 +60,7 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //	終了処理
 void Character::Uninit()
 {
-	delete m_pCamera;
+	//delete m_pCamera;
 	SAFE_RELEASE(m_pBuffMat);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pTexture);
@@ -284,12 +285,16 @@ void Character::Update()
 void Character::Draw()
 {
 	m_pDevice = GetD3DDevice();
-	D3DXMATRIX mtxRot, mtxTranslate;
+	D3DXMATRIX mtxRot, mtxTranslate,mtxScl;
 	D3DXMATERIAL *pD3DXMat;
 	D3DMATERIAL9 matDef;
 
 	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
+
+	//	拡縮を反映
+	D3DXMatrixScaling(&mtxScl, m_scale.x, m_scale.y, m_scale.y);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScl);
 
 	//回転を反映
 	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rotation.y, m_rotation.x, m_rotation.z);
