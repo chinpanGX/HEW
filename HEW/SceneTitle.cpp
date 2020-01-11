@@ -40,8 +40,6 @@ void SceneTitle::Update()
 
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 		}
-
-		
 	}
 	else
 		if (!Fade::IsFade())
