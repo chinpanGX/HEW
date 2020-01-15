@@ -68,16 +68,11 @@ void SceneManager::Draw()
 
 //	シーン遷移処理
 void SceneManager::ChangeSceneState()
-{
-	bool flg = Getflg();
+{	
+	bool flg = GetFlag();
 	switch (m_sceneState)
 	{
 	case SCENE_TITLE:
-		m_scene[m_sceneState]->Uninit();
-		m_sceneState = SCENE_MODESELECT;	//	モード選択に遷移
-		m_scene[m_sceneState]->Init();
-		break;
-	case SCENE_MODESELECT:
 		m_scene[m_sceneState]->Uninit();
 		if (flg == true)
 		{

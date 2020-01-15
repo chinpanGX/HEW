@@ -8,33 +8,31 @@
 #include "main.h"
 #include "Sound.h"
 
-// スタティック変数
-IXAudio2 *Sound::m_pXAudio2 = NULL;									// XAudio2オブジェクトへのインターフェイス
-IXAudio2MasteringVoice *Sound::m_pMasteringVoice = NULL;			// マスターボイス
-IXAudio2SourceVoice *Sound::m_apSourceVoice[SOUND_LABEL_MAX] = {};	// ソースボイス
-BYTE *Sound::m_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
-DWORD Sound::m_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
+// パラメータ構造体定義
+struct Sounddata
+{
+	char *pFilename;	// ファイル名
+	int nCntLoop;		// ループカウント
+};
 
 // プロトタイプ宣言
 HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkDataPosition);
 HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
 
-struct SoundParam
+//	スタティック変数
+IXAudio2 *Sound::m_pXAudio2 = NULL;								// XAudio2オブジェクトへのインターフェイス
+IXAudio2MasteringVoice *Sound::m_pMasteringVoice = NULL;			// マスターボイス
+IXAudio2SourceVoice *Sound::m_apSourceVoice[SOUND_LABEL_MAX] = {};	// ソースボイス
+BYTE *Sound::m_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
+DWORD Sound::m_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
+
+// 各音素材のパラメータSounddata
+Sounddata g_aParam[SOUND_LABEL_MAX] =
 {
-	char *pFilename; // ファイル名
-	int nCntLoop;	 // ループカウント
+
 };
 
-// 各音素材のパラメータ
-SoundParam m_aParam[SOUND_LABEL_MAX] =
-{
-	//	音楽ファイル名,ループするかどうか	{ (char *)"ファイル名",-1or0 }	-1はループ、0は一度再生
-
-};
-
-
-
-//# 初期化処理
+// 初期化処理
 bool Sound::Init(HWND hWnd)
 {
 	HRESULT hr;
@@ -88,8 +86,8 @@ bool Sound::Init(HWND hWnd)
 		memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
 
 		// サウンドデータファイルの生成
-		hFile = CreateFile(m_aParam[nCntSound].pFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-		if (hFile == INVALID_HANDLE_VALUE)
+		hFile = CreateFile(g_aParam[nCntSound].pFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+		if (hFile = INVALID_HANDLE_VALUE)
 		{
 			MessageBox(hWnd, "サウンドデータファイルの生成に失敗！(1)", "警告！", MB_ICONWARNING);
 			return false;
@@ -161,7 +159,7 @@ bool Sound::Init(HWND hWnd)
 		buffer.AudioBytes = m_aSizeAudio[nCntSound];
 		buffer.pAudioData = m_apDataAudio[nCntSound];
 		buffer.Flags = XAUDIO2_END_OF_STREAM;
-		buffer.LoopCount = m_aParam[nCntSound].nCntLoop;
+		buffer.LoopCount = g_aParam[nCntSound].nCntLoop;
 
 		// オーディオバッファの登録
 		m_apSourceVoice[nCntSound]->SubmitSourceBuffer(&buffer);
@@ -170,8 +168,8 @@ bool Sound::Init(HWND hWnd)
 	return true;
 }
 
-//# 終了処理
-void Sound::Uninit()
+// 終了処理
+void Sound::Uninit(void)
 {
 	// 一時停止
 	for (int nCntSound = 0; nCntSound < SOUND_LABEL_MAX; nCntSound++)
@@ -190,16 +188,23 @@ void Sound::Uninit()
 			m_apDataAudio[nCntSound] = NULL;
 		}
 	}
-	
-	//	XAudio2オブジェクトの解放
-	SAFE_RELEASE(m_pXAudio2);
 
 	// マスターボイスの破棄
 	m_pMasteringVoice->DestroyVoice();
 	m_pMasteringVoice = NULL;
+
+	if (m_pXAudio2)
+	{
+		// XAudio2オブジェクトの開放
+		m_pXAudio2->Release();
+		m_pXAudio2 = NULL;
+	}
+
+	// COMライブラリの終了処理
+	CoUninitialize();
 }
 
-//# セグメント再生（引数：ラベル名）
+// セグメント再生(再生中なら停止)
 void Sound::Play(SOUND_LABEL label)
 {
 	XAUDIO2_VOICE_STATE xa2state;
@@ -210,7 +215,7 @@ void Sound::Play(SOUND_LABEL label)
 	buffer.AudioBytes = m_aSizeAudio[label];
 	buffer.pAudioData = m_apDataAudio[label];
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
-	buffer.LoopCount = m_aParam[label].nCntLoop;
+	buffer.LoopCount = g_aParam[label].nCntLoop;
 
 	// 状態取得
 	m_apSourceVoice[label]->GetState(&xa2state);
@@ -231,7 +236,7 @@ void Sound::Play(SOUND_LABEL label)
 
 }
 
-//# セグメント停止（引数：ラベル名）
+// セグメント停止(ラベル指定)
 void Sound::Stop(SOUND_LABEL label)
 {
 	XAUDIO2_VOICE_STATE xa2state;
@@ -248,8 +253,8 @@ void Sound::Stop(SOUND_LABEL label)
 	}
 }
 
-//# セグメント停止：すべて停止
-void Sound::Stop()
+// セグメント停止(全て)
+void Sound::Stop(void)
 {
 	// 一時停止
 	for (int nCntSound = 0; nCntSound < SOUND_LABEL_MAX; nCntSound++)
@@ -262,8 +267,8 @@ void Sound::Stop()
 	}
 }
 
-//#	チャンクのチェック
-HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD * pChunkSize, DWORD * pChunkDataPosition)
+// チャンクのチェック
+HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkDataPosition)
 {
 	HRESULT hr = S_OK;
 	DWORD dwRead;
@@ -328,8 +333,8 @@ HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD * pChunkSize, DWORD * pChun
 	return S_OK;
 }
 
-//#	チャンクデータの読み込み
-HRESULT ReadChunkData(HANDLE hFile, void * pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset)
+// チャンクデータの読み込み
+HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset)
 {
 	DWORD dwRead;
 
@@ -345,4 +350,3 @@ HRESULT ReadChunkData(HANDLE hFile, void * pBuffer, DWORD dwBuffersize, DWORD dw
 
 	return S_OK;
 }
-

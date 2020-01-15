@@ -84,8 +84,3 @@ void SceneModeSelect::Draw()
 	
 }
 
-
-bool Getflg()
-{
-	return flg;
-}

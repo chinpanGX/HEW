@@ -20,3 +20,6 @@ public:
 	void Draw();	//	ゲームの描画処理
 };
 
+//	プロトタイプ宣言
+bool GetFlag();
+
