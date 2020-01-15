@@ -15,6 +15,7 @@
 #include "Field.h"
 #include "SceneGame.h"
 #include "ObjectManager.h"
+#include "camera.h"
 
 //	マクロ定義
 #define	VALUE_MOVE_MODEL	(0.5f)					// 移動速度
@@ -53,6 +54,7 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//m_pCamera = new CharacterCamera;
 	m_count = 0;
 	m_score = 0;
+	m_frame = 0;
 
 	return S_OK;
 }
@@ -70,7 +72,8 @@ void Character::Uninit()
 void Character::Update()
 {
 	// カメラの取得
-	m_pCamera = GetCharCam();
+	CAMERA* m_pCamera;
+	m_pCamera = GetCamera();
 
 	if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_LEFT))
 	{
@@ -410,7 +413,17 @@ void Character::AnswerstayState()
 		//!	問題文の描画	
 
 		//!	カウントダウンを開始
+		m_frame++;
 
+		//Z座標
+		//プレイヤースタート位置220 ジャンプ台端122.24
+		//ジャンプ台の判定分欲しいだろうから150か145
+		//(220-150)/3　ってことで
+
+		if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
+		{
+			m_mondai.Update();
+		}
 		//!	問題文の更新と描画	
 
 		//!if ( カウントダウンが終了したら )

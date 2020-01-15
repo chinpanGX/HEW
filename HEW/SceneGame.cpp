@@ -14,6 +14,11 @@
 #include "BillBoard.h"
 #include "camera.h"
 
+bool SceneGame::EndCheck()
+{
+	return false;
+}
+
 //	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—
 void SceneGame::Init()
 {

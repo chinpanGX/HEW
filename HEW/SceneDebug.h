@@ -27,3 +27,4 @@ public:
 	void Draw();	//	ゲームの描画処理
 };
 
+                                            

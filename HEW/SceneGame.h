@@ -27,7 +27,6 @@ private:
 	Character		m_Character;
 	CharacterCamera	m_Camera;
 	Field			m_Map;
-
 	bool			EndCheck();
 public:
 	void Init();	//	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—	

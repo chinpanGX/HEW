@@ -12,7 +12,6 @@
 /* チュートリアルシーンを管理するクラス */
 class SceneTutorial : public SceneBase
 {
-	bool flag;
 public:	
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理

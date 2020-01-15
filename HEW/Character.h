@@ -9,6 +9,7 @@
 #include "main.h"
 #include "CharacterCamera.h"
 #include "Field.h"
+#include "mondai.h"
 
 ///	<summary>
 ///	プレイヤーのステートマシンを管理する
@@ -52,6 +53,7 @@ public:
 	D3DXVECTOR3					m_velocity;	//	移動量
 	float						m_grivity;	//	重力
 	int							m_score;	
+	int							m_frame;
 	/// <summary>
 	///	プレイヤーに関するステート用メンバー変数
 	///	</summary>
@@ -61,6 +63,7 @@ public:
 	///	</summary>
 	AnswerStayState				m_AnsawerStayState;
 	CharacterCamera				*m_pCamera;
+	Mondai						m_mondai;
 public:
 	///	<summary>
 	///	初期化処理
