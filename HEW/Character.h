@@ -52,6 +52,7 @@ public:
 	D3DXVECTOR3					m_velocity;	//	移動量
 	float						m_grivity;	//	重力
 	int							m_score;	
+	static float				m_frame;
 	/// <summary>
 	///	プレイヤーに関するステート用メンバー変数
 	///	</summary>

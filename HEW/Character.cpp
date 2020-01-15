@@ -15,6 +15,7 @@
 #include "Field.h"
 #include "SceneGame.h"
 #include "ObjectManager.h"
+#include "mondai.h"
 
 //	マクロ定義
 #define	VALUE_MOVE_MODEL	(0.5f)					// 移動速度
@@ -29,6 +30,7 @@ LPD3DXBUFFER		Character::m_pBuffMat = NULL;	// マテリアル情報へのポインタ
 DWORD				Character::m_nNumMat;			//	マテリアル情報の総数
 D3DXMATRIX			Character::m_mtxWorld;			//	ワールドマトリックス
 int					Character::m_count;				//	問題数のカウンター
+float				Character::m_frame;				//  frame数カウンタ
 
 //	初期化処理
 HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
@@ -407,8 +409,20 @@ void Character::AnswerstayState()
 	switch (m_AnsawerStayState)
 	{
 	case ANSWER_SELECT:
-		//!	問題文の描画	
+		//!	問題文の描画
 
+		//!	カウントダウンを開始
+		m_frame++;
+
+		//Z座標
+		//プレイヤースタート位置220 ジャンプ台端122.24
+		//ジャンプ台の判定分欲しいだろうから150か145
+		//(220-150)/3　ってことで
+
+		if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
+		{
+			//問題表示
+		}
 		//!	カウントダウンを開始
 
 		//!	問題文の更新と描画	
