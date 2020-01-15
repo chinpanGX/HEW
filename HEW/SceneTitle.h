@@ -8,6 +8,7 @@
 #pragma once
 #include "SceneBase.h"
 #include "Count.h"
+#include "sprite.h"
 
 //	SCENETILEクラス
 /* タイトルシーンを管理するクラス */
@@ -15,6 +16,9 @@ class SceneTitle : public SceneBase
 {
 private:
 	bool flag;
+
+	Sprite m_sprite;
+
 public:
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理

@@ -24,7 +24,7 @@ struct TEXTURE
 //テクスチャファイルの一覧
 static const TEXTURE g_TextureFiles[] = 
 {
-	{ "asset/texture/result.png",4000,2250 },	//	リザルト背景テクスチャ
+	{ "asset/texture/result.png",1920,1080 },	//	リザルト背景テクスチャ
 	{ "asset/texture/modeselect.png",1920,1080 },	//	モード選択背景テクスチャ
 	{ "asset/texture/quizsample.png",1024,256},
 	{ "asset/texture/tutorial.png",500,500},   //  チュートリアルテクスチャ

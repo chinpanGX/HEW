@@ -17,7 +17,7 @@
 //	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—
 void SceneGame::Init()
 {
-	
+
 	DebugProc_Initialize();
 	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 48.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
