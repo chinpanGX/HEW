@@ -421,16 +421,11 @@ void Character::AnswerstayState()
 		//プレイヤースタート位置220 ジャンプ台端122.24
 		//ジャンプ台の判定分欲しいだろうから150か145
 		//(220-150)/3　ってことで
-		if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
-		{
-			//問題表示
-		}
-		//!	カウントダウンを開始
 
-		if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
+		/*if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
 		{
-			m_mondai.Update();
-		}
+			
+		}*/
 		//!	問題文の更新と描画	
 
 		//!if ( カウントダウンが終了したら )
@@ -467,6 +462,7 @@ void Character::JumpState()
 	m_score++;
 
 	
+
 
 	//!if ( 地面に着いたら　= yの座標値)
 	{
