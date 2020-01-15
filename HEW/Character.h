@@ -7,7 +7,6 @@
 
 #pragma once
 #include "main.h"
-#include "CharacterCamera.h"
 #include "Field.h"
 #include "mondai.h"
 
@@ -62,7 +61,6 @@ public:
 	///	解答まち中に回すステート用変数
 	///	</summary>
 	AnswerStayState				m_AnsawerStayState;
-	CharacterCamera				*m_pCamera;
 	Mondai						m_mondai;
 public:
 	///	<summary>

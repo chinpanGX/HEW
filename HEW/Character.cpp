@@ -7,7 +7,6 @@
 
 #include "Controller.h"
 #include "Character.h"
-#include "CharacterCamera.h"
 #include "debugproc.h"
 #include "Collision.h"
 #include "SceneManager.h"
@@ -30,6 +29,8 @@ LPD3DXBUFFER		Character::m_pBuffMat = NULL;	// マテリアル情報へのポインタ
 DWORD				Character::m_nNumMat;			//	マテリアル情報の総数
 D3DXMATRIX			Character::m_mtxWorld;			//	ワールドマトリックス
 int					Character::m_count;				//	問題数のカウンター
+
+CAMERA* m_pCamera;
 
 //	初期化処理
 HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
@@ -72,7 +73,6 @@ void Character::Uninit()
 void Character::Update()
 {
 	// カメラの取得
-	CAMERA* m_pCamera;
 	m_pCamera = GetCamera();
 
 	if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_LEFT))

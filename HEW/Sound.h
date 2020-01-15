@@ -10,26 +10,24 @@
 #include "xaudio2.h"	
 
 //#	サウンドラベル名
-typedef enum
+enum SOUND_LABEL
 {
 	SOUND_LABEL_001,	//　空っぽ
 
 	SOUND_LABEL_MAX,
 
-} SOUND_LABEL;
+};
 
 //#	Soundクラス
 /* 音楽ファイルを管理するクラス　*/
 class Sound
 {
 private:
-	char *pFilename;												// ファイル名
-	int nCntLoop;													// ループカウント
-	static IXAudio2 *g_pXAudio2;									// XAudio2オブジェクトへのインターフェイス
-	static IXAudio2MasteringVoice *g_pMasteringVoice;				// マスターボイス
-	static IXAudio2SourceVoice *g_apSourceVoice[SOUND_LABEL_MAX];	// ソースボイス
-	static BYTE *g_apDataAudio[SOUND_LABEL_MAX];					// オーディオデータ
-	static DWORD g_aSizeAudio[SOUND_LABEL_MAX];						// オーディオデータサイズ
+	static IXAudio2 *m_pXAudio2;									// XAudio2オブジェクトへのインターフェイス
+	static IXAudio2MasteringVoice *m_pMasteringVoice;				// マスターボイス
+	static IXAudio2SourceVoice *m_apSourceVoice[SOUND_LABEL_MAX];	// ソースボイス
+	static BYTE *m_apDataAudio[SOUND_LABEL_MAX];					// オーディオデータ
+	static DWORD m_aSizeAudio[SOUND_LABEL_MAX];						// オーディオデータサイズ
 public:	
 	static bool Init(HWND hWnd);			//	初期化
 	static void Uninit();					//	終了処理

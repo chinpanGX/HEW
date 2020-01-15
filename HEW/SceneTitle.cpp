@@ -12,6 +12,7 @@
 void SceneTitle::Init()
 {
 	m_bEnd = false;
+	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 	//m_Camera.Init();
 	//m_Map.Init();
 	//m_count.Init();
