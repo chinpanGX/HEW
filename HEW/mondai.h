@@ -20,5 +20,5 @@ private:
 	void MondaiOne(int answer);		//	‚P–â–Ú‚Ì•`‰æ
 	void MondaiTwo(int answer);		//	‚Q–â–Ú‚Ì•`‰æ
 	void MondaiThree(int answer);	//	‚R–â–Ú‚Ì•`‰æ
-	static bool Answer(bool flg);	//	³‰ğ‚Í‚Ç‚Á‚¿H‚Ì”»•Ê
+	static bool Answer(bool flg);	                                                                                                                                     //	³‰ğ‚Í‚Ç‚Á‚¿H‚Ì”»•Ê
 };

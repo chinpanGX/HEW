@@ -12,37 +12,36 @@
 
 void SceneTutorial::Init()
 {
-
-	flag = true;
-	
+	m_bEnd = false;
 }
 
 void SceneTutorial::Uninit()
 {
+
 }
 
 void SceneTutorial::Update()
 {
 	
-	if (flag = false)
+	if (!m_bEnd)
 	{
-		if (KeyBoard::IsTrigger(DIK_W))
+		if (KeyBoard::IsTrigger(DIK_T))
 		{
-			flag = true;
-
+			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 		}
 
 		
 	}
 	else
+	{
 		if (!Fade::IsFade())
 		{
 
-			SceneManager::ChangeSceneState(); 
-			
-		}
+			SceneManager::ChangeSceneState();
 
+		}
+	}
 }
 
 void SceneTutorial::Draw()

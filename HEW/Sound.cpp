@@ -8,27 +8,31 @@
 #include "main.h"
 #include "Sound.h"
 
-// スタティック変数
-IXAudio2 *Sound::g_pXAudio2 = NULL;									// XAudio2オブジェクトへのインターフェイス
-IXAudio2MasteringVoice *Sound::g_pMasteringVoice = NULL;			// マスターボイス
-IXAudio2SourceVoice *Sound::g_apSourceVoice[SOUND_LABEL_MAX] = {};	// ソースボイス
-BYTE *Sound::g_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
-DWORD Sound::g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
+// パラメータ構造体定義
+struct Sounddata
+{
+	char *pFilename;	// ファイル名
+	int nCntLoop;		// ループカウント
+};
 
 // プロトタイプ宣言
 HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkDataPosition);
 HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
 
-// 各音素材のパラメータ
-Sound g_aParam[SOUND_LABEL_MAX] =
+//	スタティック変数
+IXAudio2 *Sound::m_pXAudio2 = NULL;								// XAudio2オブジェクトへのインターフェイス
+IXAudio2MasteringVoice *Sound::m_pMasteringVoice = NULL;			// マスターボイス
+IXAudio2SourceVoice *Sound::m_apSourceVoice[SOUND_LABEL_MAX] = {};	// ソースボイス
+BYTE *Sound::m_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
+DWORD Sound::m_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
+
+// 各音素材のパラメータSounddata
+Sounddata g_aParam[SOUND_LABEL_MAX] =
 {
-	//	音楽ファイル名,ループするかどうか	{ (char *)"ファイル名",-1or0 }	-1はループ、0は一度再生
 
 };
 
-
-
-//# 初期化処理
+// 初期化処理
 bool Sound::Init(HWND hWnd)
 {
 	HRESULT hr;
@@ -37,7 +41,7 @@ bool Sound::Init(HWND hWnd)
 	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
 	// XAudio2オブジェクトの作成
-	hr = XAudio2Create(&g_pXAudio2, 0);
+	hr = XAudio2Create(&m_pXAudio2, 0);
 	if (FAILED(hr))
 	{
 		MessageBox(hWnd, "XAudio2オブジェクトの作成に失敗！", "警告！", MB_ICONWARNING);
@@ -49,16 +53,16 @@ bool Sound::Init(HWND hWnd)
 	}
 
 	// マスターボイスの生成
-	hr = g_pXAudio2->CreateMasteringVoice(&g_pMasteringVoice);
+	hr = m_pXAudio2->CreateMasteringVoice(&m_pMasteringVoice);
 	if (FAILED(hr))
 	{
 		MessageBox(hWnd, "マスターボイスの生成に失敗！", "警告！", MB_ICONWARNING);
 
-		if (g_pXAudio2)
+		if (m_pXAudio2)
 		{
 			// XAudio2オブジェクトの開放
-			g_pXAudio2->Release();
-			g_pXAudio2 = NULL;
+			m_pXAudio2->Release();
+			m_pXAudio2 = NULL;
 		}
 
 		// COMライブラリの終了処理
@@ -83,7 +87,7 @@ bool Sound::Init(HWND hWnd)
 
 		// サウンドデータファイルの生成
 		hFile = CreateFile(g_aParam[nCntSound].pFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-		if (hFile == INVALID_HANDLE_VALUE)
+		if (hFile = INVALID_HANDLE_VALUE)
 		{
 			MessageBox(hWnd, "サウンドデータファイルの生成に失敗！(1)", "警告！", MB_ICONWARNING);
 			return false;
@@ -128,14 +132,14 @@ bool Sound::Init(HWND hWnd)
 		}
 
 		// オーディオデータ読み込み
-		hr = CheckChunk(hFile, 'atad', &g_aSizeAudio[nCntSound], &dwChunkPosition);
+		hr = CheckChunk(hFile, 'atad', &m_aSizeAudio[nCntSound], &dwChunkPosition);
 		if (FAILED(hr))
 		{
 			MessageBox(hWnd, "オーディオデータ読み込みに失敗！(1)", "警告！", MB_ICONWARNING);
 			return false;
 		}
-		g_apDataAudio[nCntSound] = (BYTE*)malloc(g_aSizeAudio[nCntSound]);
-		hr = ReadChunkData(hFile, g_apDataAudio[nCntSound], g_aSizeAudio[nCntSound], dwChunkPosition);
+		m_apDataAudio[nCntSound] = (BYTE*)malloc(m_aSizeAudio[nCntSound]);
+		hr = ReadChunkData(hFile, m_apDataAudio[nCntSound], m_aSizeAudio[nCntSound], dwChunkPosition);
 		if (FAILED(hr))
 		{
 			MessageBox(hWnd, "オーディオデータ読み込みに失敗！(2)", "警告！", MB_ICONWARNING);
@@ -143,7 +147,7 @@ bool Sound::Init(HWND hWnd)
 		}
 
 		// ソースボイスの生成
-		hr = g_pXAudio2->CreateSourceVoice(&g_apSourceVoice[nCntSound], &(wfx.Format));
+		hr = m_pXAudio2->CreateSourceVoice(&m_apSourceVoice[nCntSound], &(wfx.Format));
 		if (FAILED(hr))
 		{
 			MessageBox(hWnd, "ソースボイスの生成に失敗！", "警告！", MB_ICONWARNING);
@@ -152,48 +156,55 @@ bool Sound::Init(HWND hWnd)
 
 		// バッファの値設定
 		memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
-		buffer.AudioBytes = g_aSizeAudio[nCntSound];
-		buffer.pAudioData = g_apDataAudio[nCntSound];
+		buffer.AudioBytes = m_aSizeAudio[nCntSound];
+		buffer.pAudioData = m_apDataAudio[nCntSound];
 		buffer.Flags = XAUDIO2_END_OF_STREAM;
 		buffer.LoopCount = g_aParam[nCntSound].nCntLoop;
 
 		// オーディオバッファの登録
-		g_apSourceVoice[nCntSound]->SubmitSourceBuffer(&buffer);
+		m_apSourceVoice[nCntSound]->SubmitSourceBuffer(&buffer);
 	}
 
 	return true;
 }
 
-//# 終了処理
-void Sound::Uninit()
+// 終了処理
+void Sound::Uninit(void)
 {
 	// 一時停止
 	for (int nCntSound = 0; nCntSound < SOUND_LABEL_MAX; nCntSound++)
 	{
-		if (g_apSourceVoice[nCntSound])
+		if (m_apSourceVoice[nCntSound])
 		{
 			// 一時停止
-			g_apSourceVoice[nCntSound]->Stop(0);
+			m_apSourceVoice[nCntSound]->Stop(0);
 
 			// ソースボイスの破棄
-			g_apSourceVoice[nCntSound]->DestroyVoice();
-			g_apSourceVoice[nCntSound] = NULL;
+			m_apSourceVoice[nCntSound]->DestroyVoice();
+			m_apSourceVoice[nCntSound] = NULL;
 
 			// オーディオデータの開放
-			free(g_apDataAudio[nCntSound]);
-			g_apDataAudio[nCntSound] = NULL;
+			free(m_apDataAudio[nCntSound]);
+			m_apDataAudio[nCntSound] = NULL;
 		}
 	}
-	
-	//	XAudio2オブジェクトの解放
-	SAFE_RELEASE(g_pXAudio2);
 
 	// マスターボイスの破棄
-	g_pMasteringVoice->DestroyVoice();
-	g_pMasteringVoice = NULL;
+	m_pMasteringVoice->DestroyVoice();
+	m_pMasteringVoice = NULL;
+
+	if (m_pXAudio2)
+	{
+		// XAudio2オブジェクトの開放
+		m_pXAudio2->Release();
+		m_pXAudio2 = NULL;
+	}
+
+	// COMライブラリの終了処理
+	CoUninitialize();
 }
 
-//# セグメント再生（引数：ラベル名）
+// セグメント再生(再生中なら停止)
 void Sound::Play(SOUND_LABEL label)
 {
 	XAUDIO2_VOICE_STATE xa2state;
@@ -201,63 +212,63 @@ void Sound::Play(SOUND_LABEL label)
 
 	// バッファの値設定
 	memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
-	buffer.AudioBytes = g_aSizeAudio[label];
-	buffer.pAudioData = g_apDataAudio[label];
+	buffer.AudioBytes = m_aSizeAudio[label];
+	buffer.pAudioData = m_apDataAudio[label];
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
 	buffer.LoopCount = g_aParam[label].nCntLoop;
 
 	// 状態取得
-	g_apSourceVoice[label]->GetState(&xa2state);
+	m_apSourceVoice[label]->GetState(&xa2state);
 	if (xa2state.BuffersQueued != 0)
 	{// 再生中
 		// 一時停止
-		g_apSourceVoice[label]->Stop(0);
+		m_apSourceVoice[label]->Stop(0);
 
 		// オーディオバッファの削除
-		g_apSourceVoice[label]->FlushSourceBuffers();
+		m_apSourceVoice[label]->FlushSourceBuffers();
 	}
 
 	// オーディオバッファの登録
-	g_apSourceVoice[label]->SubmitSourceBuffer(&buffer);
+	m_apSourceVoice[label]->SubmitSourceBuffer(&buffer);
 
 	// 再生
-	g_apSourceVoice[label]->Start(0);
+	m_apSourceVoice[label]->Start(0);
 
 }
 
-//# セグメント停止（引数：ラベル名）
+// セグメント停止(ラベル指定)
 void Sound::Stop(SOUND_LABEL label)
 {
 	XAUDIO2_VOICE_STATE xa2state;
 
 	// 状態取得
-	g_apSourceVoice[label]->GetState(&xa2state);
+	m_apSourceVoice[label]->GetState(&xa2state);
 	if (xa2state.BuffersQueued != 0)
 	{// 再生中
 		// 一時停止
-		g_apSourceVoice[label]->Stop(0);
+		m_apSourceVoice[label]->Stop(0);
 
 		// オーディオバッファの削除
-		g_apSourceVoice[label]->FlushSourceBuffers();
+		m_apSourceVoice[label]->FlushSourceBuffers();
 	}
 }
 
-//# セグメント停止：すべて停止
-void Sound::Stop()
+// セグメント停止(全て)
+void Sound::Stop(void)
 {
 	// 一時停止
 	for (int nCntSound = 0; nCntSound < SOUND_LABEL_MAX; nCntSound++)
 	{
-		if (g_apSourceVoice[nCntSound])
+		if (m_apSourceVoice[nCntSound])
 		{
 			// 一時停止
-			g_apSourceVoice[nCntSound]->Stop(0);
+			m_apSourceVoice[nCntSound]->Stop(0);
 		}
 	}
 }
 
-//#	チャンクのチェック
-HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD * pChunkSize, DWORD * pChunkDataPosition)
+// チャンクのチェック
+HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkDataPosition)
 {
 	HRESULT hr = S_OK;
 	DWORD dwRead;
@@ -322,8 +333,8 @@ HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD * pChunkSize, DWORD * pChun
 	return S_OK;
 }
 
-//#	チャンクデータの読み込み
-HRESULT ReadChunkData(HANDLE hFile, void * pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset)
+// チャンクデータの読み込み
+HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset)
 {
 	DWORD dwRead;
 
@@ -339,4 +350,3 @@ HRESULT ReadChunkData(HANDLE hFile, void * pBuffer, DWORD dwBuffersize, DWORD dw
 
 	return S_OK;
 }
-

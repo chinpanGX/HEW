@@ -1,30 +1,30 @@
 /*=================================================
 
 	[Character.h]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 =================================================*/
 
 #pragma once
 #include "main.h"
-#include "CharacterCamera.h"
 #include "Field.h"
+#include "mondai.h"
 
 ///	<summary>
-///	ƒvƒŒƒCƒ„[‚ÌƒXƒe[ƒgƒ}ƒVƒ“‚ğŠÇ—‚·‚é
+///	ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã‚’ç®¡ç†ã™ã‚‹
 /// </summary>
 enum PlayerState
 {
-	PLAYER_INIT,		//	‰Šú‰»
-	PLAYER_MOVE,		//	ˆÚ“®
-	PlAYER_ANSWERSTAY,	//	‰ğ“š‚Ü‚¿
-	PLAYER_ANSWER,		//	‰ğ“š
-	PLAYER_JUMP,		//	ƒWƒƒƒ“ƒv
-	PLAYER_END			//	I—¹
+	PLAYER_INIT,		//	åˆæœŸåŒ–
+	PLAYER_MOVE,		//	ç§»å‹•
+	PlAYER_ANSWERSTAY,	//	è§£ç­”ã¾ã¡
+	PLAYER_ANSWER,		//	è§£ç­”
+	PLAYER_JUMP,		//	ã‚¸ãƒ£ãƒ³ãƒ—
+	PLAYER_END			//	çµ‚äº†
 };
 
 ///	<summary>
-///	–â‘è•¶‚Ì•`‰æA‰ğ“š‘I‘ğ‚È‚Ç‚ÌƒXƒe[ƒgƒ}ƒVƒ“‚ğŠÇ— 
+///	å•é¡Œæ–‡ã®æç”»ã€è§£ç­”é¸æŠãªã©ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã‚’ç®¡ç† 
 ///	</summary>
 enum AnswerStayState
 {
@@ -33,44 +33,47 @@ enum AnswerStayState
 };
 
 ///	<summary>
-///	ƒLƒƒƒ‰ƒNƒ^[‚ÌŠÇ—‚ğ‚·‚éƒNƒ‰ƒX
+///	ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ç®¡ç†ã‚’ã™ã‚‹ã‚¯ãƒ©ã‚¹
 /// </summary>
 class Character
 {
 public:
-	static LPDIRECT3DTEXTURE9	m_pTexture;	//	ƒeƒNƒXƒ`ƒƒ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-	static LPD3DXMESH			m_pMesh;	//	ƒƒbƒVƒ…î•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-	static LPD3DXBUFFER			m_pBuffMat;	//	ƒ}ƒeƒŠƒAƒ‹î•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-	static DWORD				m_nNumMat;	//	ƒ}ƒeƒŠƒAƒ‹î•ñ‚Ì‘”
-	static D3DXMATRIX			m_mtxWorld;	//	ƒ[ƒ‹ƒhƒ}ƒgƒŠƒbƒNƒX
-	static int					m_count;	//	–â‘è”‚ÌƒJƒEƒ“ƒ^[
-	LPDIRECT3DDEVICE9			m_pDevice;	//	ƒfƒoƒCƒX
-	D3DXVECTOR3					m_position;	//	Œ»İ‚ÌˆÊ’u
-	D3DXVECTOR3					m_rotation;	//	Œ»İ‚ÌŒü‚«
-	D3DXVECTOR3					m_rotDest;	//	–Ú“I‚ÌŒü‚«
-	D3DXVECTOR3					m_velocity;	//	ˆÚ“®—Ê
-	float						m_grivity;	//	d—Í
+	static LPDIRECT3DTEXTURE9	m_pTexture;	//	ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+	static LPD3DXMESH			m_pMesh;	//	ãƒ¡ãƒƒã‚·ãƒ¥æƒ…å ±ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+	static LPD3DXBUFFER			m_pBuffMat;	//	ãƒãƒ†ãƒªã‚¢ãƒ«æƒ…å ±ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+	static DWORD				m_nNumMat;	//	ãƒãƒ†ãƒªã‚¢ãƒ«æƒ…å ±ã®ç·æ•°
+	static D3DXMATRIX			m_mtxWorld;	//	ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªãƒƒã‚¯ã‚¹
+	static int					m_count;	//	å•é¡Œæ•°ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+	LPDIRECT3DDEVICE9			m_pDevice;	//	ãƒ‡ãƒã‚¤ã‚¹
+	D3DXVECTOR3					m_position;	//	ç¾åœ¨ã®ä½ç½®
+	D3DXVECTOR3					m_rotation;	//	ç¾åœ¨ã®å‘ã
+	D3DXVECTOR3					m_rotDest;	//	ç›®çš„ã®å‘ã
+	D3DXVECTOR3					m_scale;	//	ãƒ¢ãƒ‡ãƒ«ã®å¤§ãã•
+	D3DXVECTOR3					m_velocity;	//	ç§»å‹•é‡
+	float						m_grivity;	//	é‡åŠ›
 	int							m_score;	
+	static float				m_frame;
+  
 	/// <summary>
-	///	ƒvƒŒƒCƒ„[‚ÉŠÖ‚·‚éƒXƒe[ƒg—pƒƒ“ƒo[•Ï”
+	///	ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«é–¢ã™ã‚‹ã‚¹ãƒ†ãƒ¼ãƒˆç”¨ãƒ¡ãƒ³ãƒãƒ¼å¤‰æ•°
 	///	</summary>
 	PlayerState					m_PlayerState;	
 	///	<summary>
-	///	‰ğ“š‚Ü‚¿’†‚É‰ñ‚·ƒXƒe[ƒg—p•Ï”
+	///	è§£ç­”ã¾ã¡ä¸­ã«å›ã™ã‚¹ãƒ†ãƒ¼ãƒˆç”¨å¤‰æ•°
 	///	</summary>
 	AnswerStayState				m_AnsawerStayState;
-	CharacterCamera				*m_pCamera;
+	Mondai						m_mondai;
 public:
 	///	<summary>
-	///	‰Šú‰»ˆ—
+	///	åˆæœŸåŒ–å‡¦ç†
 	/// </summary>
-	/// <return> ‰ŠúˆÊ’uA‰ŠúŒü‚« </return>
+	/// <return> åˆæœŸä½ç½®ã€åˆæœŸå‘ã </return>
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 	void Uninit();								
 	void Update();								
 	void Draw();								
 	
-	//	ƒQƒbƒ^[
+	//	ã‚²ãƒƒã‚¿ãƒ¼
 	D3DXVECTOR3	GetPos();	///	<return> m_position </return>
 	D3DXVECTOR3	GetRot();	///	<return> m_rotation </return>
 	D3DXVECTOR3	GetMove();	///	<return> m_velocity </return>
@@ -79,12 +82,12 @@ public:
 	int			Score();	///	<return> m_score </return
 
 private:
-	//	ƒXƒe[ƒgŠÖ”
-	void InitState();			//	‰Šú‰»
-	void MoveState();			//	ƒXƒ^[ƒg
-	void AnswerstayState();		//	‰ğ“š‚Ü‚¿
-	void AnswerState();			//	‰ğ“š
-	void JumpState();			//	ƒWƒƒƒ“ƒv
-	void EndState();			//	I—¹
+	//	ã‚¹ãƒ†ãƒ¼ãƒˆé–¢æ•°
+	void InitState();			//	åˆæœŸåŒ–
+	void MoveState();			//	ã‚¹ã‚¿ãƒ¼ãƒˆ
+	void AnswerstayState();		//	è§£ç­”ã¾ã¡
+	void AnswerState();			//	è§£ç­”
+	void JumpState();			//	ã‚¸ãƒ£ãƒ³ãƒ—
+	void EndState();			//	çµ‚äº†
 };
 

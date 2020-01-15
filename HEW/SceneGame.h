@@ -9,7 +9,6 @@
 #include "main.h"
 #include "SceneBase.h"
 #include "Character.h"
-#include "CharacterCamera.h"
 #include "Field.h"
 
 //#	SceneGameクラス:親クラス,SceneBaseを継承した子クラス
@@ -17,8 +16,8 @@ class SceneGame:public SceneBase
 {
 private:
 	Character		m_Character;
-	CharacterCamera	m_Camera;
 	Field			m_Map;
+	bool			EndCheck();
 public:
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理

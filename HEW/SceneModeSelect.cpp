@@ -10,30 +10,27 @@
 #include "Controller.h"
 #include "main.h"
 
-static bool flg=true;
+static bool flg = true;
 
 //	初期化
 void SceneModeSelect::Init()
 {
-
+	m_bEnd = false;
 }
 
 //	終了処理
 void SceneModeSelect::Uninit()
 {
-
-	//flg = Getflg();
-
-		if (flg == true)
-		{
-			//チュートリアル
-			m_Sprite.Draw(TEXTURE_UI, 0.0f, 0.0f, 0.0f, 0.0f, 10.0f, 20.0f, 2.0f, 0.0f, 5.0f, 0.0f);
-		}
-		else if (flg == false)
-		{
-			//ゲーム
-			m_Sprite.Draw(TEXTURE_UI, 0.0f, 0.0f, 0.0f, 911.0f/2.0f, 1008.0f, 233.0f, 0.0f, 0.0f, 0.0f,0.0f);
-		}
+	//if (flg == true)
+	//{
+	//	//チュートリアル
+	//	m_Sprite.Draw(TEXTURE_UI, 0.0f, 0.0f, 0.0f, 0.0f, 10.0f, 20.0f, 2.0f, 0.0f, 5.0f, 0.0f);
+	//}
+	//else if (flg == false)
+	//{
+	//	//ゲーム
+	//	m_Sprite.Draw(TEXTURE_UI, 0.0f, 0.0f, 0.0f, 911.0f/2.0f, 1008.0f, 233.0f, 0.0f, 0.0f, 0.0f,0.0f);
+	//}
 
 }
 
@@ -49,10 +46,22 @@ void SceneModeSelect::Update()
 	{
 		flg = false;
 	}
-	if (KeyBoard::IsTrigger(DIK_W))
+	if (!m_bEnd)
 	{
-		SceneManager::ChangeSceneState();
+		if (KeyBoard::IsTrigger(DIK_T))
+		{
+			m_bEnd = true;
+			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
+		}
 	}
+	else 
+	{
+		if (!Fade::IsFade())
+		{
+			SceneManager::ChangeSceneState();
+		}
+	}
+
 }
 
 //	描画処理
@@ -75,8 +84,3 @@ void SceneModeSelect::Draw()
 	
 }
 
-
-bool Getflg()
-{
-	return flg;
-}

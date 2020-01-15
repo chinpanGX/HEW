@@ -7,11 +7,16 @@
 
 #pragma once
 #include "main.h"
+#include "sprite.h"
+#include "Fade.h"
 
 //#	SceneBaseクラス : 親クラス
 
 class SceneBase
 {
+protected:
+	bool  m_bEnd;
+	Sprite m_Sprite;
 public:
 	//純粋仮想関数指定
 	virtual ~SceneBase() {};	//	デストラクタ

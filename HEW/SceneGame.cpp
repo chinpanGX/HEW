@@ -1,7 +1,7 @@
 /*==================================
 
 	[SceneGame.cpp]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ===================================*/
 
@@ -11,60 +11,55 @@
 #include "main.h"
 #include "light.h"
 #include "debugproc.h"
-#include "BillBoard.h"
 #include "camera.h"
 
-//	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—
+//	ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–å‡¦ç†
 void SceneGame::Init()
 {
-
 	DebugProc_Initialize();
+	Light::Init();
+	Camera_Initialize();
 	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 48.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	Light::Init();
-	//m_Camera.Init();
-	Camera_Initialize();
-	//BillBoard_Init();
 }
 
-//	ƒQ[ƒ€‚ÌI—¹ˆ—
+//	ã‚²ãƒ¼ãƒ ã®çµ‚äº†å‡¦ç†
 void SceneGame::Uninit()
 {
 	Camera_Finalize();
 	m_Character.Uninit();
 	m_Map.Uninit();
-	//m_Camera.Uninit();
 	DebugProc_Finalize();
-	
-	//BillBoard_Uninit();
 }
 
-//	ƒQ[ƒ€‚ÌXVˆ—
+//	ã‚²ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†
 void SceneGame::Update()
 {
 	Camera_Update();
 	m_Character.Update();
-	m_Camera.Update();
-	//if (KeyBoard::IsTrigger(DIK_W))
+	Camera_Update();
+	if (KeyBoard::IsTrigger(DIK_T))
 	{
-		//SceneManager::ChangeSceneState();
+		SceneManager::ChangeSceneState();
 	}
-	
-
 }
 
-//	ƒQ[ƒ€‚Ì•`‰æˆ—
+//	ã‚²ãƒ¼ãƒ ã®æç”»å‡¦ç†
 void SceneGame::Draw()
 {
-	//	ƒƒCƒ„[ƒtƒŒ[ƒ€‚ðƒZƒbƒg
+	//	ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ã‚»ãƒƒãƒˆ
 	//pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	Camera_SetCamera();
 	m_Character.Draw();
 	m_Map.Draw();
-	//Camera.Set();
 	DebugProc_Draw();
-	
 }
+
+bool SceneGame::EndCheck()
+{
+	return false;
+}
+
 
 Character * SceneGame::SetCharacter()
 {

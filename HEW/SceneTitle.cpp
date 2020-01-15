@@ -8,49 +8,51 @@
 #include "SceneTitle.h"
 #include "SceneManager.h"
 #include "Controller.h"
-#include"Fade.h"
+
+static bool SelectFlag;
 
 static bool flg = true;
 
 void SceneTitle::Init()
 {
-	flag = false;
-	//m_Camera.Init();
-	//m_Map.Init();
-	//m_count.Init();
+	SelectFlag = false;
+	m_bEnd = false;
+	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 }
 
 void SceneTitle::Uninit()
 {
-	//m_Camera.Uninit();
-	//m_Map.Uninit();
+
 }
 
 void SceneTitle::Update()
 {
-	/*m_Camera.Update();*/
-	//m_count.Update();
-
-
-	if (flag = false)
+	//	チュートリアル選択
+	if (KeyBoard::IsTrigger(DIK_Q))
 	{
-		if (KeyBoard::IsTrigger(DIK_W))
+		SelectFlag = true;
+	}
+	//	ゲーム選択
+	if (KeyBoard::IsTrigger(DIK_E))
+	{
+		SelectFlag = false;
+	}
+	if (!m_bEnd)
+	{
+		//	画面遷移
+		if (KeyBoard::IsTrigger(DIK_T))
 		{
-			flag = true;
-
+			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 		}
-
-		
 	}
-	else
+	else 
+	{
 		if (!Fade::IsFade())
 		{
-
-			SceneManager::ChangeSceneState(); 
+			SceneManager::ChangeSceneState();
 		}
-
-	
+  }
 }
 
 void SceneTitle::Draw()
@@ -64,11 +66,10 @@ void SceneTitle::Draw()
 	else if (flg==false)
 	{
 		m_sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f, 255, 255, 255, 0);//スタート画面、色の変更
-	}
+	}	
+}
 
-
-	/*m_Camera.Set();
-	m_Map.Draw();*/
-//	m_count.Draw();
-
+bool GetFlag()
+{
+	return SelectFlag;
 }
