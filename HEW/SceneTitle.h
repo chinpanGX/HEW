@@ -8,6 +8,7 @@
 #pragma once
 #include "SceneBase.h"
 #include "Count.h"
+#include "sprite.h"
 
 //	SCENETILEクラス
 /* タイトルシーンを管理するクラス */

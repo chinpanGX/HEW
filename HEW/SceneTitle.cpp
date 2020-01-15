@@ -11,6 +11,8 @@
 
 static bool SelectFlag;
 
+static bool flg = true;
+
 void SceneTitle::Init()
 {
 	SelectFlag = false;
@@ -50,13 +52,21 @@ void SceneTitle::Update()
 		{
 			SceneManager::ChangeSceneState();
 		}
-	}
-	
+  }
 }
 
 void SceneTitle::Draw()
 {
-	
+	m_sprite.Draw(TEXTURE_UI, 640.0f, 740.0f, 30.0f, 660.0f, 1008.0f, 250.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//チュートリアルの描画
+
+	if (flg==true)
+	{
+		m_sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//ゲームスタートの描画	
+	}
+	else if (flg==false)
+	{
+		m_sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f, 255, 255, 255, 0);//スタート画面、色の変更
+	}	
 }
 
 bool GetFlag()

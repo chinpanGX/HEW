@@ -1,7 +1,7 @@
 /*==================================
 
 	[SceneGame.cpp]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 ===================================*/
 
@@ -13,7 +13,7 @@
 #include "debugproc.h"
 #include "camera.h"
 
-//	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—
+//	ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–å‡¦ç†
 void SceneGame::Init()
 {
 	DebugProc_Initialize();
@@ -23,7 +23,7 @@ void SceneGame::Init()
 	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 }
 
-//	ƒQ[ƒ€‚ÌI—¹ˆ—
+//	ã‚²ãƒ¼ãƒ ã®çµ‚äº†å‡¦ç†
 void SceneGame::Uninit()
 {
 	Camera_Finalize();
@@ -32,7 +32,7 @@ void SceneGame::Uninit()
 	DebugProc_Finalize();
 }
 
-//	ƒQ[ƒ€‚ÌXVˆ—
+//	ã‚²ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†
 void SceneGame::Update()
 {
 	Camera_Update();
@@ -44,10 +44,10 @@ void SceneGame::Update()
 	}
 }
 
-//	ƒQ[ƒ€‚Ì•`‰æˆ—
+//	ã‚²ãƒ¼ãƒ ã®æç”»å‡¦ç†
 void SceneGame::Draw()
 {
-	//	ƒƒCƒ„[ƒtƒŒ[ƒ€‚ðƒZƒbƒg
+	//	ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ã‚»ãƒƒãƒˆ
 	//pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	Camera_SetCamera();
 	m_Character.Draw();
