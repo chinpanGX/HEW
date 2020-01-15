@@ -14,10 +14,8 @@ int SceneResult::m_Ranking[5];
 
 void SceneResult::Init()
 {
-	flag = false;
+	m_bEnd = false;
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
-
-
 	//Sort(ゲッターで飛距離の値を持ってくる);
 }
 
@@ -29,23 +27,21 @@ void SceneResult::Uninit()
 void SceneResult::Update()
 {
 
-	if (flag = false)
+	if (!m_bEnd)
 	{
-		if (KeyBoard::IsTrigger(DIK_W))
+		if (KeyBoard::IsTrigger(DIK_T))
 		{
-			flag = true;
-
+			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 		}
-
-
 	}
-	else
+	else 
+	{
 		if (!Fade::IsFade())
 		{
-
 			SceneManager::ChangeSceneState();
 		}
+	}
 
 
 }

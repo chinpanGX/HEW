@@ -1,30 +1,30 @@
 /*=================================================
 
 	[Character.h]
-	Author : �o���đ�
+	Author : 出合翔太
 
 =================================================*/
 
 #pragma once
 #include "main.h"
-#include "CharacterCamera.h"
 #include "Field.h"
+#include "mondai.h"
 
 ///	<summary>
-///	�v���C���[�̃X�e�[�g�}�V�����Ǘ�����
+///	プレイヤーのステートマシンを管理する
 /// </summary>
 enum PlayerState
 {
-	PLAYER_INIT,		//	������
-	PLAYER_MOVE,		//	�ړ�
-	PlAYER_ANSWERSTAY,	//	�𓚂܂�
-	PLAYER_ANSWER,		//	��
-	PLAYER_JUMP,		//	�W�����v
-	PLAYER_END			//	�I��
+	PLAYER_INIT,		//	初期化
+	PLAYER_MOVE,		//	移動
+	PlAYER_ANSWERSTAY,	//	解答まち
+	PLAYER_ANSWER,		//	解答
+	PLAYER_JUMP,		//	ジャンプ
+	PLAYER_END			//	終了
 };
 
 ///	<summary>
-///	��蕶�̕`��A�𓚑I���Ȃǂ̃X�e�[�g�}�V�����Ǘ� 
+///	問題文の描画、解答選択などのステートマシンを管理 
 ///	</summary>
 enum AnswerStayState
 {
@@ -33,46 +33,47 @@ enum AnswerStayState
 };
 
 ///	<summary>
-///	�L�����N�^�[�̊Ǘ�������N���X
+///	キャラクターの管理をするクラス
 /// </summary>
 class Character
 {
 public:
-	static LPDIRECT3DTEXTURE9	m_pTexture;	//	�e�N�X�`���ւ̃|�C���^
-	static LPD3DXMESH			m_pMesh;	//	���b�V�����ւ̃|�C���^
-	static LPD3DXBUFFER			m_pBuffMat;	//	�}�e���A�����ւ̃|�C���^
-	static DWORD				m_nNumMat;	//	�}�e���A�����̑���
-	static D3DXMATRIX			m_mtxWorld;	//	���[���h�}�g���b�N�X
-	static int					m_count;	//	��萔�̃J�E���^�[
-	LPDIRECT3DDEVICE9			m_pDevice;	//	�f�o�C�X
-	D3DXVECTOR3					m_position;	//	���݂̈ʒu
-	D3DXVECTOR3					m_rotation;	//	���݂̌���
-	D3DXVECTOR3					m_rotDest;	//	�ړI�̌���
-	D3DXVECTOR3					m_scale;	//	���f���̑傫��
-	D3DXVECTOR3					m_velocity;	//	�ړ���
-	float						m_grivity;	//	�d��
+	static LPDIRECT3DTEXTURE9	m_pTexture;	//	テクスチャへのポインタ
+	static LPD3DXMESH			m_pMesh;	//	メッシュ情報へのポインタ
+	static LPD3DXBUFFER			m_pBuffMat;	//	マテリアル情報へのポインタ
+	static DWORD				m_nNumMat;	//	マテリアル情報の総数
+	static D3DXMATRIX			m_mtxWorld;	//	ワールドマトリックス
+	static int					m_count;	//	問題数のカウンター
+	LPDIRECT3DDEVICE9			m_pDevice;	//	デバイス
+	D3DXVECTOR3					m_position;	//	現在の位置
+	D3DXVECTOR3					m_rotation;	//	現在の向き
+	D3DXVECTOR3					m_rotDest;	//	目的の向き
+	D3DXVECTOR3					m_scale;	//	モデルの大きさ
+	D3DXVECTOR3					m_velocity;	//	移動量
+	float						m_grivity;	//	重力
 	int							m_score;	
 	static float				m_frame;
+  
 	/// <summary>
-	///	�v���C���[�Ɋւ���X�e�[�g�p�����o�[�ϐ�
+	///	プレイヤーに関するステート用メンバー変数
 	///	</summary>
 	PlayerState					m_PlayerState;	
 	///	<summary>
-	///	�𓚂܂����ɉ񂷃X�e�[�g�p�ϐ�
+	///	解答まち中に回すステート用変数
 	///	</summary>
 	AnswerStayState				m_AnsawerStayState;
-	CharacterCamera				*m_pCamera;
+	Mondai						m_mondai;
 public:
 	///	<summary>
-	///	����������
+	///	初期化処理
 	/// </summary>
-	/// <return> �����ʒu�A�������� </return>
+	/// <return> 初期位置、初期向き </return>
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 	void Uninit();								
 	void Update();								
 	void Draw();								
 	
-	//	�Q�b�^�[
+	//	ゲッター
 	D3DXVECTOR3	GetPos();	///	<return> m_position </return>
 	D3DXVECTOR3	GetRot();	///	<return> m_rotation </return>
 	D3DXVECTOR3	GetMove();	///	<return> m_velocity </return>
@@ -81,12 +82,12 @@ public:
 	int			Score();	///	<return> m_score </return
 
 private:
-	//	�X�e�[�g�֐�
-	void InitState();			//	������
-	void MoveState();			//	�X�^�[�g
-	void AnswerstayState();		//	�𓚂܂�
-	void AnswerState();			//	��
-	void JumpState();			//	�W�����v
-	void EndState();			//	�I��
+	//	ステート関数
+	void InitState();			//	初期化
+	void MoveState();			//	スタート
+	void AnswerstayState();		//	解答まち
+	void AnswerState();			//	解答
+	void JumpState();			//	ジャンプ
+	void EndState();			//	終了
 };
 

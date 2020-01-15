@@ -1,13 +1,12 @@
 /*=================================================
 
 	[Character.cpp]
-	Author : o‡ãÄ‘¾
+	Author : å‡ºåˆç¿”å¤ª
 
 =================================================*/
 
 #include "Controller.h"
 #include "Character.h"
-#include "CharacterCamera.h"
 #include "debugproc.h"
 #include "Collision.h"
 #include "SceneManager.h"
@@ -16,50 +15,54 @@
 #include "SceneGame.h"
 #include "ObjectManager.h"
 #include "mondai.h"
+#include "camera.h"
 
-//	ƒ}ƒNƒ’è‹`
-#define	VALUE_MOVE_MODEL	(0.5f)					// ˆÚ“®‘¬“x
-#define	RATE_MOVE_MODEL		(0.2f)					// ˆÚ“®Šµ«ŒW”
-#define	VALUE_ROTATE_MODEL	(D3DX_PI * 0.05f)		// ‰ñ“]‘¬“x
-#define	RATE_ROTATE_MODEL	(0.2f)					// ‰ñ“]Šµ«ŒW”
+//	ãƒã‚¯ãƒ­å®šç¾©
+#define	VALUE_MOVE_MODEL	(0.5f)					// ç§»å‹•é€Ÿåº¦
+#define	RATE_MOVE_MODEL		(0.2f)					// ç§»å‹•æ…£æ€§ä¿‚æ•°
+#define	VALUE_ROTATE_MODEL	(D3DX_PI * 0.05f)		// å›è»¢é€Ÿåº¦
+#define	RATE_ROTATE_MODEL	(0.2f)					// å›è»¢æ…£æ€§ä¿‚æ•°
 
-// ƒXƒ^ƒeƒBƒbƒN•Ï”
-LPDIRECT3DTEXTURE9	Character::m_pTexture = NULL;	//	ƒeƒNƒXƒ`ƒƒ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-LPD3DXMESH			Character::m_pMesh	= NULL;		//	ƒƒbƒVƒ…î•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-LPD3DXBUFFER		Character::m_pBuffMat = NULL;	// ƒ}ƒeƒŠƒAƒ‹î•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-DWORD				Character::m_nNumMat;			//	ƒ}ƒeƒŠƒAƒ‹î•ñ‚Ì‘”
-D3DXMATRIX			Character::m_mtxWorld;			//	ƒ[ƒ‹ƒhƒ}ƒgƒŠƒbƒNƒX
-int					Character::m_count;				//	–â‘è”‚ÌƒJƒEƒ“ƒ^[
-float				Character::m_frame;				//  frame”ƒJƒEƒ“ƒ^
+// ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯å¤‰æ•°
+LPDIRECT3DTEXTURE9	Character::m_pTexture = NULL;	//	ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+LPD3DXMESH			Character::m_pMesh	= NULL;		//	ãƒ¡ãƒƒã‚·ãƒ¥æƒ…å ±ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+LPD3DXBUFFER		Character::m_pBuffMat = NULL;	// ãƒãƒ†ãƒªã‚¢ãƒ«æƒ…å ±ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+DWORD				Character::m_nNumMat;			//	ãƒãƒ†ãƒªã‚¢ãƒ«æƒ…å ±ã®ç·æ•°
+D3DXMATRIX			Character::m_mtxWorld;			//	ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªãƒƒã‚¯ã‚¹
+int					Character::m_count;				//	å•é¡Œæ•°ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+float				Character::m_frame;				//  frameæ•°ã‚«ã‚¦ãƒ³ã‚¿
 
-//	‰Šú‰»ˆ—
+CAMERA* m_pCamera;
+
+//	åˆæœŸåŒ–å‡¦ç†
 HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	m_pDevice = GetD3DDevice();
 
-	//Xƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+	//Xãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 	if (FAILED(D3DXLoadMeshFromX("asset/model/human.x", D3DXMESH_SYSTEMMEM, m_pDevice, NULL, &m_pBuffMat, NULL, &m_nNumMat, &m_pMesh)))
 	{
 		return E_FAIL;
 	}
 	
 	///	<summary>
-	///	•Ï”‚Ì‰Šú‰»
+	///	å¤‰æ•°ã®åˆæœŸåŒ–
 	///	</summary>
-	m_position = pos;	//	ˆÊ’u
-	m_rotation = rot;	//	Œü‚«
-	m_rotDest = rot;	//	–Ú“I‚ÌŒü‚«
+	m_position = pos;	//	ä½ç½®
+	m_rotation = rot;	//	å‘ã
+	m_rotDest = rot;	//	ç›®çš„ã®å‘ã
 	m_scale = D3DXVECTOR3(100.0f,100.0f,100.0f);
-	m_velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//ƒxƒNƒgƒ‹
+	m_velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//ãƒ™ã‚¯ãƒˆãƒ«
 	m_grivity = 0.7f;
 	//m_pCamera = new CharacterCamera;
 	m_count = 0;
 	m_score = 0;
+	m_frame = 0;
 
 	return S_OK;
 }
 
-//	I—¹ˆ—
+//	çµ‚äº†å‡¦ç†
 void Character::Uninit()
 {
 	//delete m_pCamera;
@@ -68,30 +71,30 @@ void Character::Uninit()
 	SAFE_RELEASE(m_pTexture);
 }
 
-//	XVˆ—
+//	æ›´æ–°å‡¦ç†
 void Character::Update()
 {
-	// ƒJƒƒ‰‚Ìæ“¾
-	m_pCamera = GetCharCam();
+	// ã‚«ãƒ¡ãƒ©ã®å–å¾—
+	m_pCamera = GetCamera();
 
 	if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_LEFT))
 	{
 		if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
-		{// ¶‰œˆÚ“®
+		{// å·¦å¥¥ç§»å‹•
 			m_velocity.x += sinf(-D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 			m_velocity.z -= cosf(-D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
 			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.75f;
 		}
 		else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_DOWN))
-		{// ¶è‘OˆÚ“®
+		{// å·¦æ‰‹å‰ç§»å‹•
 			m_velocity.x += sinf(-D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 			m_velocity.z -= cosf(-D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
 			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.25f;
 		}
 		else
-		{// ¶ˆÚ“®
+		{// å·¦ç§»å‹•
 			m_velocity.x += sinf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 			m_velocity.z -= cosf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
@@ -101,21 +104,21 @@ void Character::Update()
 	else if (KeyBoard::IsPress(DIK_A) || GamePad::IsPress(0, LEFTSTICK_RIGHT))
 	{
 		if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
-		{// ‰E‰œˆÚ“®
+		{// å³å¥¥ç§»å‹•
 			m_velocity.x += sinf(D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 			m_velocity.z -= cosf(D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
 			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.75f;
 		}
 		else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_DOWN))
-		{// ‰Eè‘OˆÚ“®
+		{// å³æ‰‹å‰ç§»å‹•
 			m_velocity.x += sinf(D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 			m_velocity.z -= cosf(D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
 			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.25f;
 		}
 		else
-		{// ‰EˆÚ“®
+		{// å³ç§»å‹•
 			m_velocity.x += sinf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 			m_velocity.z -= cosf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
@@ -123,14 +126,14 @@ void Character::Update()
 		}
 	}
 	else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_UP))
-	{// ‘OˆÚ“®
+	{// å‰ç§»å‹•
 		m_velocity.x += sinf(D3DX_PI * 1.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 		m_velocity.z -= cosf(D3DX_PI * 1.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
 		m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 1.0f;
 	}
 	else if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_DOWN))
-	{// ŒãˆÚ“®
+	{// å¾Œç§»å‹•
 		m_velocity.x += sinf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 		m_velocity.z -= cosf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 
@@ -138,7 +141,7 @@ void Character::Update()
 	}
 
 	if (KeyBoard::IsPress(DIK_Q) || GamePad::IsPress(0, PS4RIGHTSTICK_LEFT))
-	{// ¶‰ñ“]
+	{// å·¦å›è»¢
 		m_rotDest.y -= VALUE_ROTATE_MODEL;
 		if (m_rotDest.y < -D3DX_PI)
 		{
@@ -146,7 +149,7 @@ void Character::Update()
 		}
 	}
 	if (KeyBoard::IsPress(DIK_E) || GamePad::IsPress(0, PS4RIGHTSTICK_RIGHT))
-	{// ‰E‰ñ“]
+	{// å³å›è»¢
 		m_rotDest.y += VALUE_ROTATE_MODEL;
 		if (m_rotDest.y > D3DX_PI)
 		{
@@ -154,7 +157,7 @@ void Character::Update()
 		}
 	}
 	float fDiffRotY;
-	// –Ú“I‚ÌŠp“x‚Ü‚Å‚Ì·•ª
+	// ç›®çš„ã®è§’åº¦ã¾ã§ã®å·®åˆ†
 	fDiffRotY = m_rotDest.y - m_rotation.y;
 	if (fDiffRotY > D3DX_PI)
 	{
@@ -165,7 +168,7 @@ void Character::Update()
 		fDiffRotY += D3DX_PI * 2.0f;
 	}
 
-	// –Ú“I‚ÌŠp“x‚Ü‚ÅŠµ«‚ğ‚©‚¯‚é
+	// ç›®çš„ã®è§’åº¦ã¾ã§æ…£æ€§ã‚’ã‹ã‘ã‚‹
 	m_rotation.y += fDiffRotY * RATE_ROTATE_MODEL;
 	if (m_rotation.y > D3DX_PI)
 	{
@@ -176,32 +179,32 @@ void Character::Update()
 		m_rotation.y += D3DX_PI * 2.0f;
 	}
 
-	// ˆÊ’uˆÚ“®
+	// ä½ç½®ç§»å‹•
 	m_position.x += m_velocity.x;
 	m_position.z += m_velocity.z;
 
-	// ˆÚ“®—Ê‚ÉŠµ«‚ğ‚©‚¯‚é
+	// ç§»å‹•é‡ã«æ…£æ€§ã‚’ã‹ã‘ã‚‹
 	m_velocity.x += (0.0f - m_velocity.x) * RATE_MOVE_MODEL;
 	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;
 
-	/// <summary>“–‚½‚è”»’è</summary>
+	/// <summary>å½“ãŸã‚Šåˆ¤å®š</summary>
 #if 0	
-	// “–‚½‚è”»’è
+	// å½“ãŸã‚Šåˆ¤å®š
 	FLOAT fDistance = 0;
 	D3DXVECTOR3 vNormal;
 
 	if (m_Col.Collide(m_position, m_velocity, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.3)
 	{
-		//“–‚½‚èó‘Ô‚È‚Ì‚ÅAŠŠ‚ç‚¹‚é
-		m_velocity = m_Col.Slip(m_velocity, vNormal);//ŠŠ‚èƒxƒNƒgƒ‹‚ğŒvZ
+		//å½“ãŸã‚ŠçŠ¶æ…‹ãªã®ã§ã€æ»‘ã‚‰ã›ã‚‹
+		m_velocity = m_Col.Slip(m_velocity, vNormal);//æ»‘ã‚Šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 
-		//ŠŠ‚èƒxƒNƒgƒ‹æ‚Ì’n–Ê“Ë‹N‚Æ‚ÌƒŒƒC”»’è ‚Qd‚É”»’è	
+		//æ»‘ã‚Šãƒ™ã‚¯ãƒˆãƒ«å…ˆã®åœ°é¢çªèµ·ã¨ã®ãƒ¬ã‚¤åˆ¤å®š ï¼’é‡ã«åˆ¤å®š	
 		if (m_Col.Collide(m_position, m_velocity, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.2)
 		{
-			//‚Q’i–Ú‚Ì“–‚½‚èó‘Ô‚È‚Ì‚ÅAŠŠ‚ç‚¹‚é ‚¨‚»‚ç‚­ã‚ª‚é•ûŒü		
-			m_velocity = m_Col.Slip(m_velocity, vNormal);//ŠŠ‚èƒxƒNƒgƒ‹‚ğŒvZ
+			//ï¼’æ®µç›®ã®å½“ãŸã‚ŠçŠ¶æ…‹ãªã®ã§ã€æ»‘ã‚‰ã›ã‚‹ ãŠãã‚‰ãä¸ŠãŒã‚‹æ–¹å‘		
+			m_velocity = m_Col.Slip(m_velocity, vNormal);//æ»‘ã‚Šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 		}
-		DebugProc_Print((char*)"“–‚½‚Á‚Ä‚¢‚é");
+		DebugProc_Print((char*)"å½“ãŸã£ã¦ã„ã‚‹");
 		m_position += m_velocity;
 	}
 
@@ -218,19 +221,19 @@ void Character::Update()
 
 	//RenderRay(m_pDevice, m_position, m_velocity);
 	//m_position.y -= m_grivity;
-	/// <summary> “–‚½‚è”»’è
+	/// <summary> å½“ãŸã‚Šåˆ¤å®š
 
 	FLOAT fDistance=0;
 	D3DXVECTOR3 vNormal;
 	Field *field = ObjectManager::SetField();
 
-	//	d—Í‚ğ‚©‚¯‚é
+	//	é‡åŠ›ã‚’ã‹ã‘ã‚‹
 	if (KeyBoard::IsPress(DIK_SPACE))
 	{
 		m_position.y -= m_grivity;
 	}
 
-	//	ã¸
+	//	ä¸Šæ˜‡
 	if (KeyBoard::IsPress(DIK_Q))
 	{
 		m_position.y += m_grivity;
@@ -239,26 +242,26 @@ void Character::Update()
 	//m_position.y = -0.7f;
 	if( Collision::Collide(m_position,m_velocity, field,&fDistance,&vNormal) && fDistance<=0.3)
 	{
-		//“–‚½‚èó‘Ô‚È‚Ì‚ÅAŠŠ‚ç‚¹‚é
-		m_velocity= Collision::Slip(m_velocity,vNormal);//ŠŠ‚èƒxƒNƒgƒ‹‚ğŒvZ
+		//å½“ãŸã‚ŠçŠ¶æ…‹ãªã®ã§ã€æ»‘ã‚‰ã›ã‚‹
+		m_velocity= Collision::Slip(m_velocity,vNormal);//æ»‘ã‚Šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 
-		//ŠŠ‚èƒxƒNƒgƒ‹æ‚Ì’n–Ê“Ë‹N‚Æ‚ÌƒŒƒC”»’è ‚Qd‚É”»’è	
+		//æ»‘ã‚Šãƒ™ã‚¯ãƒˆãƒ«å…ˆã®åœ°é¢çªèµ·ã¨ã®ãƒ¬ã‚¤åˆ¤å®š ï¼’é‡ã«åˆ¤å®š	
 		if(Collision::Collide(m_position,m_velocity,field,&fDistance,&vNormal)&& fDistance<=0.2 )
 		{				
-			//‚Q’i–Ú‚Ì“–‚½‚èó‘Ô‚È‚Ì‚ÅAŠŠ‚ç‚¹‚é ‚¨‚»‚ç‚­ã‚ª‚é•ûŒü		
-			m_velocity= Collision::Slip(m_velocity,vNormal);//ŠŠ‚èƒxƒNƒgƒ‹‚ğŒvZ
+			//ï¼’æ®µç›®ã®å½“ãŸã‚ŠçŠ¶æ…‹ãªã®ã§ã€æ»‘ã‚‰ã›ã‚‹ ãŠãã‚‰ãä¸ŠãŒã‚‹æ–¹å‘		
+			m_velocity= Collision::Slip(m_velocity,vNormal);//æ»‘ã‚Šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 		}		
 	}
 	//m_position.y = -0.7f;
-	//ƒƒ{ƒbƒg@ˆÊ’uXV
+	//ãƒ­ãƒœãƒƒãƒˆã€€ä½ç½®æ›´æ–°
 	m_position += m_velocity;	
 
 	///	<summary> 
-	///	ƒXƒe[ƒg
-	///	“–‚½‚è”»’è‚ªŠ®¬‚µ‚½‚çAÀs
+	///	ã‚¹ãƒ†ãƒ¼ãƒˆ
+	///	å½“ãŸã‚Šåˆ¤å®šãŒå®Œæˆã—ãŸã‚‰ã€å®Ÿè¡Œ
 	///</summary>
 #if 0
-	//	ƒXƒe[ƒg
+	//	ã‚¹ãƒ†ãƒ¼ãƒˆ
 	switch (m_PlayerState)
 	{
 	case PLAYER_INIT:
@@ -283,7 +286,7 @@ void Character::Update()
 #endif // 0
 }
 
-//	•`‰æˆ—
+//	æç”»å‡¦ç†
 void Character::Draw()
 {
 	m_pDevice = GetD3DDevice();
@@ -291,109 +294,109 @@ void Character::Draw()
 	D3DXMATERIAL *pD3DXMat;
 	D3DMATERIAL9 matDef;
 
-	//ƒ[ƒ‹ƒhƒ}ƒgƒŠƒbƒNƒX‚Ì‰Šú‰»
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªãƒƒã‚¯ã‚¹ã®åˆæœŸåŒ–
 	D3DXMatrixIdentity(&m_mtxWorld);
 
-	//	Šgk‚ğ”½‰f
+	//	æ‹¡ç¸®ã‚’åæ˜ 
 	D3DXMatrixScaling(&mtxScl, m_scale.x, m_scale.y, m_scale.y);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScl);
 
-	//‰ñ“]‚ğ”½‰f
+	//å›è»¢ã‚’åæ˜ 
 	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
 
-	//ˆÚ“®‚ğ”½‰f
+	//ç§»å‹•ã‚’åæ˜ 
 	D3DXMatrixTranslation(&mtxTranslate, m_position.x, m_position.y, m_position.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTranslate);
 
-	//ƒ[ƒ‹ƒhƒ}ƒgƒŠƒbƒNƒX‚Ìİ’è
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªãƒƒã‚¯ã‚¹ã®è¨­å®š
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
-	//Œ»İ‚Ìƒ}ƒeƒŠƒAƒ‹‚ğæ“¾
+	//ç¾åœ¨ã®ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’å–å¾—
 	m_pDevice->GetMaterial(&matDef);
 
-	//ƒ}ƒeƒŠƒAƒ‹î•ñ‚É‘Î‚·‚éƒ|ƒCƒ“ƒ^‚ğæ“¾
+	//ãƒãƒ†ãƒªã‚¢ãƒ«æƒ…å ±ã«å¯¾ã™ã‚‹ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
 	pD3DXMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
 
 	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
 	{
-		//ƒ}ƒeƒŠƒAƒ‹‚Ìİ’è
+		//ãƒãƒ†ãƒªã‚¢ãƒ«ã®è¨­å®š
 		m_pDevice->SetMaterial(&pD3DXMat[nCntMat].MatD3D);
-		//ƒeƒNƒXƒ`ƒƒ‚Ìİ’è
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è¨­å®š
 		m_pDevice->SetTexture(0, m_pTexture);
-		//•`‰æ
+		//æç”»
 		m_pMesh->DrawSubset(nCntMat);
 
 	}
-	//ƒ}ƒeƒŠƒAƒ‹‚ğƒfƒtƒHƒ‹ƒg‚É–ß‚·
+	//ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã«æˆ»ã™
 	m_pDevice->SetMaterial(&matDef);
 }
 
-//!	ƒQƒbƒ^[
-//	ˆÊ’u‚ÌƒQƒbƒ^[
+//!	ã‚²ãƒƒã‚¿ãƒ¼
+//	ä½ç½®ã®ã‚²ãƒƒã‚¿ãƒ¼
 D3DXVECTOR3 Character::GetPos()
 {
 	return m_position;
 }
 
-//	‰ñ“]‚ÌƒQƒbƒ^[
+//	å›è»¢ã®ã‚²ãƒƒã‚¿ãƒ¼
 D3DXVECTOR3 Character::GetRot()
 {
 	return m_rotation;
 }
 
-//	ˆÚ“®‚ÌƒQƒbƒ^[
+//	ç§»å‹•ã®ã‚²ãƒƒã‚¿ãƒ¼
 D3DXVECTOR3 Character::GetMove()
 {
 	return m_velocity;
 }
 
-//	ƒ}ƒgƒŠƒNƒX‚ÌƒQƒbƒ^[
+//	ãƒãƒˆãƒªã‚¯ã‚¹ã®ã‚²ãƒƒã‚¿ãƒ¼
 D3DXMATRIX Character::GetMat()
 {
 	return m_mtxWorld;
 }
 
-//	ƒƒbƒVƒ…‚ÌƒQƒbƒ^[
+//	ãƒ¡ãƒƒã‚·ãƒ¥ã®ã‚²ãƒƒã‚¿ãƒ¼
 LPD3DXMESH Character::GetMesh()
 {
 	return  m_pMesh;
 }
 
-//	ƒXƒRƒA‚ÌƒQƒbƒ^[
+//	ã‚¹ã‚³ã‚¢ã®ã‚²ãƒƒã‚¿ãƒ¼
 int Character::Score()
 {
 	return m_score;
 }
 
-//	ƒXƒe[ƒg‚Ì‰Šú‰»
+//	ã‚¹ãƒ†ãƒ¼ãƒˆã®åˆæœŸåŒ–
 void Character::InitState()
 {
-	//!	ƒJƒEƒ“ƒgƒ_ƒEƒ“
+	//!	ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³
 
-	//if (ƒJƒEƒ“ƒg‚ªƒ[ƒ‚É‚È‚Á‚½‚ç)
+	//if (ã‚«ã‚¦ãƒ³ãƒˆãŒã‚¼ãƒ­ã«ãªã£ãŸã‚‰)
 	{
 		m_PlayerState = PLAYER_MOVE;
 	}
 }
 
-//	ƒvƒŒƒCƒ„[‚ÌƒXƒ^[ƒg
+//	ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ã‚¿ãƒ¼ãƒˆ
 void Character::MoveState()
 {
-	/// <summary> ˆÚ“®‚Ìˆ—@</summary>
+	/// <summary> ç§»å‹•ã®å‡¦ç†ã€€</summary>
 	m_velocity.x += sinf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 	m_velocity.z -= cosf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
 	m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.0f;
 	
-	m_position.y -= m_velocity.y;	//	d—Í‚Ì’l‚ğ‰ÁZ‘ã“ü
+	m_position.y -= m_velocity.y;	//	é‡åŠ›ã®å€¤ã‚’åŠ ç®—ä»£å…¥
 	m_position.z += m_velocity.z;
-	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;	//	Šµ«
+	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;	//	æ…£æ€§
 	
 	/// <summary>
-	/// ŠÖ”‚ÌŒÄ‚Ño‚µ‰ñ”‚ğ”‚¦‚é
+	/// é–¢æ•°ã®å‘¼ã³å‡ºã—å›æ•°ã‚’æ•°ãˆã‚‹
 	///	</summary>
 	m_count++;
-	if (m_count >= 3)	//	4‰ñ–Ú‚È‚çƒWƒƒƒ“ƒv
+	if (m_count >= 3)	//	4å›ç›®ãªã‚‰ã‚¸ãƒ£ãƒ³ãƒ—
 	{
 		m_PlayerState = PLAYER_JUMP;
 	}
@@ -409,25 +412,28 @@ void Character::AnswerstayState()
 	switch (m_AnsawerStayState)
 	{
 	case ANSWER_SELECT:
-		//!	–â‘è•¶‚Ì•`‰æ
+		//!	å•é¡Œæ–‡ã®æç”»
 
-		//!	ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ğŠJn
+		//!	ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’é–‹å§‹
 		m_frame++;
 
-		//ZÀ•W
-		//ƒvƒŒƒCƒ„[ƒXƒ^[ƒgˆÊ’u220 ƒWƒƒƒ“ƒv‘ä’[122.24
-		//ƒWƒƒƒ“ƒv‘ä‚Ì”»’è•ª—~‚µ‚¢‚¾‚ë‚¤‚©‚ç150‚©145
-		//(220-150)/3@‚Á‚Ä‚±‚Æ‚Å
+		//Zåº§æ¨™
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¹ã‚¿ãƒ¼ãƒˆä½ç½®220 ã‚¸ãƒ£ãƒ³ãƒ—å°ç«¯122.24
+		//ã‚¸ãƒ£ãƒ³ãƒ—å°ã®åˆ¤å®šåˆ†æ¬²ã—ã„ã ã‚ã†ã‹ã‚‰150ã‹145
+		//(220-150)/3ã€€ã£ã¦ã“ã¨ã§
+		if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
+		{
+			//å•é¡Œè¡¨ç¤º
+		}
+		//!	ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’é–‹å§‹
 
 		if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
 		{
-			//–â‘è•\¦
+			m_mondai.Update();
 		}
-		//!	ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ğŠJn
+		//!	å•é¡Œæ–‡ã®æ›´æ–°ã¨æç”»	
 
-		//!	–â‘è•¶‚ÌXV‚Æ•`‰æ	
-
-		//!if ( ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ªI—¹‚µ‚½‚ç )
+		//!if ( ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ãŒçµ‚äº†ã—ãŸã‚‰ )
 		{
 			m_PlayerState = PLAYER_ANSWER;
 		}
@@ -438,16 +444,16 @@ void Character::AnswerstayState()
 
 void Character::AnswerState()
 {
-	//	ƒQƒbƒ^[
+	//	ã‚²ãƒƒã‚¿ãƒ¼
 
-	//!if ( ³‰ğ )
+	//!if ( æ­£è§£ )
 	{
-		//	ƒXƒs[ƒh•â³
+		//	ã‚¹ãƒ”ãƒ¼ãƒ‰è£œæ­£
 		m_velocity.z *= 1.05f;
 	}
-	//!else	•s³‰ğ
+	//!else	ä¸æ­£è§£
 	{
-		//	‰½‚à‚µ‚È‚¢
+		//	ä½•ã‚‚ã—ãªã„
 	}
 	m_PlayerState = PLAYER_MOVE;
 }
@@ -455,14 +461,14 @@ void Character::AnswerState()
 void Character::JumpState()
 {
 	/// <summary>
-	///	ŠÖ”‚ğÀs‚µ‚Ä‚¢‚éŠÔAXV‚·‚é 
-	///	60FPS = 1 ‚ÌXV‘¬“x
+	///	é–¢æ•°ã‚’å®Ÿè¡Œã—ã¦ã„ã‚‹é–“ã€æ›´æ–°ã™ã‚‹ 
+	///	60FPS = 1 ã®æ›´æ–°é€Ÿåº¦
 	///	</summary>
 	m_score++;
 
 	
 
-	//!if ( ’n–Ê‚É’…‚¢‚½‚ç@= y‚ÌÀ•W’l)
+	//!if ( åœ°é¢ã«ç€ã„ãŸã‚‰ã€€= yã®åº§æ¨™å€¤)
 	{
 		m_PlayerState = PLAYER_END;
 	}
@@ -470,9 +476,9 @@ void Character::JumpState()
 
 void Character::EndState()
 {
-	//!	”ò‹——£‚Ì•`‰æ
+	//!	é£›è·é›¢ã®æç”»
 
-	//! if ( ‚µ‚Î‚ç‚­‚½‚Á‚½‚ç )
+	//! if ( ã—ã°ã‚‰ããŸã£ãŸã‚‰ )
 	{
 		SceneManager::ChangeSceneState();
 	}

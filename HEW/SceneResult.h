@@ -12,8 +12,6 @@
 class SceneResult : public SceneBase
 {
 private:
-
-	bool flag;
 	Sprite		m_Sprite;				//	Spriteインスタンス
 	static	int	m_Ranking[5];	//	ランキングの値を格納する配列
 public:
