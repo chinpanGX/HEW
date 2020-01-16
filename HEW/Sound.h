@@ -6,23 +6,25 @@
 #pragma once
 
 #include <windows.h>
-#include "xaudio2.h"						// サウンド処理で必要
-
-//	▼▼　ここにsound.cppに書いたファイル名に対応したラベル名を書く　▼▼
-//	▼▼　ここのラベル名とsound.cppのファイル名の数は同じにしないとエラーになる　▼▼
+#include "xaudio2.h"	// サウンド処理で必要
 
 // サウンドファイル
 enum  SOUND_LABEL
 {
-	SOUND_LABEL_game_01,		    // game
-	SOUND_LABEL_lose_01,		    // lose
-	SOUND_LABEL_win_01,		    // win
-	SOUND_LABEL_決定音_01,		// 決定音
-	//SOUND_LABEL_SE_HIT,		// ヒット音
-	SOUND_LABEL_SE_EXPLOSION,	// 爆発音
+	S_MOVE,	//カーソル移動
+	S_COUNTDOWN,
+	S_START,
+	S_JUMP_BAD,
+	S_JUMP_EXCELLENT,
+	S_JUMP_GOOD,
+	S_INCORRECT,
+	S_DECISION,
+	S_CORRECT,
+	S_SPEEDUP,
+	s_FLY,
+	S_MONDAI,
 
 	SOUND_LABEL_MAX,//←こいつは数に含めない
-
 };
 
 class Sound
@@ -40,3 +42,4 @@ public:
 	static void Stop(SOUND_LABEL label);
 	static void Stop();
 };
+

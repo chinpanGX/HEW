@@ -23,6 +23,7 @@ void Limit::Update()
 {
 	
 }
+
 void Limit::Draw(TextureIndex texture_index, float dx, float dy, int tx, int ty, int tw, int th, float cx, float cy, float sx, float sy, float rotation)
 {
 

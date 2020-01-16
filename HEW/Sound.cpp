@@ -8,6 +8,7 @@
 #include "main.h"
 #include "Sound.h"
 
+
 // パラメータ構造体定義
 struct Sounddata
 {
@@ -29,7 +30,18 @@ DWORD Sound::m_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 // 各音素材のパラメータSounddata
 Sounddata g_aParam[SOUND_LABEL_MAX] =
 {
-
+	{(char*) "asset/SE/move.wav",0},
+	{(char*) "asset/SE/count.,wav",0},
+	{(char*) "asset/SE/start.wav",0},
+	{(char*) "asset/SE/bad.wav",0},
+	{(char*) "asset/SE/excellent.wav",0},
+	{(char*) "asset/SE/good.wav",0},
+	{(char*) "asset/SE/hazure.wav",0},
+	{(char*) "asset/SE/kettei",0},
+	{(char*) "asset/SE/seikai",0},
+	{(char*) "asset/SE/speed.,wav",0},
+	{(char*) "aseet/SE/fly.wav",0},
+	{(char*) "asset/SE/mondai.wav",0},
 };
 
 // 初期化処理

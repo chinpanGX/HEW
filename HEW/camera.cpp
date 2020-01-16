@@ -12,6 +12,16 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+#define CAM_POS_V_X        (0.0f)                                          
+#define CAM_POS_V_Y        (100.0f)                                        
+#define CAM_POS_V_Z        (250.0f)                                        
+#define CAM_POS_R_X        (0.0f)                                          
+#define CAM_POS_R_Y        (50.0f)                                         
+#define CAM_POS_R_Z        (-30.0f)                                        
+#define VIEW_ANGLE        (D3DXToRadian(45.0f))                            
+#define VIEW_ASPECT        ((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)    
+#define VIEW_NEAR_Z        (10.0f)                                         
+#define VIEW_FAR_Z        (1000.0f)                                        
 #define	VIEW_ANGLE			(D3DXToRadian(45.0f))							// 視野角
 #define	VIEW_ASPECT			((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比
 #define	VIEW_NEAR_Z			(10.0f)											// ビュー平面のNearZ値
@@ -40,8 +50,8 @@ CAMERA	g_camera;		// カメラ情報
 //=============================================================================
 HRESULT Camera_Initialize(void)
 {
-	g_camera.posV = D3DXVECTOR3(0.0f, 100.0f, -200.0f);
-	g_camera.posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	g_camera.posV = D3DXVECTOR3(0.0f, 100.0f, 250.0f);
+	g_camera.posR = D3DXVECTOR3(0.0f, 50.0f, -30.0f);
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	g_camera.posVDest = D3DXVECTOR3(0.0f, 100.0f, -200.0f);
 	g_camera.posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
