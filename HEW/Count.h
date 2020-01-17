@@ -7,13 +7,9 @@
 class Count 
 {
 private:
-
 	Sprite      m_sprite;
 	Limit	    m_Limit;
-
 public:
-
-	//カウントのメンバー関数のオーバーライド
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理
 	void Update();	//	ゲームの更新処理
