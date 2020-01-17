@@ -8,31 +8,28 @@
 #include "input.h"
 #include "debugproc.h"
 #include "ObjectManager.h"
+#include "Controller.h"
 
-//*****************************************************************************
 // マクロ定義
-//*****************************************************************************
-#define CAM_POS_V_X        (0.0f)                                          
-#define CAM_POS_V_Y        (100.0f)                                        
-#define CAM_POS_V_Z        (250.0f)                                        
-#define CAM_POS_R_X        (0.0f)                                          
-#define CAM_POS_R_Y        (50.0f)                                         
-#define CAM_POS_R_Z        (-30.0f)                                        
-#define VIEW_ANGLE        (D3DXToRadian(45.0f))                            
-#define VIEW_ASPECT        ((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)    
-#define VIEW_NEAR_Z        (10.0f)                                         
-#define VIEW_FAR_Z        (1000.0f)                                        
+#define CAM_POS_V_X         (0.0f)                                          
+#define CAM_POS_V_Y         (100.0f)                                        
+#define CAM_POS_V_Z         (250.0f)                                        
+#define CAM_POS_R_X         (0.0f)                                          
+#define CAM_POS_R_Y         (50.0f)                                         
+#define CAM_POS_R_Z         (-30.0f)                                        
+#define VIEW_ANGLE          (D3DXToRadian(45.0f))                            
+#define VIEW_ASPECT         ((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)    
+#define VIEW_NEAR_Z         (10.0f)                                         
+#define VIEW_FAR_Z          (1000.0f)                                        
 #define	VIEW_ANGLE			(D3DXToRadian(45.0f))							// 視野角
 #define	VIEW_ASPECT			((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比
 #define	VIEW_NEAR_Z			(10.0f)											// ビュー平面のNearZ値
 #define	VIEW_FAR_Z			(100000.0f)										// ビュー平面のFarZ値
 #define	VALUE_MOVE_CAMERA	(2.0f)											// カメラの移動量
 #define	VALUE_ROTATE_CAMERA	(D3DX_PI * 0.01f)								// カメラの回転量
-
 #define	INTERVAL_CAMERA_R	(12.5f)					// モデルの視線の先までの距離
 #define	RATE_CHASE_CAMERA_V	(0.35f)					// カメラの視点への補正係数
 #define	RATE_CHASE_CAMERA_R	(0.20f)					// カメラの注視点への補正係数
-
 #define	CHASE_HEIGHT_V		(100.0f)				// 追跡時の視点の高さ
 #define	CHASE_HEIGHT_R		(0.0f)					// 追跡時の注視点の高さ
 
@@ -50,7 +47,7 @@ CAMERA	g_camera;		// カメラ情報
 //=============================================================================
 HRESULT Camera_Initialize(void)
 {
-	g_camera.posV = D3DXVECTOR3(0.0f, 100.0f, 250.0f);
+	g_camera.posV = D3DXVECTOR3(0.0f, 100.0f, -250.0f);
 	g_camera.posR = D3DXVECTOR3(0.0f, 50.0f, -30.0f);
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	g_camera.posVDest = D3DXVECTOR3(0.0f, 100.0f, -200.0f);
@@ -120,8 +117,9 @@ void Camera_Update(void)
 		fRateChaseCameraR = 0.005f;
     	fRateChaseCameraP = 0.30f;
 	}
-	/*
-	if (Keyboard_IsPress(DIK_T))
+
+#if 0
+	if (KeyBoard::IsPress(DIK_T))
 	{// 注視点上昇
 		g_camera.fHeightR += 1.0f;
 		if(g_camera.fHeightR > 100.0f)
@@ -129,7 +127,7 @@ void Camera_Update(void)
 			g_camera.fHeightR = 100.0f;
 		}
 	}
-	if (Keyboard_IsPress(DIK_B))
+	if (KeyBoard::IsPress(DIK_B))
 	{// 注視点下降
 		g_camera.fHeightR -= 1.0f;
 		if(g_camera.fHeightR < -200.0f)
@@ -138,7 +136,7 @@ void Camera_Update(void)
 		}
 	}
 
-	if (Keyboard_IsPress(DIK_Y))
+	if (KeyBoard::IsPress(DIK_Y))
 	{// 視点上昇
 		g_camera.fHeightV += 1.0f;
 		if(g_camera.fHeightV > 200.0f)
@@ -146,7 +144,7 @@ void Camera_Update(void)
 			g_camera.fHeightV = 200.0f;
 		}
 	}
-	if (Keyboard_IsPress(DIK_N))
+	if (KeyBoard::IsPress(DIK_N))
 	{// 視点下降
 		g_camera.fHeightV -= 1.0f;
 		if(g_camera.fHeightV < -100.0f)
@@ -155,7 +153,7 @@ void Camera_Update(void)
 		}
 	}
 
-	if (Keyboard_IsPress(DIK_U))
+	if (KeyBoard::IsPress(DIK_U))
 	{// ズームイン
 		if(g_camera.fLengthInterval > 100.0f)
 		{
@@ -163,7 +161,7 @@ void Camera_Update(void)
 			g_camera.fHeightV -= 0.35f;
 		}
 	}
-	if (Keyboard_IsPress(DIK_M))
+	if (KeyBoard::IsPress(DIK_M))
 	{// ズームアウト
 		if(g_camera.fLengthInterval < 300.0f)
 		{
@@ -172,7 +170,7 @@ void Camera_Update(void)
 		}
 	}
 
-	if (Keyboard_IsPress(DIK_Z))
+	if (KeyBoard::IsPress(DIK_Z))
 	{// 視点旋回「左」
 		g_camera.rot.y += VALUE_ROTATE_CAMERA;
 		if (g_camera.rot.y > D3DX_PI)
@@ -184,7 +182,7 @@ void Camera_Update(void)
 		g_camera.posV.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fLengthInterval;
 	}
 
-	if (Keyboard_IsPress(DIK_C))
+	if (KeyBoard::IsPress(DIK_C))
 	{// 視点旋回「右」
 		g_camera.rot.y -= VALUE_ROTATE_CAMERA;
 		if (g_camera.rot.y < -D3DX_PI)
@@ -195,7 +193,7 @@ void Camera_Update(void)
 		g_camera.posV.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fLengthInterval;
 		g_camera.posV.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fLengthInterval;
 	}
-	*/
+	
 	// 注視点の目的位置
 	g_camera.posRDest.x = posPlayer.x - sin(rotPlayer.y) * fIntervalCamera;
 	g_camera.posRDest.y = posPlayer.y + g_camera.fHeightR;
@@ -228,6 +226,7 @@ void Camera_Update(void)
 	DebugProc_Print((char*)"ズームイン   : [ Ｕ ]\n");
 	DebugProc_Print((char*)"ズームアウト : [ Ｍ ]\n");
 	DebugProc_Print((char*)"\n");
+#endif
 }
 
 //=============================================================================

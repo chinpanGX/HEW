@@ -5,9 +5,7 @@
 
 ==================================================*/
 
-#include "main.h"
 #include "Sound.h"
-
 
 // パラメータ構造体定義
 struct Sounddata
@@ -21,7 +19,7 @@ HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkD
 HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
 
 //	スタティック変数
-IXAudio2 *Sound::m_pXAudio2 = NULL;								// XAudio2オブジェクトへのインターフェイス
+IXAudio2 *Sound::m_pXAudio2 = NULL;									// XAudio2オブジェクトへのインターフェイス
 IXAudio2MasteringVoice *Sound::m_pMasteringVoice = NULL;			// マスターボイス
 IXAudio2SourceVoice *Sound::m_apSourceVoice[SOUND_LABEL_MAX] = {};	// ソースボイス
 BYTE *Sound::m_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
