@@ -1,6 +1,7 @@
 /*============================================
 
-	[ObjectManager.h]
+	[ObjectManager.h]	
+	概要：オブジェクトのゲッターを管理
 	Author :　出合翔太
 
 ============================================*/
@@ -12,7 +13,8 @@
 class ObjectManager
 {
 public:
-	static Character* SetCharacter();
-	static Field* SetField();
+	static Character* SetCharacter();	//	キャラクターオブジェクトのゲッター
+	static Field* SetField();			//	マップオブジェクトのゲッター
+	static Camera* SetCamera();			//	カメラオブジェクトのゲッター
 };
 

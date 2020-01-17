@@ -9,6 +9,7 @@
 #include "main.h"
 #include "Field.h"
 #include "mondai.h"
+#include "Score.h"
 
 ///	<summary>
 ///	プレイヤーのステートマシンを管理する
@@ -53,7 +54,7 @@ public:
 	float						m_grivity;	//	重力
 	int							m_score;	
 	static float				m_frame;
-  
+
 	/// <summary>
 	///	プレイヤーに関するステート用メンバー変数
 	///	</summary>
@@ -79,9 +80,14 @@ public:
 	D3DXVECTOR3	GetMove();	///	<return> m_velocity </return>
 	D3DXMATRIX	GetMat();	///	<return> m_mtxworld </return>
 	LPD3DXMESH	GetMesh();	///	<return> m_pMesh </return>
-	int			Score();	///	<return> m_score </return
+	int			GetScore();	///	<return> m_score </return
 
 private:
+	//	Updateヘルパー関数
+	void Move();		//	移動
+	void Action();		//	アクション
+	void Collision();	//	当たり判定
+
 	//	ステート関数
 	void InitState();			//	初期化
 	void MoveState();			//	スタート

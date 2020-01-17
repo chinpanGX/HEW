@@ -1,6 +1,7 @@
 /*============================================
 
 	[ObjectManager.cpp]
+	概要：オブジェクトのゲッターを管理
 	Author :　出合翔太
 
 ============================================*/
@@ -15,4 +16,9 @@ Character * ObjectManager::SetCharacter()
 Field * ObjectManager::SetField()
 {
 	return ((SceneGame*)SceneManager::SetSceneGame())->SetField();
+}
+
+Camera * ObjectManager::SetCamera()
+{
+	return ((SceneGame*)SceneManager::SetSceneGame())->SetCamera();
 }

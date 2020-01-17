@@ -10,11 +10,9 @@
 #include "debugproc.h"
 #include "Collision.h"
 #include "SceneManager.h"
-#include "Collision.h"
 #include "Field.h"
 #include "SceneGame.h"
 #include "ObjectManager.h"
-#include "mondai.h"
 #include "camera.h"
 
 //	マクロ定義
@@ -31,10 +29,7 @@ DWORD				Character::m_nNumMat;			//	マテリアル情報の総数
 D3DXMATRIX			Character::m_mtxWorld;			//	ワールドマトリックス
 int					Character::m_count;				//	問題数のカウンター
 float				Character::m_frame;				//  frame数カウンタ
-
 static bool			flag;							//! jump用一時y軸跳ね上げ用flag
-
-CAMERA* m_pCamera;
 
 //	初期化処理
 HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
@@ -78,194 +73,6 @@ void Character::Uninit()
 //	更新処理
 void Character::Update()
 {
-	// カメラの取得
-	m_pCamera = GetCamera();
-
-	if (KeyBoard::IsPress(DIK_D) || GamePad::IsPress(0, LEFTSTICK_LEFT))
-	{
-		if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
-		{// 左奥移動
-			m_velocity.x += sinf(-D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(-D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-
-			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.75f;
-		}
-		else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_DOWN))
-		{// 左手前移動
-			m_velocity.x += sinf(-D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(-D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-
-			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.25f;
-		}
-		else
-		{// 左移動
-			m_velocity.x += sinf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(-D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-
-			m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.50f;
-		}
-	}
-	else if (KeyBoard::IsPress(DIK_A) || GamePad::IsPress(0, LEFTSTICK_RIGHT))
-	{
-		if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_UP))
-		{// 右奥移動
-			m_velocity.x += sinf(D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(D3DX_PI * 0.75f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-
-			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.75f;
-		}
-		else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_DOWN))
-		{// 右手前移動
-			m_velocity.x += sinf(D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(D3DX_PI * 0.25f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-
-			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.25f;
-		}
-		else
-		{// 右移動
-			m_velocity.x += sinf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-			m_velocity.z -= cosf(D3DX_PI * 0.50f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-
-			m_rotDest.y = m_pCamera->rot.y - D3DX_PI * 0.50f;
-		}
-	}
-	else if (KeyBoard::IsPress(DIK_S) || GamePad::IsPress(0, LEFTSTICK_UP))
-	{// 前移動
-		m_velocity.x += sinf(D3DX_PI * 1.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-		m_velocity.z -= cosf(D3DX_PI * 1.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-
-		m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 1.0f;
-	}
-	else if (KeyBoard::IsPress(DIK_W) || GamePad::IsPress(0, LEFTSTICK_DOWN))
-	{// 後移動
-		m_velocity.x += sinf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-		m_velocity.z -= cosf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-
-		m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.0f;
-	}
-
-	if (KeyBoard::IsPress(DIK_Q) || GamePad::IsPress(0, PS4RIGHTSTICK_LEFT))
-	{// 左回転
-		m_rotDest.y -= VALUE_ROTATE_MODEL;
-		if (m_rotDest.y < -D3DX_PI)
-		{
-			m_rotDest.y += D3DX_PI * 2.0f;
-		}
-	}
-	if (KeyBoard::IsPress(DIK_E) || GamePad::IsPress(0, PS4RIGHTSTICK_RIGHT))
-	{// 右回転
-		m_rotDest.y += VALUE_ROTATE_MODEL;
-		if (m_rotDest.y > D3DX_PI)
-		{
-			m_rotDest.y -= D3DX_PI * 2.0f;
-		}
-	}
-	float fDiffRotY;
-	// 目的の角度までの差分
-	fDiffRotY = m_rotDest.y - m_rotation.y;
-	if (fDiffRotY > D3DX_PI)
-	{
-		fDiffRotY -= D3DX_PI * 2.0f;
-	}
-	if (fDiffRotY < -D3DX_PI)
-	{
-		fDiffRotY += D3DX_PI * 2.0f;
-	}
-
-	// 目的の角度まで慣性をかける
-	m_rotation.y += fDiffRotY * RATE_ROTATE_MODEL;
-	if (m_rotation.y > D3DX_PI)
-	{
-		m_rotation.y -= D3DX_PI * 2.0f;
-	}
-	if (m_rotation.y < -D3DX_PI)
-	{
-		m_rotation.y += D3DX_PI * 2.0f;
-	}
-
-	// 位置移動
-	m_position.x += m_velocity.x;
-	m_position.z += m_velocity.z;
-
-	// 移動量に慣性をかける
-	m_velocity.x += (0.0f - m_velocity.x) * RATE_MOVE_MODEL;
-	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;
-
-	/// <summary>当たり判定</summary>
-#if 0	
-	// 当たり判定
-	FLOAT fDistance = 0;
-	D3DXVECTOR3 vNormal;
-
-	if (m_Col.Collide(m_position, m_velocity, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.3)
-	{
-		//当たり状態なので、滑らせる
-		m_velocity = m_Col.Slip(m_velocity, vNormal);//滑りベクトルを計算
-
-		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
-		if (m_Col.Collide(m_position, m_velocity, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.2)
-		{
-			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
-			m_velocity = m_Col.Slip(m_velocity, vNormal);//滑りベクトルを計算
-		}
-		DebugProc_Print((char*)"当たっている");
-		m_position += m_velocity;
-	}
-
-	//pos = m_Character.GetMove();
-	//move = m_Character.GetMove();
-
-
-
-	DebugProc_Print((char*)"Character [%f : %f : %f]\n", m_position.x, m_position.y, m_position.z);
-	DebugProc_Print((char*)"\n");
-#endif
-
-	DebugProc_Print((char*)"%f,%f,%f",m_position.x,m_position.y,m_position.z);
-
-	//RenderRay(m_pDevice, m_position, m_velocity);
-	//m_position.y -= m_grivity;
-	/// <summary> 当たり判定
-
-	FLOAT fDistance=0;
-	D3DXVECTOR3 vNormal;
-	Field *field = ObjectManager::SetField();
-
-	//	重力をかける
-	if (KeyBoard::IsPress(DIK_SPACE))
-	{
-		m_position.y -= m_grivity;
-	}
-
-	//	上昇
-	if (KeyBoard::IsPress(DIK_Q))
-	{
-		m_position.y += m_grivity;
-	}
-
-	//m_position.y = -0.7f;
-	if( Collision::Collide(m_position,m_velocity, field,&fDistance,&vNormal) && fDistance<=0.3)
-	{
-		//当たり状態なので、滑らせる
-		m_velocity= Collision::Slip(m_velocity,vNormal);//滑りベクトルを計算
-
-		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
-		if(Collision::Collide(m_position,m_velocity,field,&fDistance,&vNormal)&& fDistance<=0.2 )
-		{				
-			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
-			m_velocity= Collision::Slip(m_velocity,vNormal);//滑りベクトルを計算
-		}		
-	}
-	//m_position.y = -0.7f;
-	//ロボット　位置更新
-	m_position += m_velocity;	
-
-	///	<summary> 
-	///	ステート
-	///	当たり判定が完成したら、実行
-	///</summary>
-#if 0
-	//	ステート
 	switch (m_PlayerState)
 	{
 	case PLAYER_INIT:
@@ -287,7 +94,9 @@ void Character::Update()
 		EndState();
 		break;
 	}
-#endif // 0
+	
+	Move();			//	移動処理更新
+	Collision();	//	当たり判定更新
 }
 
 //	描画処理
@@ -368,9 +177,48 @@ LPD3DXMESH Character::GetMesh()
 }
 
 //	スコアのゲッター
-int Character::Score()
+int Character::GetScore()
 {
 	return m_score;
+}
+
+void Character::Move()
+{
+	// 位置移動
+	m_position.x += m_velocity.x;
+	m_position.y -= m_grivity;
+	m_position.z += m_velocity.z;
+	// 移動量に慣性をかける
+	m_velocity.x += (0.0f - m_velocity.x) * RATE_MOVE_MODEL;
+	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;
+}
+
+void Character::Action()
+{
+}
+
+void Character::Collision()
+{
+	/// <summary> 当たり判定
+	FLOAT fDistance = 0;
+	D3DXVECTOR3 vNormal;
+	Field *field = ObjectManager::SetField();
+	if (Collision::Collide(m_position, m_velocity, field, &fDistance, &vNormal) && fDistance <= 0.3)
+	{
+		//当たり状態なので、滑らせる
+		m_velocity = Collision::Slip(m_velocity, vNormal);//滑りベクトルを計算
+
+		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
+		if (Collision::Collide(m_position, m_velocity, field, &fDistance, &vNormal) && fDistance <= 0.2)
+		{
+			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
+			m_velocity = Collision::Slip(m_velocity, vNormal);//滑りベクトルを計算
+		}
+	}
+	//m_position.y = -0.7f;
+	//ロボット　位置更新
+	m_position += m_velocity;
+
 }
 
 //	ステートの初期化
@@ -387,10 +235,12 @@ void Character::InitState()
 //	プレイヤーのスタート
 void Character::MoveState()
 {
+	Camera* pCamera = ObjectManager::SetCamera();
+	D3DXVECTOR3 CameraRot = pCamera->GetRot();
 	/// <summary> 移動の処理　</summary>
-	m_velocity.x += sinf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-	m_velocity.z -= cosf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-	m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.0f;
+	m_velocity.x += sinf(D3DX_PI * 0.0f - CameraRot.y) * VALUE_MOVE_MODEL;
+	m_velocity.z -= cosf(D3DX_PI * 0.0f - CameraRot.y) * VALUE_MOVE_MODEL;
+	m_rotDest.y = CameraRot.y + D3DX_PI * 0.0f;
 	
 	m_position.y -= m_velocity.y;	//	重力の値を加算代入
 	m_position.z += m_velocity.z;
@@ -459,10 +309,6 @@ void Character::AnswerState()
 
 void Character::JumpState()
 {
-	/// <summary>
-	///	関数を実行している間、更新する 
-	///	60FPS = 1 の更新速度
-	///	</summary>
 	m_score++;
 
 	if (m_position.z < 122.3f&&flag == true)
@@ -479,8 +325,6 @@ void Character::JumpState()
 
 void Character::EndState()
 {
-	//!	飛距離の描画
-
 	//! if ( しばらくたったら )
 	{
 		SceneManager::ChangeSceneState();

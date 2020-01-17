@@ -1,6 +1,7 @@
 /*==============================================
 
 	[SceneManager.cpp]	
+	概要 : ゲームループを管理する
 	Author : 出合翔太
 
 ===============================================*/
@@ -10,7 +11,6 @@
 #include "SceneTutorial.h"
 #include "SceneGame.h"
 #include "SceneResult.h"
-#include "SceneDebug.h"
 
 //	スタティック変数
 SceneBase			*SceneManager::m_scene[4];	//	シーンのインスタンスを格納[シーンの配列]

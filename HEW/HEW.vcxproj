@@ -152,7 +152,6 @@
     <ClCompile Include="mondai.cpp" />
     <ClCompile Include="Limit.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="SceneDebug.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneResult.cpp" />
@@ -179,7 +178,6 @@
     <ClInclude Include="Limit.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="SceneDebug.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneResult.h" />

@@ -13,7 +13,6 @@
     <ClCompile Include="mondai.cpp" />
     <ClCompile Include="Limit.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="SceneDebug.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneResult.cpp" />
@@ -22,9 +21,9 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="texture.cpp" />
-    <ClCompile Include="camera.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -40,7 +39,6 @@
     <ClInclude Include="Limit.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="SceneDebug.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneResult.h" />
@@ -49,9 +47,9 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="texture.h" />
-    <ClInclude Include="camera.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Fade.h" />
+    <ClInclude Include="camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="asset\texture\hewso.png" />
