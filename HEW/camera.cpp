@@ -47,11 +47,11 @@ CAMERA	g_camera;		// カメラ情報
 //=============================================================================
 HRESULT Camera_Initialize(void)
 {
-	g_camera.posV = D3DXVECTOR3(0.0f, 100.0f, -250.0f);
-	g_camera.posR = D3DXVECTOR3(0.0f, 50.0f, -30.0f);
+	g_camera.posV = D3DXVECTOR3(0.0f, 100.0f, 250.0f);
+	g_camera.posR = D3DXVECTOR3(0.0f, 50.0f, 30.0f);
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	g_camera.posVDest = D3DXVECTOR3(0.0f, 100.0f, -200.0f);
-	g_camera.posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	g_camera.posVDest = D3DXVECTOR3(0.0f, 100.0f, 250.0f);
+	g_camera.posRDest = D3DXVECTOR3(0.0f, 50.0f, 30.0f);
 	g_camera.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_camera.fRateRotAuto = 0.01f;
 
@@ -79,16 +79,14 @@ void Camera_Finalize(void)
 void Camera_Update(void)
 {
 	Character *pPlayer;
+	// プレイヤーを取得
+	pPlayer = ObjectManager::SetCharacter();
 	D3DXVECTOR3 posPlayer;
 	D3DXVECTOR3 rotPlayer;
 	D3DXVECTOR3 movePlayer;
 	float fIntervalCamera, fLengthMove;
 	float fRateChaseCameraP, fRateChaseCameraR;
 	float fHeightFieldPlayer;
-
-	// プレイヤーを取得
-	pPlayer = ObjectManager::SetCharacter();
-
 	// プレイヤーの位置取得
 	posPlayer = pPlayer->m_position;
 

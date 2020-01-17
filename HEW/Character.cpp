@@ -51,10 +51,9 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_position = pos;	//	位置
 	m_rotation = rot;	//	向き
 	m_rotDest = rot;	//	目的の向き
-	m_scale = D3DXVECTOR3(100.0f,100.0f,100.0f);
+	m_scale = D3DXVECTOR3(10.0f,10.0f,10.0f);
 	m_velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//ベクトル
 	m_grivity = 0.7f;
-	//m_pCamera = new CharacterCamera;
 	m_count = 0;
 	m_score = 0;
 	m_frame = 0;
@@ -65,7 +64,6 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //	終了処理
 void Character::Uninit()
 {
-	//delete m_pCamera;
 	SAFE_RELEASE(m_pBuffMat);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pTexture);
@@ -178,68 +176,44 @@ void Character::Update()
 	{
 		m_rotation.y += D3DX_PI * 2.0f;
 	}
-
+	
 	// 位置移動
 	m_position.x += m_velocity.x;
+	m_position.y -= m_grivity;		//	重力をかける
 	m_position.z += m_velocity.z;
 
 	// 移動量に慣性をかける
 	m_velocity.x += (0.0f - m_velocity.x) * RATE_MOVE_MODEL;
 	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;
 
-	/// <summary>当たり判定</summary>
-#if 0	
-	// 当たり判定
-	FLOAT fDistance = 0;
-	D3DXVECTOR3 vNormal;
-
-	if (m_Col.Collide(m_position, m_velocity, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.3)
+	//!	であい
+	switch (m_PlayerState)
 	{
-		//当たり状態なので、滑らせる
-		m_velocity = m_Col.Slip(m_velocity, vNormal);//滑りベクトルを計算
-
-		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
-		if (m_Col.Collide(m_position, m_velocity, &m_XFile, &m_Model, &fDistance, &vNormal) && fDistance <= 0.2)
-		{
-			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
-			m_velocity = m_Col.Slip(m_velocity, vNormal);//滑りベクトルを計算
-		}
-		DebugProc_Print((char*)"当たっている");
-		m_position += m_velocity;
+	case PLAYER_INIT:
+		InitState();
+		break;
+	case PLAYER_MOVE:
+		MoveState();
+		break;
+	case PlAYER_ANSWERSTAY:
+		AnswerstayState();
+		break;
+	case PLAYER_ANSWER:
+		AnswerState();
+		break;
+	case PLAYER_JUMP:
+		JumpState();
+		break;
+	case PLAYER_END:
+		EndState();
+		break;
 	}
 
-	//pos = m_Character.GetMove();
-	//move = m_Character.GetMove();
-
-
-
-	DebugProc_Print((char*)"Character [%f : %f : %f]\n", m_position.x, m_position.y, m_position.z);
-	DebugProc_Print((char*)"\n");
-#endif
-
-	DebugProc_Print((char*)"%f,%f,%f",m_position.x,m_position.y,m_position.z);
-
-	//RenderRay(m_pDevice, m_position, m_velocity);
-	//m_position.y -= m_grivity;
-	/// <summary> 当たり判定
-
+	/// <summary>当たり判定</summary>
 	FLOAT fDistance=0;
 	D3DXVECTOR3 vNormal;
 	Field *field = ObjectManager::SetField();
-
-	//	重力をかける
-	if (KeyBoard::IsPress(DIK_SPACE))
-	{
-		m_position.y -= m_grivity;
-	}
-
-	//	上昇
-	if (KeyBoard::IsPress(DIK_Q))
-	{
-		m_position.y += m_grivity;
-	}
-
-	//m_position.y = -0.7f;
+	
 	if( Collision::Collide(m_position,m_velocity, field,&fDistance,&vNormal) && fDistance<=0.3)
 	{
 		//当たり状態なので、滑らせる
@@ -255,35 +229,6 @@ void Character::Update()
 	//m_position.y = -0.7f;
 	//ロボット　位置更新
 	m_position += m_velocity;	
-
-	///	<summary> 
-	///	ステート
-	///	当たり判定が完成したら、実行
-	///</summary>
-#if 0
-	//	ステート
-	switch (m_PlayerState)
-	{
-	case PLAYER_INIT:
-		InitState();
-		break;
-	case PLAYER_MOVE:
-		MoveState();
-		break;
-	case PlAYER_ANSWERSTAY:
-		AnswerstayState();
-		break;
-	case PLAYER_ANSWER: 
-		AnswerState();
-		break;
-	case PLAYER_JUMP:
-		JumpState();
-		break;
-	case PLAYER_END:
-		EndState();
-		break;
-	}
-#endif // 0
 }
 
 //	描画処理
