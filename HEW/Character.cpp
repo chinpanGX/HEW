@@ -32,6 +32,8 @@ D3DXMATRIX			Character::m_mtxWorld;			//	ワールドマトリックス
 int					Character::m_count;				//	問題数のカウンター
 float				Character::m_frame;				//  frame数カウンタ
 
+static bool			flag;							//! jump用一時y軸跳ね上げ用flag
+
 CAMERA* m_pCamera;
 
 //	初期化処理
@@ -58,6 +60,8 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_count = 0;
 	m_score = 0;
 	m_frame = 0;
+
+	flag = true;
 
 	return S_OK;
 }
@@ -461,8 +465,11 @@ void Character::JumpState()
 	///	</summary>
 	m_score++;
 
-	
-
+	if (m_position.z < 122.3f&&flag == true)
+	{
+		m_position.y += 10.0f;
+		flag = false;	//playerが上昇し続けるのを防ぐため
+	}
 
 	//!if ( 地面に着いたら　= yの座標値)
 	{
