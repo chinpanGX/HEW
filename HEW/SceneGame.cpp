@@ -20,7 +20,7 @@ void SceneGame::Init()
 	DebugProc_Initialize();
 	Light::Init();
 	m_Camera.Init();
-	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 220.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 }
@@ -38,7 +38,7 @@ void SceneGame::Uninit()
 void SceneGame::Update()
 {
 	m_Camera.Update();
-	m_Character.Update();
+	//m_Character.Update();
 	if (KeyBoard::IsTrigger(DIK_T))
 	{
 		SceneManager::ChangeSceneState();
@@ -50,7 +50,7 @@ void SceneGame::Draw()
 {
 	m_Camera.Set();
 	m_Character.Draw();
-	m_Map.Draw();
+	//m_Map.Draw();
 	m_Score.Draw(SCREEN_WIDTH - 100.0f,0.0f,m_Character.GetScore(),5,0);
 	DebugProc_Draw();
 }

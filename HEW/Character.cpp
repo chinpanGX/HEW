@@ -181,6 +181,12 @@ int Character::GetScore()
 
 void Character::Move()
 {
+	// カメラの取得
+	Camera	*pCamera;
+	pCamera = ObjectManager::SetCamera();
+	D3DXVECTOR3	rotCamera = pCamera->GetRot();	//	カメラの向き
+	m_velocity.x += sinf(D3DX_PI * 1.0f - rotCamera.y) * 0.5f;
+	m_velocity.z -= cosf(D3DX_PI * 1.0f - rotCamera.y) * 0.5f;
 	// 位置移動
 	m_position.x += m_velocity.x;
 	m_position.y -= m_grivity;

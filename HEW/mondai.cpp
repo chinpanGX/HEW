@@ -3,6 +3,7 @@
 #include"main.h"
 #include"mondai.h"
 #include <time.h>
+#include "Controller.h"
 
 enum Mondaienum
 {
@@ -16,16 +17,13 @@ bool Mondai::m_flg;		//	解答フラグ
 
 void Mondai::Update()
 {
-	bool m_flg = true;
-	if (m_flg == true)
+	if (KeyBoard::IsTrigger(DIK_A))
 	{
-		//	〇を拡大
-		//m_Sprite.Draw();
+		m_flg = true;
 	}
-	else if (m_flg == false)
+	if (KeyBoard::IsTrigger(DIK_D))
 	{
-		//　Xを拡大
-		//m_Sprite.Draw();
+		m_flg = false;
 	}
 }
 

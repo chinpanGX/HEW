@@ -30,22 +30,19 @@
 // カメラの初期化
 HRESULT Camera::Init()
 {
-	posV = D3DXVECTOR3(0.0f, 100.0f, -250.0f);
-	posR = D3DXVECTOR3(0.0f, 50.0f, -30.0f);
+	posV = D3DXVECTOR3(0.0f, 100.0f, -20.0f);
+	posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	posVDest = D3DXVECTOR3(0.0f, 100.0f, -200.0f);
+	posVDest = D3DXVECTOR3(0.0f, 100.0f, -20.0f);
 	posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	fRateRotAuto = 0.01f;
-
 	float vx,vz;
 	vx = posV.x - posR.x;
 	vz = posV.z - posR.z;
 	fLengthInterval = sqrtf(vx * vx + vz * vz);
-
 	fHeightV = CHASE_HEIGHT_V;
 	fHeightR = CHASE_HEIGHT_R;
-
 	return S_OK;
 }
 
@@ -58,45 +55,49 @@ void Camera::Uninit()
 void Camera::Update()
 {
 	Character *pPlayer;
-	D3DXVECTOR3 posPlayer;
-	D3DXVECTOR3 rotPlayer;
-	D3DXVECTOR3 movePlayer;
+	pPlayer = ObjectManager::SetCharacter();	//	Playerインスタンスの取得
+	D3DXVECTOR3 posPlayer = pPlayer->GetPos();	//	位置の取得
+	D3DXVECTOR3 rotPlayer = pPlayer->GetRot();	//	向きの取得
+	D3DXVECTOR3 movePlayer = pPlayer->GetMove();	//	移動量の取得
 	float fIntervalCamera, fLengthMove;
 	float fRateChaseCameraP, fRateChaseCameraR;
 	float fHeightFieldPlayer;
-
-	// プレイヤーを取得
-	pPlayer = ObjectManager::SetCharacter();
-
-	// プレイヤーの位置取得
-	posPlayer = pPlayer->m_position;
-
-	// プレイヤーの目的の向き取得
-	rotPlayer = pPlayer->m_rotation;
-
-	// プレイヤーの移動量取得
-	movePlayer = pPlayer->m_velocity;
-
-	// プレイヤーが現在いる高さ
-	fHeightFieldPlayer = posPlayer.y;
-
-	// プレイヤーの移動量
-	fLengthMove = sqrtf(movePlayer.x * movePlayer.x + movePlayer.z * movePlayer.z) * 6.0f;
-
-	if(movePlayer.x < -0.05f || movePlayer.x > 0.05f
-	|| movePlayer.z < -0.05f || movePlayer.z > 0.05f)
-	{// モデルが移動中
+	fHeightFieldPlayer = posPlayer.y;	//	現在いる高さ
+	fLengthMove = sqrtf(movePlayer.x * movePlayer.x + movePlayer.z * movePlayer.z) * 6.0f;	//	移動量
+	//	プレイヤーが移動しているとき
+	if (movePlayer.x < -0.05f || movePlayer.x > 0.05f || movePlayer.z < -0.05f || movePlayer.z > 0.05f)
+	{
 		fIntervalCamera = INTERVAL_CAMERA_R + sqrtf(movePlayer.x * movePlayer.x + movePlayer.z * movePlayer.z) * 10.0f;
 		fRateChaseCameraR = 0.10f;
-    	fRateChaseCameraP = 0.30f;
+		fRateChaseCameraP = 0.3f;
+
 	}
 	else
-	{// モデルが停止中
+	{
 		fIntervalCamera = INTERVAL_CAMERA_R + sqrtf(movePlayer.x * movePlayer.x + movePlayer.z * movePlayer.z) * 6.0f;
-		fRateChaseCameraR = 0.005f;
-    	fRateChaseCameraP = 0.30f;
+		fRateChaseCameraR = 0.0005f;
+		fRateChaseCameraP = 0.3f;
 	}
 
+	// 注視点の目的位置
+	posRDest.x = posPlayer.x - sin(rotPlayer.y) * fIntervalCamera;
+	posRDest.y = posPlayer.y + fHeightR;
+	posRDest.z = posPlayer.z - cos(rotPlayer.y) * fIntervalCamera;
+
+	// 視点の目的位置
+	posVDest.x = posPlayer.x - sinf(rot.y) * fLengthInterval - sin(rotPlayer.y) * fLengthMove;
+	posVDest.y = posPlayer.y + fHeightV + 50.0f;
+	posVDest.z = posPlayer.z - cosf(rot.y) * fLengthInterval - cos(rotPlayer.y) * fLengthMove;
+
+	// 注視点の補正
+	posR.x += (posRDest.x - posR.x) * fRateChaseCameraR;
+	posR.y += (posRDest.y - posR.y) * 1.0f;
+	posR.z += (posRDest.z - posR.z) * fRateChaseCameraR;
+
+	// 視点の補正
+	posV.x += (posVDest.x - posV.x) * fRateChaseCameraP;
+	posV.y += (posVDest.y - posV.y) * fRateChaseCameraP;
+	posV.z += (posVDest.z - posV.z) * fRateChaseCameraP;
 #if 0
 	if (KeyBoard::IsPress(DIK_T))
 	{// 注視点上昇
