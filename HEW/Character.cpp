@@ -34,7 +34,6 @@ float				Character::m_frame;				//  frame数カウンタ
 
 static bool			flag;							//! jump用一時y軸跳ね上げ用flag
 
-CAMERA* m_pCamera;
 
 //	初期化処理
 HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)

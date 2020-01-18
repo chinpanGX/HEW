@@ -10,7 +10,6 @@
 #include "Controller.h"
 
 static bool SelectFlag;
-
 static bool flg = true;
 
 void SceneTitle::Init()
