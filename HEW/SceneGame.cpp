@@ -20,7 +20,7 @@ void SceneGame::Init()
 	DebugProc_Initialize();
 	Light::Init();
 	m_Camera.Init();
-	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 48.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 220.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 }

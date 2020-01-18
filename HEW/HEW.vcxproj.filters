@@ -4,7 +4,6 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="Count.cpp" />
     <ClCompile Include="debugproc.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="input.cpp" />
@@ -29,7 +28,6 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Controller.h" />
-    <ClInclude Include="Count.h" />
     <ClInclude Include="debugproc.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="input.h" />

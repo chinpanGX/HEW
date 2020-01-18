@@ -53,7 +53,7 @@ public:
 	D3DXVECTOR3					m_velocity;	//	移動量
 	float						m_grivity;	//	重力
 	int							m_score;	
-	static float				m_frame;
+	float						m_frame;
 
 	/// <summary>
 	///	プレイヤーに関するステート用メンバー変数
@@ -73,6 +73,7 @@ public:
 	void Uninit();								
 	void Update();								
 	void Draw();								
+	bool EndState();			//	終了
 	
 	//	ゲッター
 	D3DXVECTOR3	GetPos();	///	<return> m_position </return>
@@ -80,7 +81,7 @@ public:
 	D3DXVECTOR3	GetMove();	///	<return> m_velocity </return>
 	D3DXMATRIX	GetMat();	///	<return> m_mtxworld </return>
 	LPD3DXMESH	GetMesh();	///	<return> m_pMesh </return>
-	int			GetScore();	///	<return> m_score </return
+	int			GetScore();	///	<return> m_score </return>
 
 private:
 	//	Updateヘルパー関数
@@ -94,6 +95,5 @@ private:
 	void AnswerstayState();		//	解答まち
 	void AnswerState();			//	解答
 	void JumpState();			//	ジャンプ
-	void EndState();			//	終了
 };
 

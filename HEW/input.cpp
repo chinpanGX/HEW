@@ -20,7 +20,6 @@ bool Input::Init(HINSTANCE hInstance)
 		//	çÏê¨ÇÃé∏îs
 		if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_pInput, NULL)))
 		{
-
 			return false;
 		}
 	}

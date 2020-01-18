@@ -28,7 +28,6 @@ LPD3DXBUFFER		Character::m_pBuffMat = NULL;	// マテリアル情報へのポイ
 DWORD				Character::m_nNumMat;			//	マテリアル情報の総数
 D3DXMATRIX			Character::m_mtxWorld;			//	ワールドマトリックス
 int					Character::m_count;				//	問題数のカウンター
-float				Character::m_frame;				//  frame数カウンタ
 static bool			flag;							//! jump用一時y軸跳ね上げ用flag
 
 //	初期化処理
@@ -51,12 +50,11 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_scale = D3DXVECTOR3(100.0f,100.0f,100.0f);
 	m_velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//ベクトル
 	m_grivity = 0.7f;
-	//m_pCamera = new CharacterCamera;
 	m_count = 0;
 	m_score = 0;
 	m_frame = 0;
-
 	flag = true;
+	m_PlayerState = PLAYER_MOVE;
 
 	return S_OK;
 }
@@ -64,7 +62,6 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //	終了処理
 void Character::Uninit()
 {
-	//delete m_pCamera;
 	SAFE_RELEASE(m_pBuffMat);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pTexture);
@@ -218,18 +215,23 @@ void Character::Collision()
 	//m_position.y = -0.7f;
 	//ロボット　位置更新
 	m_position += m_velocity;
-
 }
 
 //	ステートの初期化
 void Character::InitState()
 {
-	//!	カウントダウン
-
-	//if (カウントがゼロになったら)
+	m_frame++;
+	Score DrawCount;	//	スコアオブジェクト
+	int Count = 3;	//	カウント用の変数
+	if (m_frame == 60)
+	{
+		Count--;
+	}
+	if (m_frame == 60*3)
 	{
 		m_PlayerState = PLAYER_MOVE;
 	}
+	DrawCount.Draw(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,Count,1,0);
 }
 
 //	プレイヤーのスタート
@@ -262,32 +264,34 @@ void Character::MoveState()
 
 void Character::AnswerstayState()
 {
-	float fDiffRotY;
+	Mondai Mon;
 	switch (m_AnsawerStayState)
 	{
 	case ANSWER_SELECT:
-		//!	問題文の描画
-
-		//!	カウントダウンを開始
 		m_frame++;
-
+		Score DrawCount;	//	スコアオブジェクト
+		int Count = 3;	//	カウント用の変数
+		if (m_frame == 60)
+		{
+			Count--;
+		}
 		//Z座標
 		//プレイヤースタート位置220 ジャンプ台端122.24
 		//ジャンプ台の判定分欲しいだろうから150か145
 		//(220-150)/3　ってことで
 
-		/*if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
+		if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
 		{
-			
-		}*/
+			Mon.Update();
+		}
 		//!	問題文の更新と描画	
 
-		//!if ( カウントダウンが終了したら )
+		if (m_frame == 60 * 3)
 		{
 			m_PlayerState = PLAYER_ANSWER;
 		}
+		DrawCount.Draw(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, Count, 1, 0);
 		break;
-
 	}
 }
 
@@ -316,17 +320,10 @@ void Character::JumpState()
 		m_position.y += 10.0f;
 		flag = false;	//playerが上昇し続けるのを防ぐため
 	}
-
-	//!if ( 地面に着いたら　= yの座標値)
-	{
-		m_PlayerState = PLAYER_END;
-	}
 }
 
-void Character::EndState()
+bool Character::EndState()
 {
-	//! if ( しばらくたったら )
-	{
-		SceneManager::ChangeSceneState();
-	}
+	//
+	return true;
 }
