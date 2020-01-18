@@ -1,13 +1,13 @@
 /*===================================================
 
 	[SceneTitle.h]
+	概要 ：タイトルシーンの管理をする
 	Author : 出合翔太
 
 ====================================================*/
 
 #pragma once
 #include "SceneBase.h"
-#include "Count.h"
 #include "sprite.h"
 
 //	SCENETILEクラス

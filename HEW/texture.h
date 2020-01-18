@@ -16,6 +16,7 @@ typedef enum
 	TEXTURE_UI,
 	TEXTURE_QUIZ,
 	TEXTURE_ANSWER,
+	TEXTURE_NUMBER,
 
     TEXTURE_INDEX_MAX
 }TextureIndex;

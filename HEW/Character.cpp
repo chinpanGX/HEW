@@ -10,11 +10,9 @@
 #include "debugproc.h"
 #include "Collision.h"
 #include "SceneManager.h"
-#include "Collision.h"
 #include "Field.h"
 #include "SceneGame.h"
 #include "ObjectManager.h"
-#include "mondai.h"
 #include "camera.h"
 
 //	マクロ定義
@@ -30,11 +28,12 @@ LPD3DXBUFFER		Character::m_pBuffMat = NULL;	// マテリアル情報へのポイ
 DWORD				Character::m_nNumMat;			//	マテリアル情報の総数
 D3DXMATRIX			Character::m_mtxWorld;			//	ワールドマトリックス
 int					Character::m_count;				//	問題数のカウンター
-float				Character::m_frame;				//  frame数カウンタ
-
 static bool			flag;							//! jump用一時y軸跳ね上げ用flag
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refactoring
 //	初期化処理
 HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
@@ -58,8 +57,8 @@ HRESULT Character::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_count = 0;
 	m_score = 0;
 	m_frame = 0;
-
 	flag = true;
+	m_PlayerState = PLAYER_MOVE;
 
 	return S_OK;
 }
@@ -75,6 +74,7 @@ void Character::Uninit()
 //	更新処理
 void Character::Update()
 {
+<<<<<<< HEAD
 	// カメラの取得
 	m_pCamera = GetCamera();
 
@@ -190,6 +190,8 @@ void Character::Update()
 	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;
 
 	//!	であい
+=======
+>>>>>>> refactoring
 	switch (m_PlayerState)
 	{
 	case PLAYER_INIT:
@@ -201,7 +203,11 @@ void Character::Update()
 	case PlAYER_ANSWERSTAY:
 		AnswerstayState();
 		break;
+<<<<<<< HEAD
 	case PLAYER_ANSWER:
+=======
+	case PLAYER_ANSWER: 
+>>>>>>> refactoring
 		AnswerState();
 		break;
 	case PLAYER_JUMP:
@@ -211,6 +217,7 @@ void Character::Update()
 		EndState();
 		break;
 	}
+<<<<<<< HEAD
 
 	/// <summary>当たり判定</summary>
 	FLOAT fDistance=0;
@@ -232,6 +239,11 @@ void Character::Update()
 	//m_position.y = -0.7f;
 	//ロボット　位置更新
 	m_position += m_velocity;	
+=======
+	
+	Move();			//	移動処理更新
+	Collision();	//	当たり判定更新
+>>>>>>> refactoring
 }
 
 //	描画処理
@@ -312,29 +324,81 @@ LPD3DXMESH Character::GetMesh()
 }
 
 //	スコアのゲッター
-int Character::Score()
+int Character::GetScore()
 {
 	return m_score;
+}
+
+void Character::Move()
+{
+	// カメラの取得
+	Camera	*pCamera;
+	pCamera = ObjectManager::SetCamera();
+	D3DXVECTOR3	rotCamera = pCamera->GetRot();	//	カメラの向き
+	m_velocity.x += sinf(D3DX_PI * 1.0f - rotCamera.y) * 0.5f;
+	m_velocity.z -= cosf(D3DX_PI * 1.0f - rotCamera.y) * 0.5f;
+	// 位置移動
+	m_position.x += m_velocity.x;
+	m_position.y -= m_grivity;
+	m_position.z += m_velocity.z;
+	// 移動量に慣性をかける
+	m_velocity.x += (0.0f - m_velocity.x) * RATE_MOVE_MODEL;
+	m_velocity.z += (0.0f - m_velocity.z) * RATE_MOVE_MODEL;
+}
+
+void Character::Action()
+{
+}
+
+void Character::Collision()
+{
+	/// <summary> 当たり判定
+	FLOAT fDistance = 0;
+	D3DXVECTOR3 vNormal;
+	Field *field = ObjectManager::SetField();
+	if (Collision::Collide(m_position, m_velocity, field, &fDistance, &vNormal) && fDistance <= 0.3)
+	{
+		//当たり状態なので、滑らせる
+		m_velocity = Collision::Slip(m_velocity, vNormal);//滑りベクトルを計算
+
+		//滑りベクトル先の地面突起とのレイ判定 ２重に判定	
+		if (Collision::Collide(m_position, m_velocity, field, &fDistance, &vNormal) && fDistance <= 0.2)
+		{
+			//２段目の当たり状態なので、滑らせる おそらく上がる方向		
+			m_velocity = Collision::Slip(m_velocity, vNormal);//滑りベクトルを計算
+		}
+	}
+	//m_position.y = -0.7f;
+	//ロボット　位置更新
+	m_position += m_velocity;
 }
 
 //	ステートの初期化
 void Character::InitState()
 {
-	//!	カウントダウン
-
-	//if (カウントがゼロになったら)
+	m_frame++;
+	Score DrawCount;	//	スコアオブジェクト
+	int Count = 3;	//	カウント用の変数
+	if (m_frame == 60)
+	{
+		Count--;
+	}
+	if (m_frame == 60*3)
 	{
 		m_PlayerState = PLAYER_MOVE;
 	}
+	DrawCount.Draw(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,Count,1,0);
 }
 
 //	プレイヤーのスタート
 void Character::MoveState()
 {
+	Camera* pCamera = ObjectManager::SetCamera();
+	D3DXVECTOR3 CameraRot = pCamera->GetRot();
 	/// <summary> 移動の処理　</summary>
-	m_velocity.x += sinf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-	m_velocity.z -= cosf(D3DX_PI * 0.0f - m_pCamera->rot.y) * VALUE_MOVE_MODEL;
-	m_rotDest.y = m_pCamera->rot.y + D3DX_PI * 0.0f;
+	m_velocity.x += sinf(D3DX_PI * 0.0f - CameraRot.y) * VALUE_MOVE_MODEL;
+	m_velocity.z -= cosf(D3DX_PI * 0.0f - CameraRot.y) * VALUE_MOVE_MODEL;
+	m_rotDest.y = CameraRot.y + D3DX_PI * 0.0f;
 	
 	m_position.y -= m_velocity.y;	//	重力の値を加算代入
 	m_position.z += m_velocity.z;
@@ -356,32 +420,34 @@ void Character::MoveState()
 
 void Character::AnswerstayState()
 {
-	float fDiffRotY;
+	Mondai Mon;
 	switch (m_AnsawerStayState)
 	{
 	case ANSWER_SELECT:
-		//!	問題文の描画
-
-		//!	カウントダウンを開始
 		m_frame++;
-
+		Score DrawCount;	//	スコアオブジェクト
+		int Count = 3;	//	カウント用の変数
+		if (m_frame == 60)
+		{
+			Count--;
+		}
 		//Z座標
 		//プレイヤースタート位置220 ジャンプ台端122.24
 		//ジャンプ台の判定分欲しいだろうから150か145
 		//(220-150)/3　ってことで
 
-		/*if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
+		if (m_frame >= 3000 && m_position.z > 220 - (70 / (3 - m_count)))
 		{
-			
-		}*/
+			Mon.Update();
+		}
 		//!	問題文の更新と描画	
 
-		//!if ( カウントダウンが終了したら )
+		if (m_frame == 60 * 3)
 		{
 			m_PlayerState = PLAYER_ANSWER;
 		}
+		DrawCount.Draw(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, Count, 1, 0);
 		break;
-
 	}
 }
 
@@ -403,10 +469,6 @@ void Character::AnswerState()
 
 void Character::JumpState()
 {
-	/// <summary>
-	///	関数を実行している間、更新する 
-	///	60FPS = 1 の更新速度
-	///	</summary>
 	m_score++;
 
 	if (m_position.z < 122.3f&&flag == true)
@@ -414,19 +476,10 @@ void Character::JumpState()
 		m_position.y += 10.0f;
 		flag = false;	//playerが上昇し続けるのを防ぐため
 	}
-
-	//!if ( 地面に着いたら　= yの座標値)
-	{
-		m_PlayerState = PLAYER_END;
-	}
 }
 
-void Character::EndState()
+bool Character::EndState()
 {
-	//!	飛距離の描画
-
-	//! if ( しばらくたったら )
-	{
-		SceneManager::ChangeSceneState();
-	}
+	//
+	return true;
 }

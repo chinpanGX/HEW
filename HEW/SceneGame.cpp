@@ -1,6 +1,7 @@
 /*==================================
 
 	[SceneGame.cpp]
+	概要 : ゲームシーンを管理する
 	Author : 出合翔太
 
 ===================================*/
@@ -18,8 +19,13 @@ void SceneGame::Init()
 {
 	DebugProc_Initialize();
 	Light::Init();
+<<<<<<< HEAD
 	Camera_Initialize();
 	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 220.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+=======
+	m_Camera.Init();
+	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+>>>>>>> refactoring
 	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 }
@@ -27,7 +33,7 @@ void SceneGame::Init()
 //	ゲームの終了処理
 void SceneGame::Uninit()
 {
-	Camera_Finalize();
+	m_Camera.Uninit();
 	m_Character.Uninit();
 	m_Map.Uninit();
 	DebugProc_Finalize();
@@ -36,9 +42,8 @@ void SceneGame::Uninit()
 //	ゲームの更新処理
 void SceneGame::Update()
 {
-	Camera_Update();
-	m_Character.Update();
-	Camera_Update();
+	m_Camera.Update();
+	//m_Character.Update();
 	if (KeyBoard::IsTrigger(DIK_T))
 	{
 		SceneManager::ChangeSceneState();
@@ -48,9 +53,10 @@ void SceneGame::Update()
 //	ゲームの描画処理
 void SceneGame::Draw()
 {
-	Camera_SetCamera();
+	m_Camera.Set();
 	m_Character.Draw();
-	m_Map.Draw();
+	//m_Map.Draw();
+	m_Score.Draw(SCREEN_WIDTH - 100.0f,0.0f,m_Character.GetScore(),5,0);
 	DebugProc_Draw();
 }
 
@@ -68,4 +74,9 @@ Character * SceneGame::SetCharacter()
 Field * SceneGame::SetField()
 {
 	return &m_Map;
+}
+
+Camera * SceneGame::SetCamera()
+{
+	return &m_Camera;
 }
