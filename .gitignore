@@ -259,3 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+HEW/camera_BACKUP_23572.cpp
+HEW/camera_BASE_23572.cpp
+HEW/camera_LOCAL_23572.cpp
+HEW/camera_REMOTE_23572.cpp
