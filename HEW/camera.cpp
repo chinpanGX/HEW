@@ -1,264 +1,127 @@
-//=============================================================================
-//
-// カメラ処理 [camera.cpp]
-//
-//=============================================================================
-#include "camera.h"
-#include "Character.h"
-#include "input.h"
-#include "debugproc.h"
-#include "ObjectManager.h"
+/*========================================
 
-//*****************************************************************************
+	[Camera.cpp]
+	Author : 出合翔太
+
+========================================*/
+
+#include "Camera.h"
+#include "ObjectManager.h"
+#include "Controller.h"
+
 // マクロ定義
-//*****************************************************************************
 #define	VIEW_ANGLE			(D3DXToRadian(45.0f))							// 視野角
 #define	VIEW_ASPECT			((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比
 #define	VIEW_NEAR_Z			(10.0f)											// ビュー平面のNearZ値
 #define	VIEW_FAR_Z			(100000.0f)										// ビュー平面のFarZ値
 #define	VALUE_MOVE_CAMERA	(2.0f)											// カメラの移動量
 #define	VALUE_ROTATE_CAMERA	(D3DX_PI * 0.01f)								// カメラの回転量
+#define	INTERVAL_CAMERA_R	(100.0f)										// モデルの視線の先までの距離
+#define	RATE_CHASE_CAMERA_V	(0.35f)											// カメラの視点への補正係数
+#define	RATE_CHASE_CAMERA_R	(0.20f)											// カメラの注視点への補正係数
+#define	CHASE_HEIGHT_V		(10.0f)											// 追跡時の視点の高さ
+#define	CHASE_HEIGHT_R		(10.0f)											// 追跡時の注視点の高さ
 
-#define	INTERVAL_CAMERA_R	(12.5f)					// モデルの視線の先までの距離
-#define	RATE_CHASE_CAMERA_V	(0.35f)					// カメラの視点への補正係数
-#define	RATE_CHASE_CAMERA_R	(0.20f)					// カメラの注視点への補正係数
-
-#define	CHASE_HEIGHT_V		(100.0f)				// 追跡時の視点の高さ
-#define	CHASE_HEIGHT_R		(0.0f)					// 追跡時の注視点の高さ
-
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-
-//*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-CAMERA	g_camera;		// カメラ情報
-
-//=============================================================================
-// カメラの初期化
-//=============================================================================
-HRESULT Camera_Initialize(void)
+//	初期化処理
+void Camera::Init()
 {
-	g_camera.posV = D3DXVECTOR3(0.0f, 100.0f, -200.0f);
-	g_camera.posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	g_camera.posVDest = D3DXVECTOR3(0.0f, 100.0f, -200.0f);
-	g_camera.posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	g_camera.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	g_camera.fRateRotAuto = 0.01f;
-
-	float vx,vz;
-	vx = g_camera.posV.x - g_camera.posR.x;
-	vz = g_camera.posV.z - g_camera.posR.z;
-	g_camera.fLengthInterval = sqrtf(vx * vx + vz * vz);
-
-	g_camera.fHeightV = CHASE_HEIGHT_V;
-	g_camera.fHeightR = CHASE_HEIGHT_R;
-
-	return S_OK;
+	m_posV = D3DXVECTOR3(0.0f, 500.0f, -200.0f);
+	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_posVDest = D3DXVECTOR3(0.0f, 500.0f, -200.0f);
+	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	float vx, vz;
+	vx = m_posV.x - m_posR.x;
+	vz = m_posV.z - m_posR.z;
+	m_fLengthInterval = sqrtf(vx * vx + vz * vz);
+	m_fHeightV = CHASE_HEIGHT_V;
+	m_fHeightR = CHASE_HEIGHT_R;
 }
 
-//=============================================================================
-// カメラの終了処理
-//=============================================================================
-void Camera_Finalize(void)
+//	終了処理
+void Camera::Uninit()
 {
 }
 
-//=============================================================================
-// カメラの更新処理
-//=============================================================================
-void Camera_Update(void)
-{
-	Character *pPlayer;
-	D3DXVECTOR3 posPlayer;
-	D3DXVECTOR3 rotPlayer;
-	D3DXVECTOR3 movePlayer;
+//	更新処理
+void Camera::Update()
+{	
+	Player	*pPlayer;
+	pPlayer = ObjectManager::SetCharacter();	//	Playerインスタンスの取得
+	D3DXVECTOR3 posPlayer = pPlayer->GetPos();	//	位置の取得
+	D3DXVECTOR3 rotPlayer = pPlayer->GetRot();	//	向きの取得
+	D3DXVECTOR3 movePlayer = pPlayer->GetMove();	//	移動量の取得
 	float fIntervalCamera, fLengthMove;
 	float fRateChaseCameraP, fRateChaseCameraR;
 	float fHeightFieldPlayer;
-
-	// プレイヤーを取得
-	pPlayer = ObjectManager::SetCharacter();
-
-	// プレイヤーの位置取得
-	posPlayer = pPlayer->m_position;
-
-	// プレイヤーの目的の向き取得
-	rotPlayer = pPlayer->m_rotation;
-
-	// プレイヤーの移動量取得
-	movePlayer = pPlayer->m_velocity;
-
-	// プレイヤーが現在いる高さ
-	fHeightFieldPlayer = posPlayer.y;
-
-	// プレイヤーの移動量
-	fLengthMove = sqrtf(movePlayer.x * movePlayer.x + movePlayer.z * movePlayer.z) * 6.0f;
-
-	if(movePlayer.x < -0.05f || movePlayer.x > 0.05f
-	|| movePlayer.z < -0.05f || movePlayer.z > 0.05f)
-	{// モデルが移動中
+	fHeightFieldPlayer = posPlayer.y * 200.0f;	//	現在いる高さ
+	fLengthMove = sqrtf(movePlayer.x * movePlayer.x + movePlayer.z * movePlayer.z) * 6.0f;	//	移動量
+	//	プレイヤーが移動しているとき
+	if (movePlayer.x < -0.05f || movePlayer.x > 0.05f || movePlayer.z < -0.05f || movePlayer.z > 0.05f)
+	{
 		fIntervalCamera = INTERVAL_CAMERA_R + sqrtf(movePlayer.x * movePlayer.x + movePlayer.z * movePlayer.z) * 10.0f;
 		fRateChaseCameraR = 0.10f;
-    	fRateChaseCameraP = 0.30f;
+		fRateChaseCameraP = 0.3f;
+
 	}
 	else
-	{// モデルが停止中
+	{
 		fIntervalCamera = INTERVAL_CAMERA_R + sqrtf(movePlayer.x * movePlayer.x + movePlayer.z * movePlayer.z) * 6.0f;
-		fRateChaseCameraR = 0.005f;
-    	fRateChaseCameraP = 0.30f;
-	}
-	/*
-	if (Keyboard_IsPress(DIK_T))
-	{// 注視点上昇
-		g_camera.fHeightR += 1.0f;
-		if(g_camera.fHeightR > 100.0f)
-		{
-			g_camera.fHeightR = 100.0f;
-		}
-	}
-	if (Keyboard_IsPress(DIK_B))
-	{// 注視点下降
-		g_camera.fHeightR -= 1.0f;
-		if(g_camera.fHeightR < -200.0f)
-		{
-			g_camera.fHeightR = -200.0f;
-		}
+		fRateChaseCameraR = 0.0005f;
+		fRateChaseCameraP = 0.3f;
 	}
 
-	if (Keyboard_IsPress(DIK_Y))
-	{// 視点上昇
-		g_camera.fHeightV += 1.0f;
-		if(g_camera.fHeightV > 200.0f)
-		{
-			g_camera.fHeightV = 200.0f;
-		}
-	}
-	if (Keyboard_IsPress(DIK_N))
-	{// 視点下降
-		g_camera.fHeightV -= 1.0f;
-		if(g_camera.fHeightV < -100.0f)
-		{
-			g_camera.fHeightV = -100.0f;
-		}
-	}
-
-	if (Keyboard_IsPress(DIK_U))
-	{// ズームイン
-		if(g_camera.fLengthInterval > 100.0f)
-		{
-			g_camera.fLengthInterval -= 1.0f;
-			g_camera.fHeightV -= 0.35f;
-		}
-	}
-	if (Keyboard_IsPress(DIK_M))
-	{// ズームアウト
-		if(g_camera.fLengthInterval < 300.0f)
-		{
-			g_camera.fLengthInterval += 1.0f;
-			g_camera.fHeightV += 0.35f;
-		}
-	}
-
-	if (Keyboard_IsPress(DIK_Z))
-	{// 視点旋回「左」
-		g_camera.rot.y += VALUE_ROTATE_CAMERA;
-		if (g_camera.rot.y > D3DX_PI)
-		{
-			g_camera.rot.y -= D3DX_PI * 2.0f;
-		}
-
-		g_camera.posV.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fLengthInterval;
-		g_camera.posV.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fLengthInterval;
-	}
-
-	if (Keyboard_IsPress(DIK_C))
-	{// 視点旋回「右」
-		g_camera.rot.y -= VALUE_ROTATE_CAMERA;
-		if (g_camera.rot.y < -D3DX_PI)
-		{
-			g_camera.rot.y += D3DX_PI * 2.0f;
-		}
-
-		g_camera.posV.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fLengthInterval;
-		g_camera.posV.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fLengthInterval;
-	}
-	*/
 	// 注視点の目的位置
-	g_camera.posRDest.x = posPlayer.x - sin(rotPlayer.y) * fIntervalCamera;
-	g_camera.posRDest.y = posPlayer.y + g_camera.fHeightR;
-	g_camera.posRDest.z = posPlayer.z - cos(rotPlayer.y) * fIntervalCamera;
+	m_posRDest.x = posPlayer.x - sin(rotPlayer.y) * fIntervalCamera;
+	m_posRDest.y = posPlayer.y + m_fHeightR;
+	m_posRDest.z = posPlayer.z - cos(rotPlayer.y) * fIntervalCamera;
 
 	// 視点の目的位置
-	g_camera.posVDest.x = posPlayer.x - sinf(g_camera.rot.y) * g_camera.fLengthInterval - sin(rotPlayer.y) * fLengthMove;
-	g_camera.posVDest.y = posPlayer.y + g_camera.fHeightV;
-	g_camera.posVDest.z = posPlayer.z - cosf(g_camera.rot.y) * g_camera.fLengthInterval - cos(rotPlayer.y) * fLengthMove;
+	m_posVDest.x = posPlayer.x - sinf(m_rot.y) * m_fLengthInterval - sin(rotPlayer.y) * fLengthMove;
+	m_posVDest.y = posPlayer.y + m_fHeightV + 50.0f;
+	m_posVDest.z = posPlayer.z - cosf(m_rot.y) * m_fLengthInterval - cos(rotPlayer.y) * fLengthMove;
 
 	// 注視点の補正
-	g_camera.posR.x += (g_camera.posRDest.x - g_camera.posR.x) * fRateChaseCameraR;
-	g_camera.posR.y += (g_camera.posRDest.y - g_camera.posR.y) * 0.10f;
-	g_camera.posR.z += (g_camera.posRDest.z - g_camera.posR.z) * fRateChaseCameraR;
+	m_posR.x += (m_posRDest.x - m_posR.x) * fRateChaseCameraR;
+	m_posR.y += (m_posRDest.y - m_posR.y) * 1.0f;
+	m_posR.z += (m_posRDest.z - m_posR.z) * fRateChaseCameraR;
 
 	// 視点の補正
-	g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * fRateChaseCameraP;
-	g_camera.posV.y += (g_camera.posVDest.y - g_camera.posV.y) * fRateChaseCameraP;
-	g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * fRateChaseCameraP;
+	m_posV.x += (m_posVDest.x - m_posV.x) * fRateChaseCameraP;
+	m_posV.y += (m_posVDest.y - m_posV.y) * fRateChaseCameraP;
+	m_posV.z += (m_posVDest.z - m_posV.z) * fRateChaseCameraP;
 
-	DebugProc_Print((char*)"[カメラの視点  ：(%f : %f : %f)]\n", g_camera.posV.x, g_camera.posV.y, g_camera.posV.z);
-	DebugProc_Print((char*)"[カメラの注視点：(%f : %f : %f)]\n", g_camera.posR.x, g_camera.posR.y, g_camera.posR.z);
-	DebugProc_Print((char*)"[カメラの向き  ：(%f)]\n", g_camera.rot.y);
-	DebugProc_Print((char*)"\n");
-	DebugProc_Print((char*)"*** カメラ操作 ***\n");
-	DebugProc_Print((char*)"視点上昇     : [ Ｙ ]\n");
-	DebugProc_Print((char*)"視点下降     : [ Ｎ ]\n");
-	DebugProc_Print((char*)"注視点上昇   : [ Ｔ ]\n");
-	DebugProc_Print((char*)"注視点下降   : [ Ｂ ]\n");
-	DebugProc_Print((char*)"ズームイン   : [ Ｕ ]\n");
-	DebugProc_Print((char*)"ズームアウト : [ Ｍ ]\n");
-	DebugProc_Print((char*)"\n");
 }
 
-//=============================================================================
-// カメラの設定処理
-//=============================================================================
-void Camera_SetCamera(void)
+//	カメラのセット
+void Camera::Set()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetD3DDevice();
 
 	// ビューマトリックスの初期化
-	D3DXMatrixIdentity(&g_camera.mtxView);
+	D3DXMatrixIdentity(&m_mtxView);
 
-	// ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&g_camera.mtxView, 
-						&g_camera.posV,		// カメラの視点
-						&g_camera.posR,		// カメラの注視点
-						&g_camera.vecU);		// カメラの上方向
+	/// <summary>
+	/// ビューマトリックスの作成(カメラ視点、カメラ注視点、カメラ上ベクトル)
+	///	<summary>
+	D3DXMatrixLookAtLH(&m_mtxView, &m_posV, &m_posR, &m_vecU);
 
 	// ビューマトリックスの設定
-	pDevice->SetTransform(D3DTS_VIEW, &g_camera.mtxView);
-
+	pDevice->SetTransform(D3DTS_VIEW, &m_mtxView);
 
 	// プロジェクションマトリックスの初期化
-	D3DXMatrixIdentity(&g_camera.mtxProjection);
+	D3DXMatrixIdentity(&m_mtxProjection);
 
-	// プロジェクションマトリックスの作成
-	D3DXMatrixPerspectiveFovLH(&g_camera.mtxProjection,
-								VIEW_ANGLE,			// 視野角
-								VIEW_ASPECT,		// アスペクト比
-								VIEW_NEAR_Z,		// ビュー平面のNearZ値
-								VIEW_FAR_Z);		// ビュー平面のFarZ値
+	/// <summary>
+	/// プロジェクションマトリックスの作成(視野角、アスペクト比、ビュー平面のNearZ値、ビュー平面のFarZ値)
+	/// </summary>
+	D3DXMatrixPerspectiveFovLH(&m_mtxProjection, VIEW_ANGLE, VIEW_ASPECT, VIEW_NEAR_Z, VIEW_FAR_Z);
 
 	// プロジェクションマトリックスの設定
-	pDevice->SetTransform(D3DTS_PROJECTION, &g_camera.mtxProjection);
+	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProjection);
 }
-
-//=============================================================================
-// カメラの取得
-//=============================================================================
-CAMERA *GetCamera(void)
+D3DXVECTOR3 Camera::GetRot()
 {
-	return &g_camera;
+	return m_rot;
 }
-

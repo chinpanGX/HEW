@@ -1,6 +1,7 @@
 /*======================================================
 
 	[SceneTutorial.cpp]
+	概要 : チュートリアルシーンを管理する
 	Author : 出合翔太
 
 ======================================================*/
@@ -8,7 +9,6 @@
 #include "SceneTutorial.h"
 #include "SceneManager.h"
 #include "Controller.h"
-#include"Fade.h"
 
 void SceneTutorial::Init()
 {
@@ -22,7 +22,6 @@ void SceneTutorial::Uninit()
 
 void SceneTutorial::Update()
 {
-	
 	if (!m_bEnd)
 	{
 		if (KeyBoard::IsTrigger(DIK_T))
@@ -30,20 +29,17 @@ void SceneTutorial::Update()
 			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 		}
-
-		
 	}
 	else
 	{
 		if (!Fade::IsFade())
 		{
-
 			SceneManager::ChangeSceneState();
-
 		}
 	}
 }
 
 void SceneTutorial::Draw()
 {
+	m_Sprite.Draw(TEXTURE_INDEX_SAMPLE,0.0f,0.0f);
 }

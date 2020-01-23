@@ -1,12 +1,36 @@
-//=============================================================================
-//
-// カメラ処理 [camera.h]
-//
-//=============================================================================
-#pragma once
+/*=============================================================================
 
+	camera.h
+	Author : 出合翔太
+
+=============================================================================*/
+
+#pragma once
 #include "main.h"
 
+class Camera
+{
+private:
+	D3DXVECTOR3 m_posV;				// カメラの視点
+	D3DXVECTOR3 m_posR;				// カメラの注視点
+	D3DXVECTOR3 m_vecU;				// カメラの上方向
+	D3DXVECTOR3 m_posVDest;			// カメラの視点の目的位置
+	D3DXVECTOR3 m_posRDest;			// カメラの注視点の目的位置
+	D3DXVECTOR3 m_rot;				// カメラの回転
+	float		m_fLengthInterval;	// カメラの視点と注視点の距離
+	float		m_fHeightV;			// カメラの視点の高さ
+	float		m_fHeightR;			// カメラの注視点の高さ
+	D3DXMATRIX	m_mtxView;			// ビューマトリックス
+	D3DXMATRIX	m_mtxProjection;	// プロジェクションマトリックス
+public:
+	void Init();
+	void Uninit();
+	void Update();
+	void Set();
+	D3DXVECTOR3 GetRot();
+};
+
+#if 0
 //*****************************************************************************
 // カメラの構造体
 //*****************************************************************************
@@ -36,3 +60,6 @@ void Camera_Update(void);
 
 void Camera_SetCamera(void);
 CAMERA *GetCamera(void);
+
+#endif
+

@@ -42,11 +42,9 @@ struct VERTEX_3D
 enum SCENE_STATE
 {
 	SCENE_TITLE,		//	タイトルシーン
-	SCENE_MODESELECT,	//	モードセレクトシーン
 	SCENE_TUTORIAL,		//	チュートリアルシーン
 	SCENE_GAME,			//	ゲームシーン
 	SCENE_RESULT,		//	リザルトシーン
-	SCENE_DEBUG			//!	デバッグ用シーン…マスター版→消去　
 };
 
 //　プロトタイプ宣言

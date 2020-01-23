@@ -1,6 +1,7 @@
 /*======================================================
 
 	[SceneManager.h]
+	概要 : ゲームループを管理する
 	Author : 出合翔太
 
 ======================================================*/
@@ -13,7 +14,7 @@
 class SceneManager
 {
 private:
-	static SceneBase			*m_scene[5];	//	シーン管理ポインタ変数
+	static SceneBase			*m_scene[4];	//	シーン管理ポインタ変数
 	static SCENE_STATE			m_sceneState;	//	シーンステートの管理変数
 	static LPDIRECT3DDEVICE9	p3DDevice;		//	デバイスの取得変数
 public:

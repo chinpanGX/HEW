@@ -1,20 +1,19 @@
 /*==============================================
 
 	[SceneManager.cpp]	
+	概要 : ゲームループを管理する
 	Author : 出合翔太
 
 ===============================================*/
 #include "main.h"
 #include "SceneManager.h"
 #include "SceneTitle.h"
-#include "SceneModeSelect.h"
 #include "SceneTutorial.h"
 #include "SceneGame.h"
 #include "SceneResult.h"
-#include "SceneDebug.h"
 
 //	スタティック変数
-SceneBase			*SceneManager::m_scene[5];	//	シーンのインスタンスを格納[シーンの配列]
+SceneBase			*SceneManager::m_scene[4];	//	シーンのインスタンスを格納[シーンの配列]
 SCENE_STATE			SceneManager::m_sceneState;				//	シーンのステートマシン（シーンの状態を格納）
 LPDIRECT3DDEVICE9	SceneManager::p3DDevice;				//	デバイス
 
@@ -25,12 +24,11 @@ void SceneManager::Init()
 
 	//	メモリの確保
 	m_scene[0] = new SceneTitle;		
-	m_scene[1] = new SceneModeSelect;	
-	m_scene[2] = new SceneTutorial;		
-	m_scene[3] = new SceneGame;			
-	m_scene[4] = new SceneResult;
+	m_scene[1] = new SceneTutorial;		
+	m_scene[2] = new SceneGame;			
+	m_scene[3] = new SceneResult;
 
-	m_sceneState = SCENE_TITLE;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
+	m_sceneState = SCENE_GAME;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
 	m_scene[m_sceneState]->Init();		//	初期シーンの初期化
 }
 
@@ -38,14 +36,12 @@ void SceneManager::Init()
 void SceneManager::Uninit()
 {
 	//	各シーンのUninit関数を呼び出す
-	m_scene[4]->Uninit();
 	m_scene[3]->Uninit();
 	m_scene[2]->Uninit();
 	m_scene[1]->Uninit();
 	m_scene[0]->Uninit();
 
 	//	各シーンのメモリの解放
-	delete m_scene[4];
 	delete m_scene[3];
 	delete m_scene[2];
 	delete m_scene[1];
@@ -55,15 +51,15 @@ void SceneManager::Uninit()
 //	更新処理
 void SceneManager::Update()
 {
-	Fade::Update();
 	m_scene[m_sceneState]->Update();	//	各シーンのUpdate関数の呼び出し
+	Fade::Update();
 }
 
 //	描画処理
 void SceneManager::Draw()
 {
-	Fade::Draw();
 	m_scene[m_sceneState]->Draw();		//	各シーンのDraw関数の呼び出し
+	Fade::Draw();
 }
 
 //	シーン遷移処理

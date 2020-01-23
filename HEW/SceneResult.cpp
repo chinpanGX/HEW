@@ -1,6 +1,7 @@
 /*===================================================
 
 	[SceneResult.cpp]
+	概要 : リザルトシーンを管理する
 	Author : 出合翔太
 
 ====================================================*/
@@ -26,7 +27,6 @@ void SceneResult::Uninit()
 
 void SceneResult::Update()
 {
-
 	if (!m_bEnd)
 	{
 		if (KeyBoard::IsTrigger(DIK_T))
@@ -42,8 +42,6 @@ void SceneResult::Update()
 			SceneManager::ChangeSceneState();
 		}
 	}
-
-
 }
 
 void SceneResult::Draw()

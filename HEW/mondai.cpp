@@ -1,17 +1,9 @@
 ﻿// author 成
 
-
-
 #include"main.h"
-
 #include"mondai.h"
-#include"texture.h"
-#include"Controller.h"
-#include"sprite.h"
-#include<time.h>
-#include<stdlib.h>
-#include <iostream>
-using namespace std;
+#include <time.h>
+#include "Controller.h"
 
 enum Mondaienum
 {
@@ -21,20 +13,17 @@ enum Mondaienum
 };
 
 //	スタティック変数
-bool	Mondai::m_flg;		//	解答フラグ
+bool Mondai::m_flg;		//	解答フラグ
 
 void Mondai::Update()
 {
-	bool m_flg = true;
-	if (m_flg == true)
+	if (KeyBoard::IsTrigger(DIK_A))
 	{
-		//	〇を拡大
-		//m_Sprite.Draw();
+		m_flg = true;
 	}
-	else if (m_flg == false)
+	if (KeyBoard::IsTrigger(DIK_D))
 	{
-		//　Xを拡大
-		//m_Sprite.Draw();
+		m_flg = false;
 	}
 }
 
@@ -60,7 +49,7 @@ void Mondai::Draw(int show)
 //	問題の選出
 void Mondai::Show(int show)
 {
-	int m;
+	int m;	//	問題選出する変数
 	switch (show)
 	{
 	case 0:
@@ -87,21 +76,28 @@ void Mondai::MondaiOne(int answer)
 	switch (answer)
 	{
 	case 0:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 0.0f, 0.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 0.0f, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 0.0f, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
 	case 1:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 2134.0f, 0.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//m_flg = true;
 		break;
 	case 2:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 4268.0f, 0.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 2, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 2, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
 	}
@@ -112,21 +108,27 @@ void Mondai::MondaiTwo(int answer)
 	switch (answer)
 	{
 	case 0:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 0.0f, 534.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 3, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 3, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
 	case 1:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 2134.0f, 534.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 4, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 4, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
 	case 2:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 4268.0f, 534.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 5, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 5, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
 	}
@@ -137,21 +139,30 @@ void Mondai::MondaiThree(int answer)
 	switch (answer)
 	{
 	case 0:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 0.0f, 1068.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 6, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 6, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
 		//Answer(//どっちが正解);
 		break;
 	case 1:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 2134.0f, 1068.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 7, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 7, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
 	case 2:
-		//m_sprite.Draw()
-		//m_Sprite.Draw()
-		//m_Sprite.Draw()
+		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 4268.0f, 1068.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 8, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 8, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
+
+
 		//Answer(//どっちが正解);
 		break;
 	}
