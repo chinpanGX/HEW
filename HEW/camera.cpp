@@ -47,7 +47,7 @@ void Camera::Uninit()
 //	更新処理
 void Camera::Update()
 {	
-	Player	*pPlayer;
+	Character *pPlayer;
 	pPlayer = ObjectManager::SetCharacter();	//	Playerインスタンスの取得
 	D3DXVECTOR3 posPlayer = pPlayer->GetPos();	//	位置の取得
 	D3DXVECTOR3 rotPlayer = pPlayer->GetRot();	//	向きの取得
