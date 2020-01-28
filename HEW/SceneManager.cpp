@@ -28,7 +28,7 @@ void SceneManager::Init()
 	m_scene[2] = new SceneGame;			
 	m_scene[3] = new SceneResult;
 
-	m_sceneState = SCENE_GAME;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
+	m_sceneState = SCENE_TITLE;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
 	m_scene[m_sceneState]->Init();		//	初期シーンの初期化
 }
 

@@ -29,12 +29,12 @@ void SceneTitle::Uninit()
 void SceneTitle::Update()
 {
 	//	チュートリアル選択
-	if (KeyBoard::IsTrigger(DIK_Q))
+	if (KeyBoard::IsTrigger(DIK_S))
 	{
 		SelectFlag = true;
 	}
 	//	ゲーム選択
-	if (KeyBoard::IsTrigger(DIK_E))
+	if (KeyBoard::IsTrigger(DIK_W))
 	{
 		SelectFlag = false;
 	}
@@ -58,7 +58,6 @@ void SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-<<<<<<< HEAD
 	if (flg==true)
 	{
 		m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//ゲームスタートの描画	
@@ -74,22 +73,14 @@ void SceneTitle::Draw()
 			col = false;
 		}
 
-=======
-	m_Sprite.Draw(TEXTURE_UI, 640.0f, 740.0f, 30.0f, 660.0f, 1008.0f, 250.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//チュートリアルの描画
-
-	if (flg == true)
-	{
-		m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//ゲームスタートの描画	
->>>>>>> origin/master
 	}
 	else if (flg == false)
 	{
-<<<<<<< HEAD
 		if (col== true)
 		{
 			m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f, 255, 255, 255, 100);//スタート画面、色の変更
 			m_Sprite.Draw(TEXTURE_UI, 640.0f, 740.0f, 30.0f, 660.0f, 1008.0f, 250.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//チュートリアルの描画
-			if (KeyBoard::IsTrigger(DIK_S))
+			if (KeyBoard::IsTrigger(DIK_W))
 			{
 				col = false;
 			}
@@ -98,14 +89,11 @@ void SceneTitle::Draw()
 		{
 			m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//ゲームスタートの描画
 			m_Sprite.Draw(TEXTURE_UI, 640.0f, 740.0f, 30.0f, 660.0f, 1008.0f, 250.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f, 255, 255, 255, 100);//チュートリアル、色の変更
-			if (KeyBoard::IsTrigger(DIK_W))
+			if (KeyBoard::IsTrigger(DIK_S))
 			{
 				col = true;
 			}
 		}
-=======
-		m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f, 255, 255, 255, 0);//スタート画面、色の変更
->>>>>>> origin/master
 	}	
 }
 
