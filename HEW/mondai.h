@@ -11,6 +11,8 @@ class Mondai
 private:
 	Sprite	m_Sprite;	
 	static bool	m_flg;				//	解答フラグ
+	static bool dr_flag1; //描画のフラグ
+	static bool dr_flag2;
 public:
 	void Update();
 	void Draw(int snow);			//	プレイヤーで呼び出す描画

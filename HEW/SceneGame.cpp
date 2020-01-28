@@ -14,45 +14,52 @@
 #include "debugproc.h"
 #include "camera.h"
 
+Mondai g_mon;
+
 //	ゲームの初期化処理
 void SceneGame::Init()
-{
+{/*
 	DebugProc_Initialize();
 	Light::Init();
 	m_Camera.Init();
 	m_Character.Init(D3DXVECTOR3(0.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_Map.Init(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(100.0f,100.0f,100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));*/
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 }
 
 //	ゲームの終了処理
 void SceneGame::Uninit()
 {
-	m_Camera.Uninit();
+	/*m_Camera.Uninit();
 	m_Character.Uninit();
 	m_Map.Uninit();
-	DebugProc_Finalize();
+	DebugProc_Finalize();*/
 }
 
 //	ゲームの更新処理
 void SceneGame::Update()
 {
-	m_Camera.Update();
-	//m_Character.Update();
+	/*m_Camera.Update();
+	m_Character.Update();
 	if (KeyBoard::IsTrigger(DIK_T))
 	{
 		SceneManager::ChangeSceneState();
-	}
+	}*/
+
 }
 
 //	ゲームの描画処理
 void SceneGame::Draw()
 {
-	m_Camera.Set();
+	/*m_Camera.Set();
 	m_Character.Draw();
-	//m_Map.Draw();
+	m_Map.Draw();
 	m_Score.Draw(SCREEN_WIDTH - 100.0f,0.0f,m_Character.GetScore(),5,0);
-	DebugProc_Draw();
+	DebugProc_Draw();*/
+	if (KeyBoard::IsPress(DIK_M))
+	{
+		g_mon.Draw(1);
+	}
 }
 
 bool SceneGame::EndCheck()

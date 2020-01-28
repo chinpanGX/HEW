@@ -14,6 +14,8 @@ enum Mondaienum
 
 //	スタティック変数
 bool Mondai::m_flg;		//	解答フラグ
+bool    Mondai::dr_flag1 = false;
+bool    Mondai::dr_flag2 = false;
 
 void Mondai::Update()
 {
@@ -33,6 +35,59 @@ void Mondai::Draw(int show)
 	switch (show)
 	{
 	case firstMondai:
+
+
+		if (dr_flag1 == false)
+		{
+			Show(0);
+
+			if (KeyBoard::IsTrigger(DIK_A) || KeyBoard::IsTrigger(DIK_B))
+			{
+				dr_flag1 = true;
+			}
+
+			//消す
+
+		}
+
+		break;
+
+	case secondMondai:
+
+
+		if ((dr_flag1 == true) || (dr_flag2 == false))
+		{
+
+			Show(1);
+
+			if (KeyBoard::IsTrigger(DIK_A) || KeyBoard::IsTrigger(DIK_B))
+			{
+				dr_flag2 = true;
+			}
+		}
+
+		break;
+
+	case thirdMondai:
+
+
+		if (dr_flag2 == true)
+		{
+
+			Show(2);
+
+			if (KeyBoard::IsTrigger(DIK_A) || KeyBoard::IsTrigger(DIK_B))
+			{
+				dr_flag2 = false;
+			}
+
+		}
+
+		break;
+	}
+	/*switch (show)
+	{
+	case firstMondai:
 		Show(0);
 		break;
 
@@ -43,7 +98,7 @@ void Mondai::Draw(int show)
 	case thirdMondai:
 		Show(2);
 		break;
-	}
+	}*/
 }
 
 //	問題の選出
@@ -54,7 +109,7 @@ void Mondai::Show(int show)
 	{
 	case 0:
 		srand((unsigned)time(NULL));
-		m = rand() % 3;
+		m = rand() % 3; 
 		MondaiOne(m);
 		break;
 	case 1:
