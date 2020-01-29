@@ -58,6 +58,7 @@ void SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
+	m_Sprite.Draw(TEXTURE_TITLE,0.0f,0.0f);
 	if (flg==true)
 	{
 		m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//ゲームスタートの描画	

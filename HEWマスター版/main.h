@@ -15,7 +15,7 @@
 #define SCREEN_HEIGHT (1080)												// スクリーン(クライアント領域)の高さ
 #define SAFE_RELEASE(p) do {if(p){(p)->Release(); (p) = NULL;} } while(0)	//	DirectXデバイス解放マクロ
 //!	リリース版はフルスクリーン（FALSE）にする	
-#define WINMODE	TRUE														//ウィンドウモードの指定（TRUE：ウィンドウモード/FALSE:フルスクリーン）
+#define WINMODE	FALSE //ウィンドウモードの指定（TRUE：ウィンドウモード/FALSE:フルスクリーン）
 //!	2Dポリゴン頂点フォーマット( 頂点座標[2D] / 頂点カラー / テクスチャ座標 )	2Dポリゴンをスクリーン座標変換
 #define	FVF_VERTEX2D	(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)	// 頂点バッファのFVF形式の指定
 //! 3Dポリゴン頂点フォーマット( 頂点座標[3D] / 法線 / 頂点カラー / テクスチャ座標 )

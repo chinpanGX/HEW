@@ -31,7 +31,7 @@ void SceneGame::Update()
 //	ゲームの描画処理
 void SceneGame::Draw()
 {
-	m_mondai.Draw();
+	m_mondai.Draw(0);
 }
 
 bool SceneGame::EndCheck()
