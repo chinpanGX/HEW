@@ -30,6 +30,7 @@ static const TEXTURE g_TextureFiles[] =
 	{ "asset/texture/Quiz.png",6404,1603},			//	問題文
 	{ "asset/texture/Answer.png",2141,9602},		//	解答
 	{ "asset/texture/number.tga",64,64},			//	数字
+	{ "asset/texture/Frame.png",216,216}			//	枠
 };
 
 static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//テクスチャファイルを数える

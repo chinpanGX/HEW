@@ -9,12 +9,13 @@
 #pragma once
 #include "main.h"
 #include "SceneBase.h"
+#include "mondai.h"
 
 //#	SceneGameクラス:親クラス,SceneBaseを継承した子クラス
 class SceneGame:public SceneBase
 {
 private:
-
+	Mondai			m_mondai;
 	bool			EndCheck();
 public:
 	void Init();	//	ゲームの初期化処理	

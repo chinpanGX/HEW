@@ -25,13 +25,13 @@ void SceneGame::Uninit()
 //	ゲームの更新処理
 void SceneGame::Update()
 {
-	
+	m_mondai.Update();
 }
 
 //	ゲームの描画処理
 void SceneGame::Draw()
 {
-	
+	m_mondai.Draw();
 }
 
 bool SceneGame::EndCheck()
