@@ -12,10 +12,14 @@
 #include "mondai.h"
 
 //#	SceneGameクラス:親クラス,SceneBaseを継承した子クラス
-class SceneGame:public SceneBase
+class SceneGame : public SceneBase
 {
 private:
-	Mondai			m_mondai;
+	int flag;		//問題用フラグ
+	Mondai			test;
+	Sprite			m_Sprite;
+	D3DCOLOR		m_Color;
+	bool			m_ColorFlag;
 	bool			EndCheck();
 public:
 	void Init();	//	ゲームの初期化処理	

@@ -7,7 +7,7 @@
 
 //#	インクルードファイル
 #include "main.h"
-#include "Controller.h"
+#include "Input.h"
 #include <time.h>
 #include "SceneManager.h"
 #include "texture.h"
@@ -354,12 +354,8 @@ bool Init(HINSTANCE hInst)
 		return false;	// ゲームの初期化に失敗した
 	}
 	
-	//	コントローラの初期化
-	if (!KeyBoard::Init(hInst, g_hWnd))
-	{
-		return false;
-	}
-	if (!GamePad::Init(hInst, g_hWnd))
+	//	DirectInputの初期化
+	if (!Input::Init(hInst,g_hWnd))
 	{
 		return false;
 	}
@@ -383,8 +379,7 @@ void Uninit()
 	Texture_Release();
 
 	//	コントローラの終了処理
-	KeyBoard::Uninit();
-	GamePad::Uninit();
+	Input::Uninit();
 
 	// ゲームの終了処理(Direct3Dの終了処理)
 	D3D_Uninit();
@@ -394,8 +389,7 @@ void Uninit()
 void Update()
 {
 	//コントローラの状態を更新する
-	KeyBoard::Update();
-	GamePad::Update();
+	Input::Update();
 
 	//	シーンマネージャーの更新
 	SceneManager::Update();

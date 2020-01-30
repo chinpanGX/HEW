@@ -1,7 +1,8 @@
 /*======================================================
 
-		[Controller.h]
-		Author : 出合翔太
+	[Controller.h]
+	コントローラの処理
+	Author : 出合翔太
 
 ======================================================*/
 
@@ -53,7 +54,7 @@
 #define GAMEPADMAX				4			//	同時に接続するジョイパッドの最大数をセット
 
 //#	KeyBoardクラス
-/* キーボードコントローラクラス */
+/* キーボードの入力を管理 */
 class KeyBoard : public Input
 {
 private:
@@ -62,7 +63,7 @@ private:
 	static BYTE					m_aKeyStateTrigger[NUM_KEY_MAX];	//	キーボード情報(押した瞬間)
 	static BYTE					m_aKeyStateRelease[NUM_KEY_MAX];	//	キーボード情報(離した瞬間)
 public:
-	static bool Init(HINSTANCE hInstance, HWND hWnd);				//	初期化処理
+	static HRESULT Init(HINSTANCE hInstance, HWND hWnd);			//	初期化処理
 	static void Uninit();											//	終了処理
 	static void Update();											//	更新処理
 	static bool IsPress(int nKey);									//	押している間
@@ -71,7 +72,7 @@ public:
 };
 
 //# GamePadクラス
-/* ゲームパッドコントローラクラス */
+/* ゲームパッドコントローラの入力を管理 */
 class GamePad : public Input
 {
 private:
@@ -81,9 +82,32 @@ private:
 	static int					m_padCount;											//　検出したパッドの数
 public:
 	static BOOL CALLBACK SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID);	//	コールバック関数
-	static bool Init(HINSTANCE hInstance, HWND hWnd);								//	初期化
+	static HRESULT Init(HINSTANCE hInstance, HWND hWnd);							//	初期化
 	static void Uninit();															//	終了処理
 	static void Update();															//	更新処理
 	static BOOL IsPress(int padNo, DWORD button);									//	ボタンを押している間
 	static BOOL IsTrigger(int padNo, DWORD button);									//	ボタンを押した瞬間
+};
+
+//#	Mouseクラス
+/* マウスの入力を管理 */
+class Mouse : public Input
+{
+private:
+	static LPDIRECTINPUTDEVICE8 m_pMouse;		// マウスデバイス
+	static DIMOUSESTATE2		m_mouseState;	// マウスのダイレクトな状態
+	static DIMOUSESTATE2		m_mouseTrigger;	// 押された瞬間だけON
+public:
+	static HRESULT	Init(HINSTANCE hInst, HWND hWnd,bool bShaw); //	初期化
+	static void		Uninit();									 // 終了処理
+	static HRESULT	Update();									 // 更新処理
+	static BOOL		LeftPress();								 // 左クリックした状態
+	static BOOL		LeftTrigger();								 // 左クリックした瞬間
+	static BOOL		RightPress();								 // 右クリックした状態
+	static BOOL		RightTrigger();								 // 右クリックした瞬間
+	static BOOL		CenterPress();								 // 中央クリックした状態
+	static BOOL		CenterTrigger();							 // 中央クリックした瞬間
+	static long		GetMouseX();								 // マウスがX方向に動いた相対値
+	static long		GetMouseY();								 // マウスがY方向に動いた相対値
+	static long		GetMouseZ();								 // マウスホイールが動いた相対値
 };

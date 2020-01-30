@@ -7,13 +7,12 @@
 
 #include "Fade.h"
 
-typedef struct FadeVertex_tag
+struct FadeVertex
 {
 	D3DXVECTOR4 position;
 	D3DCOLOR color;
-} FadeVertex;
+};
 #define FVF_FADE_VERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE)
-
 
 D3DXCOLOR Fade::m_FadeColor(0.0f, 0.0f, 0.0f, 1.0f);
 float	  Fade::m_Alpha = 0.0f;

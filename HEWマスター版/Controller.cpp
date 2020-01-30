@@ -1,6 +1,7 @@
 /*===============================================
 
 	[Controller.cpp]
+	コントローラの処理
 	Author : 出合翔太
 
 ================================================*/
@@ -8,25 +9,26 @@
 #include "main.h"
 #include "Controller.h"
 
+//	キーボード
 LPDIRECTINPUTDEVICE8	KeyBoard::m_pDevKeyboard = NULL;								//	キーボードデバイス
 BYTE					KeyBoard::m_aKeyState[NUM_KEY_MAX];								//	キーボード情報（押している間）
 BYTE					KeyBoard::m_aKeyStateTrigger[NUM_KEY_MAX];						//	キーボード情報（押した瞬間）
 BYTE					KeyBoard::m_aKeyStateRelease[NUM_KEY_MAX];						//	キーボード情報（離した瞬間）	
+
+//	ゲームパッド
 LPDIRECTINPUTDEVICE8	GamePad::m_pGamePad[GAMEPADMAX] = { NULL, NULL, NULL, NULL };	//	パッドデバイス
 DWORD					GamePad::m_padState[GAMEPADMAX];								//	パッド情報（押している間）
 DWORD					GamePad::m_padTrigger[GAMEPADMAX];								//	パッド情報（押した瞬間）
 int						GamePad::m_padCount = 0;										//	検出したパッドの数
 
+//	マウス
+LPDIRECTINPUTDEVICE8	Mouse::m_pMouse = NULL;											//	マウスデバイス
+DIMOUSESTATE2			Mouse::m_mouseState;											//	マウスのダイレクトな状態
+DIMOUSESTATE2			Mouse::m_mouseTrigger;											//	押された瞬間だけON
+
 //	キーボードの初期化
-bool KeyBoard::Init(HINSTANCE hInstance, HWND hWnd)
+HRESULT KeyBoard::Init(HINSTANCE hInstance, HWND hWnd)
 {
-	if (!Input::Init(hInstance))
-	{
-
-		MessageBox(hWnd, "DirectInputオブジェクトが作れねぇ！", "警告！", MB_ICONWARNING);
-		return false;
-	}
-
 	if (FAILED(m_pInput->CreateDevice(GUID_SysKeyboard, &m_pDevKeyboard, NULL)))
 	{
 		MessageBox(hWnd, "キーボードがねぇ！", "警告！", MB_ICONWARNING);
@@ -53,7 +55,6 @@ bool KeyBoard::Init(HINSTANCE hInstance, HWND hWnd)
 void KeyBoard::Uninit()
 {
 	SAFE_RELEASE(m_pDevKeyboard);
-	Input::Uninit();
 }
 
 //	キーボードの更新処理
@@ -77,25 +78,25 @@ void KeyBoard::Update()
 	}
 }
 
-//キーボードを押している間
+//　キーボードを押している間
 bool KeyBoard::IsPress(int nKey)
 {
 	return (m_aKeyState[nKey] & 0x80) ? true : false;
 }
 
-//キーボードを押した瞬間
+//　キーボードを押した瞬間
 bool KeyBoard::IsTrigger(int nKey)
 {
 	return (m_aKeyStateTrigger[nKey] & 0x80) ? true : false;
 }
 
-//キーボードを離したとき
+//　キーボードを離したとき
 bool KeyBoard::IsRelease(int nKey)
 {
 	return (m_aKeyStateRelease[nKey] & 0x80) ? true : false;
 }
 
-//ゲームパッド用コールバック関数
+//　ゲームパッド用コールバック関数
 BOOL GamePad::SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID)
 {
 	HRESULT result;
@@ -104,16 +105,9 @@ BOOL GamePad::SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID)
 	return DIENUM_CONTINUE;	// 次のデバイスを列挙
 }
 
-//ゲームパッドの初期化処理
-bool GamePad::Init(HINSTANCE hInstance, HWND hWnd)
+//　ゲームパッドの初期化処理
+HRESULT GamePad::Init(HINSTANCE hInstance, HWND hWnd)
 {
-	if (!Input::Init(hInstance))
-	{
-
-		MessageBox(hWnd, "DirectInputオブジェクトが作れねぇ！", "警告！", MB_ICONWARNING);
-		return false;
-	}
-
 	HRESULT		result;
 	int			i;
 
@@ -174,20 +168,16 @@ bool GamePad::Init(HINSTANCE hInstance, HWND hWnd)
 	return true;
 }
 
-
+//	ゲームパッドの終了処理
 void GamePad::Uninit()
 {
-	for (int i = 0; i < GAMEPADMAX; i++) {
-		if (m_pGamePad[i])
-		{
-			m_pGamePad[i]->Unacquire();
-			m_pGamePad[i]->Release();
-		}
+	for (int i = 0; i < GAMEPADMAX; i++)
+	{
+		SAFE_RELEASE(m_pGamePad[i]);
 	}
-	Input::Uninit();
 }
 
-//ゲームパッドの更新処理
+//　ゲームパッドの更新処理
 void GamePad::Update()
 {
 	HRESULT			result;
@@ -299,14 +289,153 @@ void GamePad::Update()
 	}
 }
 
-//ゲームパッドのボタンを押している間
+//　ゲームパッドのボタンを押している間
 BOOL GamePad::IsPress(int padNo, DWORD button)
 {
 	return (button & m_padState[padNo]);
 }
 
-//ゲームパッドのボタンを押した瞬間
+//　ゲームパッドのボタンを押した瞬間
 BOOL GamePad::IsTrigger(int padNo, DWORD button)
 {
 	return (button & m_padTrigger[padNo]);
 }
+
+//	マウスの初期化
+HRESULT Mouse::Init(HINSTANCE hInst, HWND hWnd, bool bShow)
+{
+	HRESULT result;
+	// デバイス作成
+	result = m_pInput->CreateDevice(GUID_SysMouse, &m_pMouse, NULL);
+	if (FAILED(result) || m_pMouse == NULL)
+	{
+		MessageBox(hWnd, "No mouse", "Warning", MB_OK | MB_ICONWARNING);
+		return result;
+	}
+	// データフォーマット設定
+	result = m_pMouse->SetDataFormat(&c_dfDIMouse2);
+	if (FAILED(result))
+
+	{
+		MessageBox(hWnd, "Can't setup mouse", "Warning", MB_OK | MB_ICONWARNING);
+		return result;
+	}
+	// 他のアプリと協調モードに設定
+	result = m_pMouse->SetCooperativeLevel(hWnd, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
+	if (FAILED(result))
+	{
+		MessageBox(hWnd, "Mouse mode error", "Warning", MB_OK | MB_ICONWARNING);
+		return result;
+	}
+
+	// デバイスの設定
+	DIPROPDWORD prop;
+
+	prop.diph.dwSize = sizeof(prop);
+	prop.diph.dwHeaderSize = sizeof(prop.diph);
+	prop.diph.dwObj = 0;
+	prop.diph.dwHow = DIPH_DEVICE;
+	prop.dwData = DIPROPAXISMODE_REL;		// マウスの移動値　相対値
+
+	result = m_pMouse->SetProperty(DIPROP_AXISMODE, &prop.diph);
+	if (FAILED(result))
+	{
+		MessageBox(hWnd, "Mouse property error", "Warning", MB_OK | MB_ICONWARNING);
+		return result;
+	}
+
+	//	マウスカーソルの設定
+	ShowCursor(bShow);
+
+	// アクセス権を得る
+	m_pMouse->Acquire();
+	return result;
+}
+
+//	マウスの終了処理
+void Mouse::Uninit()
+{
+	SAFE_RELEASE(m_pMouse);
+}
+
+//	マウスの更新処理
+HRESULT Mouse::Update()
+{
+	HRESULT result;
+	// 前回の値保存
+	DIMOUSESTATE2 lastMouseState = m_mouseState;
+	// データ取得
+	result = m_pMouse->GetDeviceState(sizeof(m_mouseState), &m_mouseState);
+	if (SUCCEEDED(result))
+	{
+		m_mouseTrigger.lX = m_mouseState.lX;
+		m_mouseTrigger.lY = m_mouseState.lY;
+		m_mouseTrigger.lZ = m_mouseState.lZ;
+		// マウスのボタン状態
+		for (int i = 0; i < 8; i++)
+		{
+			m_mouseTrigger.rgbButtons[i] = ((lastMouseState.rgbButtons[i] ^ m_mouseState.rgbButtons[i]) & m_mouseState.rgbButtons[i]);
+		}
+	}
+	else	// 取得失敗
+	{
+		// アクセス権を得てみる
+		result = m_pMouse->Acquire();
+	}
+	return result;
+}
+
+//	 左クリックした状態
+BOOL Mouse::LeftPress()
+{
+	return (BOOL)(m_mouseState.rgbButtons[0] & 0x80);	// 押されたときに立つビットを検査
+}
+
+//	左クリックした瞬間
+BOOL Mouse::LeftTrigger()
+{
+	return (BOOL)(m_mouseTrigger.rgbButtons[0] & 0x80);
+}
+
+//	右クリックした状態
+BOOL Mouse::RightPress()
+{
+	return (BOOL)(m_mouseState.rgbButtons[1] & 0x80);
+}
+
+//	右クリックした瞬間
+BOOL Mouse::RightTrigger()
+{
+	return (BOOL)(m_mouseTrigger.rgbButtons[1] & 0x80);
+}
+
+//  中央クリックした状態
+BOOL Mouse::CenterPress()
+{
+	return (BOOL)(m_mouseState.rgbButtons[2] & 0x80);
+}
+
+//  中央クリックした瞬間
+BOOL Mouse::CenterTrigger()
+{
+	return (BOOL)(m_mouseTrigger.rgbButtons[2] & 0x80);
+}
+
+//  マウスがX方向に動いた相対値
+long Mouse::GetMouseX()
+{
+	return m_mouseState.lX;
+}
+
+//  マウスがY方向に動いた相対値
+long Mouse::GetMouseY()
+{
+	return m_mouseState.lY;
+}
+
+//  マウスホイールが動いた相対値
+long Mouse::GetMouseZ()
+{
+	return m_mouseState.lZ;
+}
+

@@ -11,11 +11,10 @@
 #include "Controller.h"
 
 static bool SelectFlag;
-static bool flg = true;
-static bool col = true;
 
 void SceneTitle::Init()
 {
+	m_Color = D3DCOLOR_RGBA(255, 255, 255, 100);
 	SelectFlag = false;
 	m_bEnd = false;
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
@@ -29,19 +28,19 @@ void SceneTitle::Uninit()
 void SceneTitle::Update()
 {
 	//	チュートリアル選択
-	if (KeyBoard::IsTrigger(DIK_S))
+	if (KeyBoard::IsTrigger(DIK_S) || GamePad::IsTrigger(0,BUTTON_DOWN))
 	{
 		SelectFlag = true;
 	}
 	//	ゲーム選択
-	if (KeyBoard::IsTrigger(DIK_W))
+	if (KeyBoard::IsTrigger(DIK_W) || GamePad::IsTrigger(0,BUTTON_UP))
 	{
 		SelectFlag = false;
 	}
 	if (!m_bEnd)
 	{
 		//	画面遷移
-		if (KeyBoard::IsTrigger(DIK_T))
+		if (KeyBoard::IsTrigger(DIK_T) || GamePad::IsTrigger(0,BUTTON_2))
 		{
 			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
@@ -58,44 +57,19 @@ void SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	m_Sprite.Draw(TEXTURE_TITLE,0.0f,0.0f);
-	if (flg==true)
+	D3DCOLOR gamecolor = D3DCOLOR_RGBA(255, 255, 255, 255);
+	D3DCOLOR tutorialcolor = D3DCOLOR_RGBA(255, 255, 255, 255);
+	if (SelectFlag == false)
 	{
-		m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//ゲームスタートの描画	
-		m_Sprite.Draw(TEXTURE_UI, 640.0f, 740.0f, 30.0f, 660.0f, 1008.0f, 250.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//チュートリアルの描画
-
-		if (KeyBoard::IsTrigger(DIK_W))
-		{
-			flg= false;
-		}
-		else if (KeyBoard::IsTrigger(DIK_S))
-		{
-			flg = false;
-			col = false;
-		}
-
+		tutorialcolor = m_Color;
 	}
-	else if (flg == false)
+	else if (SelectFlag == true)
 	{
-		if (col== true)
-		{
-			m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f, 255, 255, 255, 100);//スタート画面、色の変更
-			m_Sprite.Draw(TEXTURE_UI, 640.0f, 740.0f, 30.0f, 660.0f, 1008.0f, 250.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//チュートリアルの描画
-			if (KeyBoard::IsTrigger(DIK_W))
-			{
-				col = false;
-			}
-		}
-		else if (col== false)
-		{
-			m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f);//ゲームスタートの描画
-			m_Sprite.Draw(TEXTURE_UI, 640.0f, 740.0f, 30.0f, 660.0f, 1008.0f, 250.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f, 255, 255, 255, 100);//チュートリアル、色の変更
-			if (KeyBoard::IsTrigger(DIK_S))
-			{
-				col = true;
-			}
-		}
-	}	
+		gamecolor = m_Color;
+	}
+	m_Sprite.Draw(TEXTURE_TITLE,0.0f,0.0f);
+	m_Sprite.Draw(TEXTURE_UI, 640.0f, 540.0f, 30.0f, 360.0f, 1008.0f, 300.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f,gamecolor);//ゲームスタートの描画	
+	m_Sprite.Draw(TEXTURE_UI, 640.0f, 740.0f, 30.0f, 660.0f, 1008.0f, 250.0f, 30.0f, 50.0f, 0.75f, 0.75f, 0.0f,tutorialcolor);//チュートリアルの描画
 }
 
 bool GetFlag()

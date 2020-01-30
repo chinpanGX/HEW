@@ -13,6 +13,7 @@
 void SceneTutorial::Init()
 {
 	m_bEnd = false;
+	Fade::Start(false, 30, D3DCOLOR_RGBA(0, 0, 0, 0));
 }
 
 void SceneTutorial::Uninit()
@@ -24,7 +25,7 @@ void SceneTutorial::Update()
 {
 	if (!m_bEnd)
 	{
-		if (KeyBoard::IsTrigger(DIK_T))
+		if (KeyBoard::IsTrigger(DIK_T) || GamePad::IsTrigger(0, BUTTON_2))
 		{
 			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));

@@ -5,25 +5,32 @@
 #include <time.h>
 #include "Controller.h"
 
-enum Mondaienum
-{
-	firstMondai = 0,
-	secondMondai = 1,
-	thirdMondai = 2,
-};
+//	マクロ定義
+#define QUEST_MAX	3
+
+//	グローバル変数
+int	quest[QUEST_MAX];
 
 //	スタティック変数
 bool Mondai::m_flg;		//	解答フラグ
-bool    Mondai::dr_flag1 = false;
-bool    Mondai::dr_flag2 = false;
+bool Mondai::dr_flag1 = false;
+bool Mondai::dr_flag2 = false;
+
+void Mondai::Init()
+{
+	for (int i = 0; i < QUEST_MAX; i++)
+	{
+		quest[i] = rand() % QUEST_MAX;
+	}
+}
 
 void Mondai::Update()
 {
-	if (KeyBoard::IsTrigger(DIK_A))
+	if (KeyBoard::IsTrigger(DIK_A) || GamePad::IsTrigger(0,BUTTON_LEFT))
 	{
 		m_flg = true;
 	}
-	if (KeyBoard::IsTrigger(DIK_D))
+	if (KeyBoard::IsTrigger(DIK_D) || GamePad::IsTrigger(0,BUTTON_RIGHT))
 	{
 		m_flg = false;
 	}
@@ -34,93 +41,41 @@ void Mondai::Draw(int show)
 {
 	switch (show)
 	{
-	case firstMondai:
+	case MONDAI_1st:
 
-
-		if (dr_flag1 == false)
-		{
-			Show(0);
-
-			if (KeyBoard::IsTrigger(DIK_A) || KeyBoard::IsTrigger(DIK_B))
-			{
-				dr_flag1 = true;
-			}
-
-			//消す
-
-		}
+		Show(MONDAI_1st);
 
 		break;
 
-	case secondMondai:
+	case MONDAI_2nd:
 
-
-		if ((dr_flag1 == true) || (dr_flag2 == false))
-		{
-
-			Show(1);
-
-			if (KeyBoard::IsTrigger(DIK_A) || KeyBoard::IsTrigger(DIK_B))
-			{
-				dr_flag2 = true;
-			}
-		}
+		Show(MONDAI_2nd);
 
 		break;
 
-	case thirdMondai:
+	case MONDAI_3rd:
 
-
-		if (dr_flag2 == true)
-		{
-
-			Show(2);
-
-			if (KeyBoard::IsTrigger(DIK_A) || KeyBoard::IsTrigger(DIK_B))
-			{
-				dr_flag2 = false;
-			}
-
-		}
+		Show(MONDAI_3rd);
 
 		break;
 	}
-	/*switch (show)
-	{
-	case firstMondai:
-		Show(0);
-		break;
-
-	case secondMondai:
-		Show(1);
-		break;
-
-	case thirdMondai:
-		Show(2);
-		break;
-	}*/
+	
 }
+
 
 //	問題の選出
 void Mondai::Show(int show)
 {
-	int m;	//	問題選出する変数
 	switch (show)
 	{
 	case 0:
-		srand((unsigned)time(NULL));
-		m = rand() % 3; 
-		MondaiOne(m);
+		MondaiOne(quest[0]);
 		break;
 	case 1:
-		srand((unsigned)time(NULL));
-		m = rand() % 3;
-		MondaiTwo(m);
+		MondaiTwo(quest[1]);
 		break;
 	case 2:
-		srand((unsigned)time(NULL));
-		m = rand() % 3;
-		MondaiThree(m);
+		MondaiThree(quest[2]);
 		break;
 	}
 }
@@ -223,33 +178,16 @@ void Mondai::MondaiThree(int answer)
 	}
 }
 
-//	正解はどっち？
-bool Mondai::Answer(bool flg)
+//	正解の場合trueを返す
+bool Mondai::Answer(bool question, bool answer)
 {
-	if (flg == true)
-	{
-		//	〇が正解
-		return true;
-	}
-	else
-	{
-		//	×が正解
-		return false;
-	}
-}
-
-//	解答のゲッター
-bool Mondai::GetAnswer()
-{
-	//	選んだ解答のフラグを返す
-	if (m_flg == true)
+	if (question == answer)
 	{
 		return true;
 	}
-	else
+	else if (question != answer)
 	{
 		return false;
 	}
 }
-
 

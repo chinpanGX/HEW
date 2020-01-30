@@ -14,6 +14,8 @@
 /* タイトルシーンを管理するクラス */
 class SceneTitle : public SceneBase
 {
+private:
+	D3DCOLOR m_Color;
 public:
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理

@@ -140,7 +140,7 @@
   <ItemGroup>
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Fade.cpp" />
-    <ClCompile Include="input.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mondai.cpp" />
     <ClCompile Include="SceneGame.cpp" />
@@ -155,7 +155,7 @@
   <ItemGroup>
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Fade.h" />
-    <ClInclude Include="input.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mondai.h" />
     <ClInclude Include="SceneBase.h" />

@@ -11,7 +11,7 @@
 #include "Controller.h"
 #include"Fade.h"
 //	スタティック変数
-int SceneResult::m_Ranking[5];
+//int SceneResult::m_Ranking[5];
 
 void SceneResult::Init()
 {
@@ -29,7 +29,7 @@ void SceneResult::Update()
 {
 	if (!m_bEnd)
 	{
-		if (KeyBoard::IsTrigger(DIK_T))
+		if (KeyBoard::IsTrigger(DIK_T) || GamePad::IsTrigger(0,BUTTON_2))
 		{
 			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
@@ -56,7 +56,7 @@ void SceneResult::Draw()
 	*/
 	
 }
-
+/*
 void SceneResult::Sort(int Score)
 {
 	for (int i = 0; i < 5; i++)
@@ -74,3 +74,4 @@ void SceneResult::Sort(int Score)
 		}
 	}
 }
+*/

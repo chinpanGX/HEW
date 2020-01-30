@@ -13,8 +13,8 @@
 class SceneResult : public SceneBase
 {
 private:
-	static	int	m_Ranking[5];	//	ランキングの値を格納する配列
-	void Sort(int Score);	//	ソート関数
+	//static int m_Ranking[5];	//	ランキングの値を格納する配列
+	//void Sort(int Score);	//	ソート関数
 public:
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理
