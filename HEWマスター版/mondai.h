@@ -1,7 +1,3 @@
-
-//¬
-
-
 #pragma once
 #include "main.h"
 #include "sprite.h"
@@ -21,14 +17,15 @@ private:
 	static bool	m_flg;	  //‰ğ“šƒtƒ‰ƒO
 	static bool dr_flag1; //•`‰æ‚Ìƒtƒ‰ƒO
 	static bool dr_flag2;
+	void Show(int show);			//	–â‘è•¶‚Ì‘Io
+	void MondaiOne(int answer);		//	‚P–â–Ú‚Ì•`‰æ
+	void MondaiTwo(int answer);		//	‚Q–â–Ú‚Ì•`‰æ
+	void MondaiThree(int answer);	//	‚R–â–Ú‚Ì•`‰æ
+
 public:
 	void Init();
 	void Update();
 	void Draw(int snow);			//	ƒvƒŒƒCƒ„[‚ÅŒÄ‚Ño‚·•`‰æ
 	static bool Answer(bool question, bool answer);		//	ƒtƒ‰ƒO‚ÌƒQƒbƒ^[
-private:
-	void Show(int show);			//	–â‘è•¶‚Ì‘Io
-	void MondaiOne(int answer);		//	‚P–â–Ú‚Ì•`‰æ
-	void MondaiTwo(int answer);		//	‚Q–â–Ú‚Ì•`‰æ
-	void MondaiThree(int answer);	//	‚R–â–Ú‚Ì•`‰æ
+
 };

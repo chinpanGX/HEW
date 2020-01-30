@@ -52,7 +52,7 @@ void SceneTitle::Update()
 		{
 			SceneManager::ChangeSceneState();
 		}
-  }
+    }
 }
 
 void SceneTitle::Draw()

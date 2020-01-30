@@ -29,7 +29,7 @@ static const TEXTURE g_TextureFiles[] =
 	{ "asset/texture/UI.png",1008, 911},			//	UIテクスチャ
 	{ "asset/texture/Quiz.png",6404,1603},			//	問題文
 	{ "asset/texture/Answer.png",2141,9602},		//	解答
-	{ "asset/texture/number.tga",64,64},			//	数字
+	{ "asset/texture/number.tga",320,32},			//	数字
 	{ "asset/texture/Frame.png",216,216},			//	枠
 	{ "asset/texture/Title.png", 1920,1080}			//	タイトル
 };

@@ -9,15 +9,16 @@
 #include "SceneResult.h"
 #include "SceneManager.h"
 #include "Controller.h"
-#include"Fade.h"
+#include "Fade.h"
+#include "Score.h"
 //	スタティック変数
-//int SceneResult::m_Ranking[5];
+int SceneResult::m_Ranking[5];
 
 void SceneResult::Init()
 {
 	m_bEnd = false;
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
-	//Sort(ゲッターで飛距離の値を持ってくる);
+	Sort(0);
 }
 
 void SceneResult::Uninit()
@@ -47,16 +48,14 @@ void SceneResult::Update()
 void SceneResult::Draw()
 {
 	m_Sprite.Draw(TEXTURE_INDEX_RESULT,0.0f,0.0f);
-	
-	/*スコアの描画
-	for (int i = 0; i < RANKING_MAX; i++)	//	描画を五回繰り返す
+	//スコアの描画
+	for (int i = 0; i < 5; i++)	//	描画を五回繰り返す
 	{
-		Score_Draw(SCREEN_WIDTH / 2 - 48, SCREEN_HEIGHT / 3 + i * 32, ranking[i], 3, true);	
+		Score_Draw(SCREEN_WIDTH * 0.5f , SCREEN_HEIGHT / 3 + i * (32 * 3), m_Ranking[i], 1);	
 	}	
-	*/
 	
 }
-/*
+
 void SceneResult::Sort(int Score)
 {
 	for (int i = 0; i < 5; i++)
@@ -74,4 +73,4 @@ void SceneResult::Sort(int Score)
 		}
 	}
 }
-*/
+

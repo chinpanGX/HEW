@@ -15,12 +15,21 @@
 class SceneGame : public SceneBase
 {
 private:
-	int flag;		//問題用フラグ
+	int State;		//問題用ステート
 	Mondai			test;
 	Sprite			m_Sprite;
 	D3DCOLOR		m_Color;
-	bool			m_ColorFlag;
-	bool			EndCheck();
+	bool			m_ColorFlag; //	選択UIフラグ
+	
+	//	Update()のヘルパー関数
+	void UpdateFrame();
+	void UpdateState();
+	bool EndCheck();
+
+	//	Draw()のヘルパー関数
+	void DrawFrame();
+	void DrawTest();
+
 public:
 	void Init();	//	ゲームの初期化処理	
 	void Uninit();	//	ゲームの終了処理

@@ -1,9 +1,8 @@
-﻿// author 成
-
-#include"main.h"
+﻿#include"main.h"
 #include"mondai.h"
 #include <time.h>
 #include "Controller.h"
+#include "SceneGame.h"
 
 //	マクロ定義
 #define QUEST_MAX	3
@@ -18,6 +17,7 @@ bool Mondai::dr_flag2 = false;
 
 void Mondai::Init()
 {
+	m_flg = false;
 	for (int i = 0; i < QUEST_MAX; i++)
 	{
 		quest[i] = rand() % QUEST_MAX;
@@ -26,13 +26,15 @@ void Mondai::Init()
 
 void Mondai::Update()
 {
-	if (KeyBoard::IsTrigger(DIK_A) || GamePad::IsTrigger(0,BUTTON_LEFT))
-	{
-		m_flg = true;
-	}
-	if (KeyBoard::IsTrigger(DIK_D) || GamePad::IsTrigger(0,BUTTON_RIGHT))
+	//	左を選択
+	if (KeyBoard::IsTrigger(DIK_LEFTARROW) || GamePad::IsTrigger(0,BUTTON_LEFT))
 	{
 		m_flg = false;
+	}
+	//	右を選択
+	if (KeyBoard::IsTrigger(DIK_RIGHTARROW) || GamePad::IsTrigger(0,BUTTON_RIGHT))
+	{
+		m_flg = true;
 	}
 }
 
@@ -88,7 +90,8 @@ void Mondai::MondaiOne(int answer)
 	case 0:
 
 		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 0.0f, 0.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
-
+		//DrawAnser(false, 300.0f, 0.0f);
+		//DrawAnser(true, 935.0f, 0.0f);
 		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 0.0f, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 
 		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 0.0f, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
