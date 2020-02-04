@@ -12,7 +12,7 @@
 #include "SceneManager.h"
 #include "texture.h"
 #include "Fade.h"
-
+#include "Sound.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -359,6 +359,11 @@ bool Init(HINSTANCE hInst)
 	{
 		return false;
 	}
+
+	if (!InitSound(g_hWnd))
+	{
+		return false;
+	}
 	
 	//	テクスチャのロード
 	Texture_Load();
@@ -372,6 +377,7 @@ bool Init(HINSTANCE hInst)
 //　終了処理関数
 void Uninit()
 {
+	UninitSound();
 	//	シーンマネージャーの終了処理
 	SceneManager::Uninit();
 	

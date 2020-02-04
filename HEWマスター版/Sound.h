@@ -11,22 +11,21 @@
 // サウンドファイル
 enum  SOUND_LABEL
 {
-	S_MOVE,	//カーソル移動
-	S_COUNTDOWN,
-	S_START,
-	S_JUMP_BAD,
-	S_JUMP_EXCELLENT,
-	S_JUMP_GOOD,
-	S_INCORRECT,
-	S_DECISION,
-	S_CORRECT,
-	S_SPEEDUP,
-	s_FLY,
-	S_MONDAI,
+	S_MOVE,			//カーソル移動
+	S_INCORRECT,	//はずれ
+	S_DECISION,		//決定
+	S_CORRECT,		//正解
+	S_MONDAI,		//問題
 
 	SOUND_LABEL_MAX,//←こいつは数に含めない
 };
 
+bool InitSound(HWND hWnd);
+void UninitSound(void);
+void PlaySound(SOUND_LABEL label);
+void StopSound(SOUND_LABEL label);
+void StopSound(void);
+/*
 class Sound
 {
 private:
@@ -42,4 +41,5 @@ public:
 	static void Stop(SOUND_LABEL label);
 	static void Stop();
 };
+*/
 

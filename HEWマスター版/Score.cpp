@@ -38,6 +38,6 @@ void Draw(float x, float y, int n)
 {
 	Sprite m_sprite;
 	if (n < 0 || n > 9) return;
-	m_sprite.Draw(TEXTURE_NUMBER, x, y,32 * n, 0, 32, 32,32,32,3.0f,3.0f,0.0f);
+	m_sprite.Draw(TEXTURE_UI, x, y,90 * n, 140, 90, 110,45,55);
 }
 

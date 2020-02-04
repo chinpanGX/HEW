@@ -3,12 +3,17 @@
 #include <time.h>
 #include "Controller.h"
 #include "SceneGame.h"
+#include "Sound.h"
 
 //	マクロ定義
 #define QUEST_MAX	3
 
 //	グローバル変数
-int	quest[QUEST_MAX];
+int		quest[QUEST_MAX];
+int		count;
+int		score;
+
+const bool	toi[9] = { true,false,false,true,false,true,true,true,false };
 
 //	スタティック変数
 bool Mondai::m_flg;		//	解答フラグ
@@ -17,48 +22,60 @@ bool Mondai::dr_flag2 = false;
 
 void Mondai::Init()
 {
-	m_flg = false;
 	for (int i = 0; i < QUEST_MAX; i++)
 	{
 		quest[i] = rand() % QUEST_MAX;
 	}
+	count = 0;
+	score = 0;
 }
 
 void Mondai::Update()
 {
-	//	左を選択
-	if (KeyBoard::IsTrigger(DIK_LEFTARROW) || GamePad::IsTrigger(0,BUTTON_LEFT))
+	if (KeyBoard::IsTrigger(DIK_A) || GamePad::IsTrigger(0, BUTTON_LEFT))
 	{
 		m_flg = false;
+		PlaySound(S_MOVE);
 	}
-	//	右を選択
-	if (KeyBoard::IsTrigger(DIK_RIGHTARROW) || GamePad::IsTrigger(0,BUTTON_RIGHT))
+	if (KeyBoard::IsTrigger(DIK_D) || GamePad::IsTrigger(0, BUTTON_RIGHT))
 	{
 		m_flg = true;
+		PlaySound(S_MOVE);
+	}
+
+	if (KeyBoard::IsTrigger(DIK_SPACE) || (GamePad::IsTrigger(0, BUTTON_2)))
+	{
+		PlaySound(S_DECISION);
+		if (Answer(toi[(QUEST_MAX*count) + quest[count]], m_flg) == true)
+		{
+			PlaySound(S_CORRECT);
+			score++;
+		}
+		else
+		{
+			PlaySound(S_INCORRECT);
+		}
+		count++;
 	}
 }
-
 //	プレイヤーが呼び出す描画
 void Mondai::Draw(int show)
 {
 	switch (show)
 	{
 	case MONDAI_1st:
-
+		PlaySound(S_MONDAI);
 		Show(MONDAI_1st);
-
 		break;
 
 	case MONDAI_2nd:
-
+		PlaySound(S_MONDAI);
 		Show(MONDAI_2nd);
-
 		break;
 
 	case MONDAI_3rd:
-
+		PlaySound(S_MONDAI);
 		Show(MONDAI_3rd);
-
 		break;
 	}
 	
@@ -194,3 +211,7 @@ bool Mondai::Answer(bool question, bool answer)
 	}
 }
 
+int GetScore()
+{
+	return score;
+}

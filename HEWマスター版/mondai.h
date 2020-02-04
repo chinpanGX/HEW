@@ -10,6 +10,8 @@ enum MONDAI_NUM
 	MONDAI_END,
 };
 
+int	 GetScore();
+
 class Mondai
 {
 private:

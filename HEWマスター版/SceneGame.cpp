@@ -9,6 +9,7 @@
 #include "SceneGame.h"
 #include "SceneManager.h"
 #include "Controller.h"
+#include "Sound.h"
 
 //	ゲームの初期化処理
 void SceneGame::Init()
@@ -19,17 +20,20 @@ void SceneGame::Init()
 	test.Init();
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
 	State = MONDAI_1st;
+	//	BGM再生
 }
 
 //	ゲームの終了処理
 void SceneGame::Uninit()
 {
-	
+	//	BGM終了
+	StopSound();
 }
 
 //	ゲームの更新処理
 void SceneGame::Update()
 {
+	test.Update();
 	UpdateFrame();	//	枠の更新
 	UpdateState();	//	ステートの更新
 }
@@ -49,10 +53,12 @@ void SceneGame::UpdateFrame()
 	if (KeyBoard::IsTrigger(DIK_LEFTARROW) || GamePad::IsTrigger(0, BUTTON_LEFT))
 	{
 		m_ColorFlag = false;
+		PlaySound(S_MOVE); //	カーソル移動SE
 	}
-	if (KeyBoard::IsTrigger(DIK_RIGHTARROW) || GamePad::IsTrigger(0, BUTTON_RIGHT))
+	else if (KeyBoard::IsTrigger(DIK_RIGHTARROW) || GamePad::IsTrigger(0, BUTTON_RIGHT))
 	{
 		m_ColorFlag = true;
+		PlaySound(S_MOVE); // カーソル移動SE
 	}
 }
 

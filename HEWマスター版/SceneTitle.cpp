@@ -9,6 +9,7 @@
 #include "SceneTitle.h"
 #include "SceneManager.h"
 #include "Controller.h"
+#include "Sound.h"
 
 static bool SelectFlag;
 
@@ -18,11 +19,12 @@ void SceneTitle::Init()
 	SelectFlag = false;
 	m_bEnd = false;
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
+	//	BGM再生
 }
 
 void SceneTitle::Uninit()
 {
-
+	StopSound();
 }
 
 void SceneTitle::Update()
@@ -31,11 +33,13 @@ void SceneTitle::Update()
 	if (KeyBoard::IsTrigger(DIK_S) || GamePad::IsTrigger(0,BUTTON_DOWN))
 	{
 		SelectFlag = true;
+		PlaySound(S_MOVE);
 	}
 	//	ゲーム選択
 	if (KeyBoard::IsTrigger(DIK_W) || GamePad::IsTrigger(0,BUTTON_UP))
 	{
 		SelectFlag = false;
+		PlaySound(S_MOVE);
 	}
 	if (!m_bEnd)
 	{
@@ -44,6 +48,7 @@ void SceneTitle::Update()
 		{
 			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
+			PlaySound(S_DECISION);
 		}
 	}
 	else 
