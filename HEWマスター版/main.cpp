@@ -360,7 +360,7 @@ bool Init(HINSTANCE hInst)
 		return false;
 	}
 
-	if (!InitSound(g_hWnd))
+	if (!Sound::Init(g_hWnd))
 	{
 		return false;
 	}
@@ -377,7 +377,7 @@ bool Init(HINSTANCE hInst)
 //　終了処理関数
 void Uninit()
 {
-	UninitSound();
+	Sound::Uninit();
 	//	シーンマネージャーの終了処理
 	SceneManager::Uninit();
 	

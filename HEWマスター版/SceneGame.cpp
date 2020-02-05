@@ -27,7 +27,7 @@ void SceneGame::Init()
 void SceneGame::Uninit()
 {
 	//	BGM終了
-	StopSound();
+	Sound::Stop();
 }
 
 //	ゲームの更新処理
@@ -44,6 +44,7 @@ void SceneGame::Draw()
 	DrawFrame();
 	DrawTest();
 }
+
 /// <summary>
 /// Update()のヘルパー関数
 /// </summary>
@@ -53,12 +54,12 @@ void SceneGame::UpdateFrame()
 	if (KeyBoard::IsTrigger(DIK_LEFTARROW) || GamePad::IsTrigger(0, BUTTON_LEFT))
 	{
 		m_ColorFlag = false;
-		PlaySound(S_MOVE); //	カーソル移動SE
+		Sound::Play(S_SE_MOVE); //	カーソル移動SE
 	}
 	else if (KeyBoard::IsTrigger(DIK_RIGHTARROW) || GamePad::IsTrigger(0, BUTTON_RIGHT))
 	{
 		m_ColorFlag = true;
-		PlaySound(S_MOVE); // カーソル移動SE
+		Sound::Play(S_SE_MOVE); // カーソル移動SE
 	}
 }
 

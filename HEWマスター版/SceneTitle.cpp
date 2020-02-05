@@ -24,7 +24,7 @@ void SceneTitle::Init()
 
 void SceneTitle::Uninit()
 {
-	StopSound();
+	Sound::Stop();
 }
 
 void SceneTitle::Update()
@@ -33,13 +33,13 @@ void SceneTitle::Update()
 	if (KeyBoard::IsTrigger(DIK_S) || GamePad::IsTrigger(0,BUTTON_DOWN))
 	{
 		SelectFlag = true;
-		PlaySound(S_MOVE);
+		Sound::Play(S_SE_MOVE);
 	}
 	//	ゲーム選択
 	if (KeyBoard::IsTrigger(DIK_W) || GamePad::IsTrigger(0,BUTTON_UP))
 	{
 		SelectFlag = false;
-		PlaySound(S_MOVE);
+		Sound::Play(S_SE_MOVE);
 	}
 	if (!m_bEnd)
 	{
@@ -48,7 +48,7 @@ void SceneTitle::Update()
 		{
 			m_bEnd = true;
 			Fade::Start(true, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
-			PlaySound(S_DECISION);
+			Sound::Play(S_SE_DECISION);
 		}
 	}
 	else 

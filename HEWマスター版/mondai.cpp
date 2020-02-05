@@ -35,25 +35,23 @@ void Mondai::Update()
 	if (KeyBoard::IsTrigger(DIK_A) || GamePad::IsTrigger(0, BUTTON_LEFT))
 	{
 		m_flg = false;
-		PlaySound(S_MOVE);
 	}
 	if (KeyBoard::IsTrigger(DIK_D) || GamePad::IsTrigger(0, BUTTON_RIGHT))
 	{
 		m_flg = true;
-		PlaySound(S_MOVE);
 	}
 
 	if (KeyBoard::IsTrigger(DIK_SPACE) || (GamePad::IsTrigger(0, BUTTON_2)))
 	{
-		PlaySound(S_DECISION);
+		Sound::Play(S_SE_DECISION);
 		if (Answer(toi[(QUEST_MAX*count) + quest[count]], m_flg) == true)
 		{
-			PlaySound(S_CORRECT);
+			Sound::Play(S_SE_CORRECT);
 			score++;
 		}
 		else
 		{
-			PlaySound(S_INCORRECT);
+			Sound::Play(S_SE_INCORRECT);
 		}
 		count++;
 	}
@@ -64,17 +62,14 @@ void Mondai::Draw(int show)
 	switch (show)
 	{
 	case MONDAI_1st:
-		PlaySound(S_MONDAI);
 		Show(MONDAI_1st);
 		break;
 
 	case MONDAI_2nd:
-		PlaySound(S_MONDAI);
 		Show(MONDAI_2nd);
 		break;
 
 	case MONDAI_3rd:
-		PlaySound(S_MONDAI);
 		Show(MONDAI_3rd);
 		break;
 	}
