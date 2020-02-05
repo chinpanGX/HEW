@@ -31,7 +31,6 @@ SoundParam g_aParam[SOUND_MAX] =
 	{(char*) "asset/SE/hazure.wav",0},
 	{(char*) "asset/SE/kettei.wav",0},
 	{(char*) "asset/SE/seikai.wav",0},
-	{(char*) "asset/SE/mondai.wav",0},
 };
 
 bool Sound::Init(HWND hWnd)

@@ -15,7 +15,6 @@ enum  SoundLabel
 	S_SE_INCORRECT,	// ‚Í‚¸‚ê
 	S_SE_DECISION,	// Œˆ’è
 	S_SE_CORRECT,	// ³‰ð
-	S_SE_MONDAI,	// –â‘è
 
 	SOUND_MAX,//©‚±‚¢‚Â‚Í”‚ÉŠÜ‚ß‚È‚¢
 };
