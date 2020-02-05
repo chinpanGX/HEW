@@ -32,11 +32,11 @@ void Mondai::Init()
 
 void Mondai::Update()
 {
-	if (KeyBoard::IsTrigger(DIK_A) || GamePad::IsTrigger(0, BUTTON_LEFT))
+	if (KeyBoard::IsTrigger(DIK_LEFTARROW) || GamePad::IsTrigger(0, BUTTON_LEFT))
 	{
 		m_flg = false;
 	}
-	if (KeyBoard::IsTrigger(DIK_D) || GamePad::IsTrigger(0, BUTTON_RIGHT))
+	if (KeyBoard::IsTrigger(DIK_RIGHTARROW) || GamePad::IsTrigger(0, BUTTON_RIGHT))
 	{
 		m_flg = true;
 	}
