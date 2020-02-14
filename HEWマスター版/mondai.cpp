@@ -5,11 +5,8 @@
 #include "SceneGame.h"
 #include "Sound.h"
 
-//	マクロ定義
-#define QUEST_MAX	3
 
 //	グローバル変数
-int		quest[QUEST_MAX];
 int		count;
 int		score;
 
@@ -22,10 +19,11 @@ bool Mondai::dr_flag2 = false;
 
 void Mondai::Init()
 {
+	/*
 	for (int i = 0; i < QUEST_MAX; i++)
 	{
 		quest[i] = rand() % QUEST_MAX;
-	}
+	}*/
 	count = 0;
 	score = 0;
 }
@@ -44,7 +42,7 @@ void Mondai::Update()
 	if (KeyBoard::IsTrigger(DIK_SPACE) || (GamePad::IsTrigger(0, BUTTON_2)))
 	{
 		Sound::Play(S_SE_DECISION);
-		if (Answer(toi[(QUEST_MAX*count) + quest[count]], m_flg) == true)
+		if (Answer(toi[count], m_flg) == true)
 		{
 			Sound::Play(S_SE_CORRECT);
 			score++;
@@ -57,45 +55,43 @@ void Mondai::Update()
 	}
 }
 //	プレイヤーが呼び出す描画
-void Mondai::Draw(int show)
+void Mondai::Draw(int State)
 {
-	switch (show)
+	switch (State)
 	{
-	case MONDAI_1st:
-		Show(MONDAI_1st);
+	case MONDAI_1:
+		MondaiDraw(count);
 		break;
-
-	case MONDAI_2nd:
-		Show(MONDAI_2nd);
+	case MONDAI_2:
+		MondaiDraw(count);
 		break;
-
-	case MONDAI_3rd:
-		Show(MONDAI_3rd);
+	case MONDAI_3:
+		MondaiDraw(count);
+		break;
+	case MONDAI_4:
+		MondaiDraw(count);
+		break;
+	case MONDAI_5:
+		MondaiDraw(count);
+		break;
+	case MONDAI_6:
+		MondaiDraw(count);
+		break;
+	case MONDAI_7:
+		MondaiDraw(count);
+		break;
+	case MONDAI_8:
+		MondaiDraw(count);
+		break;
+	case MONDAI_9:
+		MondaiDraw(count);
 		break;
 	}
 	
 }
 
-
-//	問題の選出
-void Mondai::Show(int show)
-{
-	switch (show)
-	{
-	case 0:
-		MondaiOne(quest[0]);
-		break;
-	case 1:
-		MondaiTwo(quest[1]);
-		break;
-	case 2:
-		MondaiThree(quest[2]);
-		break;
-	}
-}
-
 //	
-void Mondai::MondaiOne(int answer)
+void Mondai::MondaiDraw(int answer)
 {
 	switch (answer)
 	{
@@ -125,14 +121,8 @@ void Mondai::MondaiOne(int answer)
 		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 2, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
-	}
-}
 
-void Mondai::MondaiTwo(int answer)
-{
-	switch (answer)
-	{
-	case 0:
+	case 3:
 		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 0.0f, 534.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
 
 		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 3, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
@@ -140,7 +130,7 @@ void Mondai::MondaiTwo(int answer)
 		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 3, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
-	case 1:
+	case 4:
 		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 2134.0f, 534.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
 
 		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 4, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
@@ -148,7 +138,7 @@ void Mondai::MondaiTwo(int answer)
 		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 4, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
-	case 2:
+	case 5:
 		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 4268.0f, 534.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
 
 		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 5, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
@@ -156,14 +146,8 @@ void Mondai::MondaiTwo(int answer)
 		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 5, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
-	}
-}
 
-void Mondai::MondaiThree(int answer)
-{
-	switch (answer)
-	{
-	case 0:
+	case 6:
 		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 0.0f, 1068.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
 
 		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 6, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
@@ -172,7 +156,7 @@ void Mondai::MondaiThree(int answer)
 
 		//Answer(//どっちが正解);
 		break;
-	case 1:
+	case 7:
 		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 2134.0f, 1068.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
 
 		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 7, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
@@ -180,18 +164,17 @@ void Mondai::MondaiThree(int answer)
 		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 7, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 		//Answer(//どっちが正解);
 		break;
-	case 2:
+	case 8:
 		m_Sprite.Draw(TEXTURE_QUIZ, 100.0f, 0.0f, 4268.0f, 1068.0f, 2134.0f, 534.0f, 0.0f, 0.0f, 0.8f, 0.8f, 0.0f);
 
 		m_Sprite.Draw(TEXTURE_ANSWER, 300.0f, 435.0f, 0.0f, 1067.0f * 8, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
 
 		m_Sprite.Draw(TEXTURE_ANSWER, 975.0f, 435.0f, 1070.0f, 1067.0f * 8, 1070.0f, 1067.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f);
-
-
 		//Answer(//どっちが正解);
 		break;
 	}
 }
+
 
 //	正解の場合trueを返す
 bool Mondai::Answer(bool question, bool answer)

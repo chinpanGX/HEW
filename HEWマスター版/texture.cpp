@@ -31,7 +31,8 @@ static const TEXTURE g_TextureFiles[] =
 	{ "asset/texture/Answer.png",2141,9602},		//	解答
 	{ "asset/texture/number.tga",320,32},			//	数字
 	{ "asset/texture/Frame.png",216,216},			//	枠
-	{ "asset/texture/Title.png", 1920,1080}			//	タイトル
+	{ "asset/texture/Title.png", 1920,1080},		//	タイトル
+	{ "asset/texture/Suki.png",1920,2160}			// 背景		
 };
 
 static const int TEXTURE_FILE_COUNT = sizeof(g_TextureFiles) / sizeof(g_TextureFiles[0]);	//テクスチャファイルを数える

@@ -12,17 +12,18 @@
 #include "Fade.h"
 #include "Score.h"
 #include "mondai.h"
+#include "Sound.h"
 
 void SceneResult::Init()
 {
 	m_bEnd = false;
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
-	//	BGM
+	Sound::Play(S_BGM_TITLE);
 }
 
 void SceneResult::Uninit()
 {
-	//	BGMストップ
+	
 }
 
 void SceneResult::Update()

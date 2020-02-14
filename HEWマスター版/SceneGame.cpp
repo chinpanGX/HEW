@@ -14,13 +14,14 @@
 //	ゲームの初期化処理
 void SceneGame::Init()
 {
+	Sound::Stop();
 	m_bEnd = false;		
 	m_ColorFlag = false;
 	m_Color = D3DCOLOR_RGBA(255, 255, 255, 0);	
 	test.Init();
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
-	State = MONDAI_1st;
-	//	BGM再生
+	State = MONDAI_1;
+	Sound::Play(S_BGM_GAME);//	BGM再生
 }
 
 //	ゲームの終了処理
@@ -41,8 +42,12 @@ void SceneGame::Update()
 //	ゲームの描画処理
 void SceneGame::Draw()
 {
-	DrawFrame();
-	DrawTest();
+	for (int i = 0; i < 2; i++)
+	{
+		m_Sprite.Draw(TEXTURE_BG, 0.0f, 0.0f, 1920.0f, 1080.0f * i, 1920.0f, 1080.0f);
+		DrawFrame();
+		test.Draw(State);
+	}
 }
 
 /// <summary>
@@ -68,19 +73,55 @@ void SceneGame::UpdateState()
 {
 	switch (State)
 	{
-	case MONDAI_1st:
+	case MONDAI_1:
 		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
 		{
-			State = MONDAI_2nd;
+			State = MONDAI_2;
 		}
 		break;
-	case MONDAI_2nd:
+	case MONDAI_2:
 		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
 		{
-			State = MONDAI_3rd;
+			State = MONDAI_3;
 		}
 		break;
-	case MONDAI_3rd:
+	case MONDAI_3:
+		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
+		{
+			State = MONDAI_4;
+		}
+		break;
+	case MONDAI_4:
+		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
+		{
+			State = MONDAI_5;
+		}
+		break;
+	case MONDAI_5:
+		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
+		{
+			State = MONDAI_6;
+		}
+		break;
+	case MONDAI_6:
+		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
+		{
+			State = MONDAI_7;
+		}
+		break;
+	case MONDAI_7:
+		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
+		{
+			State = MONDAI_8;
+		}
+		break;
+	case MONDAI_8:
+		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
+		{
+			State = MONDAI_9;
+		}
+		break;
+	case MONDAI_9:
 		if (KeyBoard::IsTrigger(DIK_SPACE) || GamePad::IsTrigger(0, BUTTON_2))
 		{
 			State = MONDAI_END;
@@ -133,24 +174,5 @@ void SceneGame::DrawFrame()
 	m_Sprite.Draw(TEXTURE_FRAME, 295.0f, 430.0f, 545.0f, 545.0f, 0.0f, 0.0f, 545.0f, 545.0f, leftcolor);
 	m_Sprite.Draw(TEXTURE_FRAME, 970.0f, 430.0f, 545.0f, 545.0f, 0.0f, 0.0f, 545.0f, 545.0f, rightcolor);
 	
-}
-
-//	問題の描画
-void SceneGame::DrawTest()
-{
-	switch (State)
-	{
-	case MONDAI_1st:
-		test.Draw(MONDAI_1st);
-		break;
-	case MONDAI_2nd:
-		test.Draw(MONDAI_2nd);
-		break;
-	case MONDAI_3rd:
-		test.Draw(MONDAI_3rd);
-		break;
-	case MONDAI_END:
-		break;
-	}
 }
 

@@ -28,7 +28,6 @@ private:
 
 	//	Draw()‚Ìƒwƒ‹ƒp[ŠÖ”
 	void DrawFrame();
-	void DrawTest();
 
 public:
 	void Init();	//	ƒQ[ƒ€‚Ì‰Šú‰»ˆ—	

@@ -11,6 +11,8 @@
 // サウンドファイル
 enum  SoundLabel
 {
+	S_BGM_TITLE,
+	S_BGM_GAME,
 	S_SE_MOVE,		// カーソル移動
 	S_SE_INCORRECT,	// はずれ
 	S_SE_DECISION,	// 決定

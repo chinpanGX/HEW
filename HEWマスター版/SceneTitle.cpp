@@ -19,12 +19,11 @@ void SceneTitle::Init()
 	SelectFlag = false;
 	m_bEnd = false;
 	Fade::Start(false, 90, D3DCOLOR_RGBA(0, 0, 0, 0));
-	//	BGM再生
 }
 
 void SceneTitle::Uninit()
 {
-	Sound::Stop();
+	
 }
 
 void SceneTitle::Update()

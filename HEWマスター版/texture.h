@@ -19,6 +19,7 @@ typedef enum
 	TEXTURE_NUMBER,
 	TEXTURE_FRAME,
 	TEXTURE_TITLE,
+	TEXTURE_BG,
 
     TEXTURE_INDEX_MAX
 }TextureIndex;

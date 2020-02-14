@@ -11,6 +11,7 @@
 #include "SceneTutorial.h"
 #include "SceneGame.h"
 #include "SceneResult.h"
+#include "Sound.h"
 
 //	スタティック変数
 SceneBase			*SceneManager::m_scene[4];	//	シーンのインスタンスを格納[シーンの配列]
@@ -28,6 +29,7 @@ void SceneManager::Init()
 	m_scene[2] = new SceneGame;			
 	m_scene[3] = new SceneResult;
 
+	Sound::Play(S_BGM_TITLE);
 	m_sceneState = SCENE_TITLE;			//	初期シーンの設定(ゲームを起動したときの最初のシーン)
 	m_scene[m_sceneState]->Init();		//	初期シーンの初期化
 }
