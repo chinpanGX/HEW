@@ -27,7 +27,7 @@ DWORD Sound::m_aSizeAudio[SOUND_MAX] = {};					// オーディオデータサイズ
 // 各音素材のパラメータ
 SoundParam g_aParam[SOUND_MAX] =
 {
-	{(char*) "asset/SE/game.wav",-1},
+	{(char*) "asset/SE/gameBGM.wav",-1},
 	{(char*) "asset/SE/title.wav",-1},
 	{(char*) "asset/SE/move.wav",0},
 	{(char*) "asset/SE/hazure.wav",0},
