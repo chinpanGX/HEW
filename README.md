@@ -1,1 +1,1 @@
-# HEW.verAlpha
+# HEWマスター版
